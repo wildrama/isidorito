@@ -1,0 +1,79 @@
+<%- include('../partials/headerAdm.ejs'); %>
+
+<div class="container">
+    <a class="px-3 btn btn-success " href="/administrador/ofertas/agregar-oferta-individual">
+    < Atras</a>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6 p-md-2">
+           
+          <h3>Crear oferta de <%= productoParaOfertaIndividual.nombre %> - <%= productoParaOfertaIndividual.marca %> </h3>
+
+            <form action="/administrador/ofertas/agregar-oferta-individual/nueva" method="post">
+
+
+
+
+              <div class="mb-3">
+                <p class="mx-2">
+                  Precio por unidad actual: $ <%=  productoParaOfertaIndividual.precioMinorista %> 
+                </p>
+              </div>
+
+
+                <div class="mb-3">
+                  <label for="cantidadDeUnidadesNecesarias" class="form-label">Cantidad de unidades para validar la oferta</label>
+                  <input type="number" name="cantidadDeUnidadesNecesarias" class="form-control" id="cantidadDeUnidadesNecesarias" placeholder="">
+              
+                </div>
+                
+                <div class="mb-3">
+                  <label for="precioOferta" class="form-label">Precio de la oferta</label>
+                  <input type="number" name="precioOferta" class="form-control" id="precioOferta" placeholder="">
+                </div>
+
+                <div class="mb-3">
+                  <label for="fechaDeVigencia" class="form-label">Fecha de vigencia</label>
+                  <input type="date" name="fechaDeVigencia" class="form-control" id="fechaDeVigencia" placeholder="">
+                </div>
+                
+
+                <div class="mb-3">
+                  <label for="estacionDeCobroParaLaOferta" class="form-label">Seleccionar las estaciones de cobros donde se aplique la oferta</label>
+                  <select id="estacionDeCobroParaLaOferta" name="estacionDeCobroParaLaOferta" class="form-select" multiple aria-label="multiple select example">>
+                  
+                    <% for( let estacionDeCobro of estacionesDeCobro ) { %>
+                      <option value="<%= estacionDeCobro._id %>"><%= estacionDeCobro.ubicacionDeEstacion %> </option>
+                    <% } %>
+
+                  
+                  </select>
+                </div>
+                <input value="<%= productoParaOfertaIndividual._id %>" type="text" name="productoEnOferta" class="d-none">
+
+                <button type="submit" class="btn btn-primary">Confirmar</button>
+
+
+              </form>
+              .
+            <!-- |LISTADO DE PRODUCTOS CON SEARCHBAR|
+            productos: [
+            //con codigo de barra > se escanea o busca/filtra
+            
+        ],
+            cantidadDeProductosParaAplicarOferta: 3,
+            productoEnOferta:'combo hamburguesa' 
+            precioDeLaOferta: $ 450:
+            Disponible para: [Caja1- caja2- caja4] -->
+
+                
+       
+        </div>
+
+        <div class="col-12">
+
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<%- include('../partials/footer.ejs'); %>

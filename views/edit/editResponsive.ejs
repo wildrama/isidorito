@@ -1,0 +1,185 @@
+<%- include('../partials/headerAdm.ejs'); %>
+<link rel="stylesheet" href="/sass/specific/editResponsive.css">
+
+<div class="header d-flex">
+	<a href="/administrador/productos/<%= producto.id %>/upstockprecio" class="btnOferta btn btn-outline-warning">Editar precios</a>
+
+	<a class="btn btn-outline-info" href="/administrador/buscar">Volver al buscador</a>
+	<!-- <button class="btn btn-outline-danger">Editar oferta</button> -->
+</div>
+
+<div class="body">
+
+	<div class="container contPrec formo">
+	<form action="" id="formEdit">
+	<div class="row">
+		<p id="id"><%= producto.id%></p>
+	</div>
+	<div class="row align-items-center mt-2">
+			<div class="col-2"><p class="ta-center">Código de barra del producto</p></div>
+			<div class="col-8 d-flex">
+				<input id="codigoProducto" class="w-100 h-100 inp codigoProducto" value="<%= producto.codigo%>"type="text">
+
+			</div>
+			<div class="col-2">Ingresar solo números</div>
+		</div>	
+		<div class="row align-items-center mt-2">
+			<div class="col-2"><p class="ta-center">Nombre del producto</p></div>
+			<div class="col-10">
+				<input id="nombreProducto" class="w-100 h-100 inp"  value="<%= producto.nombre%>"  type="text" disabled>
+			</div>
+			
+		</div>	
+
+		<div class="row align-items-center mt-2">
+			<div class="col-2"><p class="ta-center">Cantidad de productos</p></div>
+			<div class="col-8">
+				<input id="cantidadProducto" class="w-100 h-100 inp" value="<%= producto.cantidad%>" type="text" disabled>
+			</div>
+			<div class="col-2">Ingresar solo números</div>
+		</div>	
+
+
+		<div class="row align-items-center mt-2">
+			<div class="col-2"><p class="ta-center">Marca del producto</p></div>
+			<div class="col-10">
+				<input id="marcaProducto" class="w-100 h-100 inp" value="<%= producto.marca%>" type="text" disabled>
+			</div>
+			
+		</div>	
+		<div class="row align-items-center mt-2">
+			<div class="col-2"><p class="ta-center">Precio minorista del producto</p></div>
+			<div class="col-8">
+				<input id="precioMinorista" class="w-100 h-100 inp" value="<%= producto.precioMinorista%>"  type="text" disabled>
+			</div>
+			<div class="col-2">Ingresar solo números</div>
+		</div>			<div class="row align-items-center mt-2">
+			<div class="col-2"><p class="ta-center">Precio mayorista del producto</p></div>
+			<div class="col-8">
+				<input id="precioMayorista" class="w-100 h-100 inp" value="<%= producto.precioMayorista%>" disabled type="text">
+			</div>
+			<div class="col-2">Ingresar solo números</div>
+		</div>			<div class="row align-items-center mt-2">
+			<div class="col-2"><p class="ta-center">Precio de costo del producto</p></div>
+			<div class="col-8">
+				<input id="precioCosto" class="w-100 h-100 inp" value="<%= producto.precioCosto%>" disabled type="text">
+			</div>
+			<div class="col-2">Ingresar solo números</div>
+		</div>	
+		
+		<div class="row align-items-center mt-2">
+			<div class="col-2"><p class="ta-center">Categoría</p></div>
+			<div class="col-10">
+			 <select class="form-select" name="categoriaInterna" id="categoriaInterna" disabled aria-label="Categoria de gondola">
+                <option selected value="<%= producto.categoriaInterna%>"><%= producto.categoriaInterna%></option>
+                <option value="varios">VARIOS</option>
+
+                <option value="aceite/vinagre">Aceite/Vinagre/Embotellados</option>
+                <option value="arroz">Arroz</option>
+                <option value="articulos del hogar">Articulos de hogar</option>
+                <option value="articulos de limpieza">Articulos de limpieza</option>
+                <option value="azucar">Azucar</option>
+
+                <option value="bebidas con alcohol">Bebidas con Alcohol</option>
+                <option value="bebidas sin alcohol">Bebidas sin Alcohol</option>
+                <option value="enlatados">Enlatados</option>
+                <option value="fideos">Fideos</option>
+
+                <option value="fiambreria">Fiambreria</option>
+                <option value="pañales">Pañales</option>
+                <option value="galletitas">Galletitas</option>
+                <option value="golosinas">Golosinas</option>
+                <option value="higene corporal">Higene corporal</option>
+                <option value="higene femenina">Toallitas/productos Femeninas</option>
+
+                <option value="panaderia">Panaderia</option>
+                <option value="no perecederos">No perecederos</option>
+
+                <option value="te cafe">Te/Cafe</option>
+                <option value="sal">Sal</option>
+
+                <option value="verduleria">Verduleria</option>
+
+                <option value="yerba">Yerba</option>
+
+              </select>  
+
+		</div>
+		
+			
+  <a class="btn btn-primary mt-4 mb-4" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Mostrar opciones no obligatorias
+  </a>
+
+<div class="collapse" id="collapseExample">
+
+
+
+				<div class="row align-items-center mt-2">
+			<div class="col-2"><p class="ta-center">Peso en Kilogramos o Gramos</p></div>
+			<div class="col-8">
+				<input id="peso" class="w-100 h-100 inp" value="<%= producto.peso%>" disabled type="text">
+			</div>
+			<div class="col-2">Ingresar solo números</div>
+		</div>	
+
+
+	<div class="row align-items-center mt-2">
+			<div class="col-2"><p class="ta-center">Fecha de vencimiento</p></div>
+			<div class="col-8">
+				<input id="fechaDeVencimiento" disabled class="w-100 h-100 inp" value="<%= producto.fechaDeVencimiento%>"  type="text">
+			</div>
+			<div class="col-2">Ingresar solo números</div>
+		</div>	
+
+
+	<div class="row align-items-center mt-2">
+			<div class="col-2"><p class="ta-center">Precio de costo del producto</p></div>
+			<div class="col-8">
+				<select id="impuesto" disabled class="w-100 h-100 inp">
+					<option selected value="<%= producto.impuestoAplicado %>">Elige</option>
+				<option value="0">0%</option>
+					<option value="21">21%</option>
+					<option value="8">8%</option>
+					<option value="35">35%</option>
+				</select>
+		</div>
+			<div class="col-2">Ingresar solo números</div>
+		</div>	
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+		</div>
+
+
+	</div>
+</div>
+
+<div class="bottom-cont">
+<div class="bottom w-100 d-flex">
+
+
+<button id="editGuar" class="btn btn-success btn-lg">Editar producto</button>
+</div>
+
+
+</form>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script  src="../../../editPage.js"></script>
+
+
+    <%- include('../partials/footer.ejs'); %>

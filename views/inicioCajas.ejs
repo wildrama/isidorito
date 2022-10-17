@@ -1,0 +1,35 @@
+<%- include('../views/partials/header.ejs'); %>
+<%- include('./partials/flash.ejs'); %>
+
+<div class="todi contenedor-estaciones-inicio">
+  <div class="container">
+    <a class="btn btn-outline-success px-3" href="/">Ir al inicio</a>
+      <div class="row text-center p-3 ">
+        <h2 class="px-md-3 ">Hacer click en la estación de cobro que se quiera ingresar</h2>
+        <% if(estacionesDeCobro){ %> 
+        <% for(let estacion of estacionesDeCobro){ %> 
+  
+          <div class="col-12 col-lg-6 p-md-3">
+              <a class="link-none" href="/ingreso-caja/<%= estacion._id %>/login">
+                  
+                      <div class="p-5 border border-dark text-center d-flex justify-content-center">
+
+
+                        <h5 class="">
+                         <%= estacion.ubicacionDeEstacion %>
+                        </h5>
+                             
+                      </div>
+                                                                                 
+              </a>
+            </a>       
+          </div>
+          <% } %>
+          <% } %>
+  
+      </div>
+  </div>
+</div>
+
+
+<%- include('../views/partials/footer.ejs'); %>

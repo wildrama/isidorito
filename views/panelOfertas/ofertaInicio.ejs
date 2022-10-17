@@ -1,0 +1,133 @@
+<%- include('../partials/headerAdm.ejs'); %>
+
+
+<div class="container">
+    <div class="row">
+      <h2>Panel de Ofertas</h2>
+                <p class="p-lg-4 lead" >Realice la gestión de las ofertas de productos</p>
+                <ul class="nav pb-2 d-flex justify-content-around px-lg-5">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/administrador/ofertas/agregar-oferta-individual">Agregar oferta de producto individual</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link " href="/administrador/ofertas/agregar-oferta-conjunto">Agregar oferta de conjunto</a>
+                  </li>
+                 
+                  <!-- <li class="nav-item">
+                    <a class="nav-link" href="/administrador/ofertas/ver-ofertas-conjunto">Ver las ofertas de conjunto</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/administrador/ofertas/ver-ofertas-individual">Ver las ofertas de producto individual</a>
+                  </li> -->
+                </ul>
+        
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-12">
+                      <h4 class="text-center">Ofertas individuales</h4>
+                      <table class="table table-hover" >
+            
+                        <thead>
+                          <tr>
+                            <th scope="col">Nombre</th>
+              
+                            <th scope="col">Precio Oferta</th>
+                  
+                            <th scope="col">Cantidad de necesaria</th>
+            
+                            <th scope="col">Fecha vigencia</th>
+                  
+                  
+                  
+                  
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% for (let ofertaIndividual of ofertasIndividuales){ %>
+                            <tr>
+                             
+                              <td>
+                                <a href="/administrador/ofertas/oferta-individual/<%= ofertaIndividual._id %>"><%= ofertaIndividual.productoEnOferta.nombre %></a>
+                              </td>
+                              <td>
+                                <%= ofertaIndividual.precioOferta %>
+                              </td>
+                        
+                             
+                              <td>
+                                <%= ofertaIndividual.cantidadDeUnidadesNecesarias %>
+                              </td>
+                              
+                              <td>
+                                <%= ofertaIndividual.fechaDeVigencia.toLocaleDateString() %>
+                              </td>
+                  
+                  
+                            </tr>
+                            <%} %>
+                  
+                  
+                  
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                 
+                </div>
+        <div class="col-6">
+          <div class="row">
+            <div class="col-12">
+              <h4 class="text-center">Ofertas conjunto</h4>
+              <table class="table table-hover" >
+    
+                <thead>
+                  <tr>
+                    <th scope="col">Nombre</th>
+      
+                    <th scope="col">Precio Oferta</th>
+          
+          
+                    <th scope="col">Fecha vigencia</th>
+          
+          
+          
+          
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for (let ofertaConjunto of ofertasConjunto){ %>
+                    <tr>
+                     
+                      <td>
+                        <a href="/administrador/ofertas/oferta-conjunto/<%= ofertaConjunto._id %>"><%= ofertaConjunto.nombreOferta %></a>
+                      </td>
+                      <td>
+                        <%= ofertaConjunto.precioOferta %>
+                      </td>
+                
+                     
+                    
+                      
+                      <td>
+                        <%= ofertaConjunto.fechaDeVigencia.toLocaleDateString() %>
+                      </td>
+          
+          
+                    </tr>
+                    <%} %>
+                      
+    
+    
+                </tbody>
+              </table>
+            </div>
+          </div>
+         
+        </div>
+
+       
+    </div>
+    
+   
+</div>
+<%- include('../partials/footer.ejs'); %>

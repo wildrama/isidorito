@@ -1,0 +1,166 @@
+<%- include('../partials/headerAdm.ejs'); %>
+
+
+<div class="container cargarproductosform">
+  <h4>Agregar un producto al stock</h4>
+
+    <p class="lead"> Para una suba exitosa es necesario completar los campos con color <span class=" px-0 campo-requerido">Verde</span> </p>
+    <p class=""> </span> </p>
+
+    <div class="row mx-lg-5">
+    <div class="col-12 ">
+      <button id="switchCodigo" class="btn btn-primary mx-2">Generar nuevo código de barras</button>
+
+      <form id="formStock" class="mb-3" action="/administrador/productos" method="post">
+        
+        <div class="mb-3 d-flex">
+            <label for="codigo" class="campo-requerido form-label">Codigo de barra del producto</label>
+            <span class="input-group-text">|||||||</span>
+            <input  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" type="number" name="codigo" class="form-control codigoProducto" id="codigo" autofocus placeholder="Ingresar el codigo de barra del producto" tabindex="1" required>
+            <div  class="form-text text-center mx-2">Ingresar solo Números</div>
+          </div>
+        <div class="mb-3 d-flex">
+            <label for="nombre" class="campo-requerido form-label">Nombre del producto</label>
+            <span class="input-group-text"><img src="/imgs/svg/nombreprod.svg" alt=""></span>
+
+            <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingresar el nombre del producto" tabindex="2" required>
+          </div>
+        
+         
+          <div class="mb-3 d-flex">
+            <label for="cantidad" class="form-label">Cantidad de productos </label>
+            <span class="input-group-text"><img src="/imgs/svg/stock.svg" alt=""></span>
+
+            <input  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" type="number" name="cantidad" class="form-control" id="cantidad" placeholder="Ingresar la cantidad de producto" tabindex="3" >
+            <div  class="form-text text-center">Ingresar solo Números</div>
+
+          </div>
+          
+          <div class="mb-3 d-flex">
+            <label for="marca" class="form-label">Marca del producto </label>
+            <span class="input-group-text"><img src="/imgs/svg/marcaprod.svg" alt=""></span>
+
+            <input type="text" name="marca" class="form-control" id="marca" placeholder="Ingresar la marca para del producto" tabindex="4">
+          </div>
+            
+          <div class="mb-3 d-flex">
+            <label for="precioMinorista" class="form-label">Precio minorista del producto </label>
+            <span class="input-group-text"><img src="/imgs/svg/precioicon.svg" alt=""></span>
+
+            <input  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" type="number" name="precioMinorista" class="form-control" id="precioMinorista" placeholder="Ingresar el precio minorista del producto" tabindex="5">
+            <div  class="form-text text-center">Ingresar solo Números</div>
+
+          </div>
+    
+          <div class="mb-3 d-flex">
+            <label for="precioMayorista" class="form-label">Precio mayorista del producto </label>
+            <span class="input-group-text"><img src="/imgs/svg/precioicon.svg" alt=""></span>
+
+            <input  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" type="number" name="precioMayorista" class="form-control" id="precioMayorista" placeholder="Ingresar el precio mayorista del producto" tabindex="6">
+            <div  class="form-text text-center">Ingresar solo Números</div>
+
+          </div>
+    
+          <div class="mb-3 d-flex">
+            <label for="precioCosto" class="form-label">Precio costo del producto </label>
+            <span class="input-group-text"><img src="/imgs/svg/precioicon.svg" alt=""></span>
+
+            <input  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" type="number" name="precioCosto" class="form-control" id="precioCosto" placeholder="Ingresar el precio costo del producto" tabindex="7">
+            <div  class="form-text text-center">Ingresar solo Números</div>
+
+          </div>
+          
+    
+          <div class="mb-3 d-flex">
+            <label for="peso" class="form-label">Peso en KG O GRMOS del producto </label>
+
+            <input  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" type="number" name="peso" class="form-control" id="peso" placeholder="'Introducir el peso en kilogramos o gramos" tabindex="8" >
+            <div  class="form-text text-center">Ingresar solo Números</div>
+
+          </div>
+    
+          <div class="mb-3 d-flex">
+            <label for="fechaVenc" class="form-label">Fecha de vencimiento del producto </label>
+            <span class="input-group-text"><img src="/imgs/svg/fechavenc.svg" alt=""></span>
+
+            <input type="date" name="fechaDeVencimiento" class="form-control" id="fechaVenc" placeholder="Introducir la fecha de Vencimiento del producto  " tabindex="9" >
+          </div>
+    
+          <div class="mb-3 d-flex">
+            <label for="categoriaInterna" class="form-label">Categoria interna de gondola </label>
+            <span class="input-group-text"><img src="/imgs/svg/gondola.svg" alt=""></span>
+
+            <select class="form-select" name="categoriaInterna" id="categoriaInterna" aria-label="Categoria de gondola" tabindex="10">
+                <option selected value="almacen">Abrir el menu para ver opciones</option>
+                <option value="varios">VARIOS</option>
+
+                <option value="aceite/vinagre">Aceite/Vinagre/Embotellados</option>
+                <option value="arroz">Arroz</option>
+                <option value="articulos del hogar">Articulos de hogar</option>
+                <option value="articulos de limpieza">Articulos de limpieza</option>
+                <option value="azucar">Azucar</option>
+
+                <option value="bebidas con alcohol">Bebidas con Alcohol</option>
+                <option value="bebidas sin alcohol">Bebidas sin Alcohol</option>
+                <option value="enlatados">Enlatados</option>
+                <option value="fideos">Fideos</option>
+
+                <option value="fiambreria">Fiambreria</option>
+                <option value="pañales">Pañales</option>
+                <option value="galletitas">Galletitas</option>
+                <option value="golosinas">Golosinas</option>
+                <option value="higene corporal">Higene corporal</option>
+                <option value="higene femenina">Toallitas/productos Femeninas</option>
+
+                <option value="panaderia">Panaderia</option>
+                <option value="no perecederos">No perecederos</option>
+
+                <option value="te cafe">Te/Cafe</option>
+                <option value="sal">Sal</option>
+
+                <option value="verduleria">Verduleria</option>
+
+                <option value="yerba">Yerba</option>
+
+              </select>  
+                </div>
+                
+            <!-- <p class="mostrarCargaOpcional">Mostrar carga opcional.. -----</p> -->
+          <div class="carga-opcional">
+            <div class="mb-3 d-flex">
+             
+              <label for="presentacion" class="form-label">Presentación del producto </label>
+              <span class="input-group-text"><img src="/imgs/svg/presentacion.svg" alt=""></span>
+
+              <input type="text" name="presentacion" class="form-control" id="presentacion" placeholder="'Caja', 'Sache','Bolsa','Naylon', 'Botella',Etc... " tabindex="11">
+              </div>
+    
+    
+              
+              <div class="mb-3 d-flex">
+                <label for="impuestoAplicado" class="form-label">Impuesto del producto del producto </label>
+                <span class="input-group-text"><img src="/imgs/svg/impuesto.svg" alt=""></span>
+
+                <select class="form-select" name="impuestoAplicado" id="impuestoAplicado" aria-label="Impuesto del producto" tabindex="12">
+                    <option selected value="0">0%</option>
+		                <option value="8">8%</option>
+                    <option value="21">21%</option>
+                    <option value="35">35%</option>
+                  </select>      
+                    </div>
+          </div>
+        <button id="btnCargaStock" class="btn btn-success d-flex px-5" type="submit">Cargar</button>
+    </form>
+
+    </div>
+
+ 
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script src="../../cargaStock.js"></script>    
+<script src="../../jsBarcode.min.js"></script>    
+<script src="../../ktCode.js"></script>    
+
+<%- include('../partials/footer.ejs'); %>
+

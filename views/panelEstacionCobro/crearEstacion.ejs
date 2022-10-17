@@ -1,0 +1,36 @@
+<%- include('../partials/headerAdm.ejs'); %>
+
+<div class="container  text-center px-lg-5">
+    <div class="row pt-3 justify-content-center">
+      <h3>
+
+       Crear una estación de Cobro
+
+      </h3>
+      <p class="lead mx-3" >Luego de crear la Estación de Cobro se debera agregar un usuario para dicha estación</p>
+        <div class="col-6 mb-3 text-start">
+            <form action="/administrador/estacionesdecobro/nuevaestacion" method="POST">
+                
+                <div class="mb-3">
+                    <label for="ubicacionEstacion" class="form-label">Ubicación de Estacion</label>
+                    <input placeholder="Nombre clave para la caja" type="text" name="ubicacionDeEstacion" class="form-control" id="ubicacionDeEstacion" required>
+                  </div>
+                    <div class="mb-3">
+                        <label for="dineroEnEstacion" class="form-label">Dinero Inicial de estación</label>
+                        <input placeholder="Dinero para iniciar la caja" type="number" name="dineroEnEstacion" class="form-control" id="dineroEnEstacion" required>
+                      </div>
+                      <!-- <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="">
+                        <label class="form-check-label" for="">Check me out</label>
+                      </div> -->
+                   
+                    <button type="submit" class="btn btn-primary">Crear nueva Estación de Cobro</button>
+                    
+
+            </form>
+        </div>
+    </div>
+   </div>
+    
+ 
+<%- include('../partials/footer.ejs'); %>

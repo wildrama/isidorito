@@ -1,0 +1,65 @@
+<%- include('../partials/headerAdm.ejs'); %>
+  <%- include('../partials/flash.ejs'); %>
+
+    <div class="container px-4 px-md-2">
+      <a class="px-3 btn btn-success " href="/administrador/">
+        < Atras</a>
+
+          <div class="row  justify-content-center">
+            <div class="col-md-8 border border-dark p-lg-5 p-y-2 ">
+              <div class="lead px-md-3 text-center">
+                Cierre de caja de <b><%= cierreDeCajaRealizadoIndividual.estacionDeCobro.ubicacionDeEstacion %>
+                 </b>  
+                  <p  class="t lead px-md-3 text-start">
+                 Momento de cierre: <%= cierreDeCajaRealizadoIndividual.createdAt.toLocaleString() %>  
+   
+                 </p>
+                 <!-- <span
+                    id="actualTime"></span> -->
+              </div>
+            
+              <!-- montos de las ventas + caja -->
+
+
+
+              <div class="col-12 mb-3 px-1">
+
+                 Dinero en caja al momento del cierre: $<%= cierreDeCajaRealizadoIndividual.dineroEnCaja %>
+
+              </div>
+
+              <div class="col-12 mb-3 px-1"> Se ingreso en el inicio del ciclo de la estación <b>$<%= cierreDeCajaRealizadoIndividual.dineroDeInicio %></b> 
+              </div>
+              <div class="col-12 mb-3 px-1"> Se realizaron <b><%= cierreDeCajaRealizadoIndividual.cantidadTotalDeVentasEnEfectivo %></b>  ventas en efectivo
+              </div>
+              <div class="col-12 mb-3 px-1"> Se realizaron <b><%= cierreDeCajaRealizadoIndividual.cantidadTotalDeVentasEnOtro %></b> ventas con tarjeta/transferencia/otro
+              </div>
+
+
+           
+                  <div class="col-12 mb-3 px-1">
+                    Total de dinero recaudado en ventas en efectivo : <%= cierreDeCajaRealizadoIndividual.dineroTotalDeVentasEnEfectivo %>
+                  </div>
+                  <div class="col-12 mb-3 px-1">
+                    Total de dinero recaudado en ventas en tarjeta/transferencia : <%= cierreDeCajaRealizadoIndividual.dineroTotalDeVentasEnOtro %>
+                  </div>
+                  <div class="col-12">
+                    <div class="row mb-3">
+                      <div>
+                        Comentarios de cierre : 
+                      </div>
+                     
+                      <p class="form-control p-3"  id="comentarioDeCierre">
+                        <%= cierreDeCajaRealizadoIndividual.comentarioDeCierre %> 
+                      </p>
+                    </div>
+                  </div>
+               
+            </div>
+          </div>
+    </div>
+
+
+    <script src="/ux.js"></script>
+
+    <%- include('../partials/footer.ejs'); %>

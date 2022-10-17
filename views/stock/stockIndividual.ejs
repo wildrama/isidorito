@@ -1,0 +1,83 @@
+<%- include('../partials/headerAdm.ejs'); %>
+
+    <%- include('../partials/flash.ejs'); %>
+
+
+        <div class="container">
+
+            <h2 class="nombre-producto">
+                <%= producto.nombre %>
+            </h2
+
+            <div class="row g-3">
+                <div class="col border border-dark p3 mb-3">
+                    <p class="lead">Nombre: <%= producto.nombre %>
+                    </p>
+                </div>
+                
+                <div class="col border border-dark p3 mb-3">
+                    <p class="lead">Cantidad en stock: <%= producto.cantidad %>
+                    </p>
+                </div>
+                <div class="col border border-dark p3 mb-3">
+                    <p class="lead">Marca: <%= producto.marca %>
+                    </p>
+                </div>
+                <div class="col border border-dark p3 mb-3">
+                    <p class="lead"></p>Precio Minorista: $ <%= producto.precioMinorista %>  </p>
+                </div>
+                <div class="col border border-dark p3 mb-3">
+                    <p class="lead">Precio Mayorista: $ <%= producto.precioMayorista %>  </p>
+                </div>
+              
+
+                <div class="col border border-dark p3 mb-3">
+                    <p class="lead">Precio Costo: $ <%= producto.precioCosto %>
+                    </p>
+                </div>
+                <div class="col border border-dark p3 mb-3">
+                    <p class="lead">Peso En KG/LT <%= producto.peso %>
+                    </p>
+                </div>
+                <div class="col border border-dark p3 mb-3">
+                    <p class="lead">Fecha Venc <%= producto.fechaVencimiento %>
+                    </p>
+                </div>
+                <div class="col border border-dark p3 mb-3">
+                    <p class="lead">Categoria interna <%= producto.categoriaInterna %>
+                    </p>
+                </div>
+                <div class="col border border-dark p3 mb-3">
+                    <p class="lead">Presentación de producto <%= producto.presentacion %>
+                    </p>
+                </div>
+                <div class="col border border-dark p3 mb-3">
+                    <p class="lead">Impuesto aplicado <%= producto.impuestoAplicado %>
+                    </p>
+                </div>
+            </div>
+	    <div class="d-flex-w-100 justify-content-right">
+	 <svg id="codigoBarra"></svg>
+	</div>
+            <div class="accionesIndividuales d-flex justify-content-end  text-end">
+                <a class="btn btn-dark mx-3" href="/administrador/productos">Todos los productos</a>
+                <a class="btn btn-dark mx-3" href="/administrador/productos/<%=producto._id%>/upstock">Editar</a>
+                <a class="btn btn-dark mx-3" href="/administrador/ofertas">Ir a ofertas</a>
+                
+                <form action="/administrador/productos/<%=producto._id%>?_method=DELETE" method="post">
+                    <button class="btn btn-warning">Eliminar</button>
+                </form>
+                	   
+            </div>
+	    
+        </div>
+
+    
+        
+	<script src="../../jsBarcode.min.js"></script>
+
+		<script>
+ 		 JsBarcode('#codigoBarra', <% producto.codigo %>)
+		</script>
+  
+        <%- include('../partials/footer.ejs'); %>

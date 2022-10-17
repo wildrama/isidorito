@@ -1,0 +1,59 @@
+<%- include('../views/partials/header.ejs'); %>
+
+<%- include('./partials/flash.ejs'); %>
+
+      <div class="container my-3">
+          <h1 class="">
+              Ingreso ADMINISTRADOR
+          </h1>
+
+
+
+          <div class="row">
+              <div class="col-12 col-md-2"></div>
+              <div class="col-12 col-md-8">
+
+
+                  <form action="/ingresar" method="POST" >
+                    <!-- <div class="mb-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="funcion" value="CAJA" id="flexRadioDefault1">
+                      <label class="form-check-label" for="flexRadioDefault1">
+                        CAJA
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="funcion" value="ADMINISTRADOR" id="flexRadioDefault2" checked>
+                      <label class="form-check-label" for="flexRadioDefault2">
+                        Adm
+                      </label>
+                    </div>
+                  </div> -->
+                  <!-- <div class="mb-3">
+                      <select name="funcion" class="form-select" aria-label="Selecion el tipo de usuario">
+                        <option value="CAJA" selected>Usuario CAJA</option>
+                        <option value="ADMINISTRADOR">ADM</option>
+
+                      </select>
+                      <div id="funcionHelp" class="form-text">Selecciona el tipo de funcion del usuario que ingresa</div>
+
+                    </div> -->
+                <div class="mb-3">
+                  <label for="usuarioInput" class="form-label">Usuario</label>
+                  <input name="username" type="text" class="form-control" id="usuarioInput" aria-describedby="emailHelp">
+                  <div id="emailHelp" class="form-text">Ingresa el nombre de usuario sin mayusculas</div>
+                </div>
+                <div class="mb-3">
+                  <label for="contraseñaInput" class="form-label">Contraseña</label>
+                  <input name="password" type="password" class="form-control" id="contraseñaInput">
+                </div>
+                <!-- <div class="mb-3 form-check">
+                  <input type="checkbox" name="sesionAbierta" class="form-check-input" id="sesionAbierta">
+                  <label class="form-check-label" for="sesionAbierta">Mantener Sesión abierta</label>
+                </div> -->
+                <button type="submit" class="btn btn-primary">Ingresar</button>
+              </form></div>
+              <div class="col-12 col-md-2"></div>
+          </div>
+      </div>
+      <%- include('../views/partials/footer.ejs'); %>

@@ -1,0 +1,38 @@
+<%- include('../partials/headerAdm.ejs'); %>
+
+<div class="container  text-center px-lg-5">
+    <div class="row pt-3 justify-content-center">
+      <h3>
+
+       Agregar un usuario a la aplicación
+
+      </h3>
+        <div class="col-6 mb-3 ">
+            <form action="/administrador/userpanel/nuevousuario" method="POST">
+                
+                    <div class="mb-3">
+                        <select name="funcion" class="form-select" aria-label="Elegir funcion dentro del sistema">
+                            <option value="CAJA" selected>CAJA</option>
+                            <!-- <option value="PEDIDOS">PEDIDOS</option>
+                            <option value="STOCK">STOCK</option> -->
+                          </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nombre de usuario</label>
+                        <input placeholder="todo en minusculas" type="text" name="username" class="form-control" id="username" required>
+                      </div>
+                    <div class="mb-3">
+                      <label for="password" class="form-label">Contraseña</label>
+                      <input placeholder="todo en minusculas" type="password" name="password" class="form-control" id="password" required>
+                    </div>
+                   
+                    <button type="submit" class="btn btn-primary">Agregar nuevo usuario</button>
+                    
+
+            </form>
+        </div>
+    </div>
+   </div>
+    
+ 
+<%- include('../partials/footer.ejs'); %>

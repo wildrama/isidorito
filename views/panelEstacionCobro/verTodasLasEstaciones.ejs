@@ -1,0 +1,58 @@
+<%- include('../partials/headerAdm.ejs'); %>
+
+<div class="container text-end">
+
+    <div class="contenido-estaciones text-start">
+        <h2 class="text-center">Estaciones de cobro</h2>
+        <p class="lead px-lg-3">Las estaciones de cobro identifican las cajas distrubuidas en ESCOSOSA.
+            Accediendo a cada estacion de cobro se podra visualizar la información relacionada al instante.
+        </p>
+        
+        
+    </div>
+    <a href="/administrador/estacionesdecobro/nuevaestacion" class="mb-3 text-end btn btn-outline-primary  px-3">Nueva estación</a>
+
+    <div class="row justify-content-around text-start">
+        <% for(let estacion of estacionesDeCobro){ %> 
+            <div class="col-6 px-lg-4">
+                <div class="row border border-dark p-2">
+                    <div class="col-4 d-flex-row aling-items-center">
+                        <img class="img-fluid"  src="/imgs/estaciondecobro.png" alt="">
+                    </div>
+                    <div class="col-8">
+                        <div class="container">
+                            <p class="lead">Ubicación: <%= estacion.ubicacionDeEstacion %> </p>
+                              <% if (estacion.usuarioActual) { %>
+                                  <p class="lead">Cajera: <%= estacion.usuarioActual %>   </p>
+                                
+                              <% } %>
+                              <!-- <% if(estacion.isActive == 'SI'){ %>
+                                  Estado: Activa 
+                                  <% } else {%>
+                                          Estado: Inactiva
+                                      <% } %>  -->
+                            <a class="btn btn-outline-secondary" href="/administrador/estacionesdecobro/<%= estacion._id %>">Ingresar a la estación de cobro</a>
+                              </div>
+                    </div>
+                </div>
+      
+            </div>
+        <% } %>
+   
+
+      <!-- <div class="col-4 ">
+        <div class="row border border-dark p-3">
+            <div class="col-4">
+                <img class="img-fluid p-3"  src="/imgs/estaciondecobro.png" alt="">
+            </div>
+          
+        </div>
+
+    </div> -->
+
+    </div>
+
+</div>
+
+
+<%- include('../partials/footer.ejs'); %>

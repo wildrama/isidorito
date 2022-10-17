@@ -1,0 +1,118 @@
+<%- include('../partials/headerAdm.ejs'); %>
+<link rel="stylesheet" href="/sass/specific/editResponsive.css">
+
+
+
+<div class="header d-flex">
+	<div class="h">Editar precios</div> 
+	<a  class="cerrar" href="/administrador/productos/<%= producto.id %>/upstock">X</a>
+</div>
+
+<div class="container padside contPrec p-4">
+	<p id="idPrec"><%= producto.id%></p>
+
+	<p id="id"><%= producto.id%></p>
+	<div class="row m-auto w-100 border border-2 rounded p-4 mt-1">
+
+		<form  id="subMin"  action="">
+		
+			<div class="d-flex fl  mb-3">
+				<p>Precio <b>minorista</b> ACTUAL: </p>
+				<input style="display: none" class="ml-4 w-100" type="text" value="<%= producto.precioMinorista%>">
+			<div class="pMActual  justify-content-center">	<p>$</p><p id="precioMinorista"  type="text"><%= producto.precioMinorista%></p></div>
+			</div>
+
+			<div class="d-flex fl justify-content-center mb-1">
+					
+				<p>Aumento en %</p>
+				<input id="aumPorMin"class="shortI"type="text" class="w-10">
+				<p>Aumento manual</p>
+				<input id="aumManMin" class="shortI" type="text">
+
+
+			</div>
+	<label for="">Resultado:</label>
+
+			<div class="d-flex fl1 justify-content-center">
+					<div class="pMRes"><p id="minRes" class="w-100"type="text"></p></div> <button  class="btn btnPurple">ACEPTAR</button>
+
+			</div>
+
+		</form>
+
+
+	</div>
+
+	<div class="row m-auto w-100 border border-2 rounded p-4 mt-1">
+
+		<form id="subMay" action="">
+		
+			<div class="d-flex fl  mb-3">
+				<p>Precio <b>mayorista</b> ACTUAL: </p>
+				<input style="display: none" class="ml-4 w-100" type="text" value="<%= producto.precioMayorista%>">
+			<div class="pMActual justify-content-center"> <p>$</p>	<p id="precioMayorista" type="text"><%= producto.precioMayorista%></p></div>
+			</div>
+
+			<div class="d-flex fl justify-content-center mb-1">
+					
+				<p>Aumento en %</p>
+				<input id="aumPorMay"class="shortI"type="text" class="w-10">
+				<p id="aumentoManMin">Aumento manual</p>
+				<input id="aumManMay" class="shortI" type="text">
+
+
+			</div>
+	<label for="">Resultado:</label>
+
+			<div class="d-flex fl1 justify-content-center">
+					<div class="pMRes"><p id="manRes" class="w-100"type="text"></p></div> <button class="btn btnPurple">ACEPTAR</button>
+
+			</div>
+
+		</form>
+
+
+	</div>
+	<div class="row m-auto w-100 border border-2 rounded p-4 mt-1">
+
+		<form  id="subCos"  action="">
+		
+			<div class="d-flex fl  mb-3">
+				<p>Precio <b>costo</b> ACTUAL: </p>
+				<input style="display: none" class="ml-4 w-100" type="text" value="<%= producto.precioCosto%>">
+			<div class="pMActual justify-content-center"><p>$</p><p id="precioCosto" type="text"><%= producto.precioCosto%></p></div>
+			</div>
+
+			<div class="d-flex fl justify-content-center mb-1">
+					
+				<p>Aumento en %</p>
+				<input id="aumPorCos"class="shortI"type="text" class="w-10">
+				<p>Aumento manual</p>
+				<input id="aumManCos" class="shortI" type="text">
+
+
+			</div>
+	<label for="">Resultado:</label>
+
+			<div class="d-flex fl1 justify-content-center">
+					<div class="pMRes"><p id="cosRes" class="w-100"type="text"></p></div> <button class="btn btnPurple">ACEPTAR</button>
+
+			</div>
+
+		</form>
+
+
+	</div>
+
+
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script  src="../../../editPrice.js"></script>
+
+
+    <%- include('../partials/footer.ejs'); %>
+
+

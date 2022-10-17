@@ -1,0 +1,27 @@
+<%- include('../partials/headerAdm.ejs'); %>
+
+<div class="container  text-center mt-3">
+
+    <a href="/administrador/userpanel" class="btn btn-outline-success  px-3 m-2"> < Ir atras</a>
+   <div class="row justify-content-center">
+    <div class="col-12 col-lg-3">
+      <div class="card" >
+          <img src="/imgs/userimg.png" class="card-img-top" >
+          <div class="card-body">
+            <h5 class="card-title"> Nombre: <%= usuarioIndividual.username %> </h5>
+              <p class="card-text"> <%= usuarioIndividual.funcion %> </p>
+              <p class="text-muted"><%= usuarioIndividual.createdAt.toLocaleDateString() %> </p>
+              <form class="d-inline px-2" action="/administrador/userpanel/<%= usuarioIndividual._id%>?_method=DELETE" method="post">
+                <button class="btn btn-warning">Eliminar</button>
+            </form>
+                 
+            <a href="/administrador/userpanel/<%= usuarioIndividual._id%>/edit" class="btn btn-secondary d-none ">Editar</a>
+          </div>
+        </div>
+  </div> 
+   </div>
+             
+</div>
+
+
+<%- include('../partials/footer.ejs'); %>

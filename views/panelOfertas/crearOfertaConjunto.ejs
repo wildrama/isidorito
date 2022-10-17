@@ -1,0 +1,166 @@
+<%- include('../partials/headerAdm.ejs'); %>
+
+<div class="container">
+  <a class="px-3 btn btn-success " href="/administrador/ofertas">
+    < Atras</a>
+    <div class="row">
+      <div class="col-12">
+        <h2>Crear oferta de conjunto</h2>
+
+        <p class="lead px-md-3 px-lg-4">
+          
+        </p>
+      </div>
+    </div>
+  
+    <div class="row justify-content-center">
+      
+        <div class="col-6">
+            <div class=" border border-dark p-xl-3" id="contenedorDeOfertaConjunto">
+              <form class="d-none" id="searchBarcodeCodigo">
+
+              <div class="row mb-3">
+                  <p class="text-muted px-md-3">Funcionalidad para descontar la venta de los productos agregados a la oferta del stock</p>
+
+                <div class="col-8">
+              <!-- una ves encontrado el producto, capturar el id y agregarlo a un array -->
+
+                  <input name="buscarcodigo" class=" form-control me-2" type="text" placeholder="Agregar producto por codigo de barra" aria-label="Buscar">
+
+                    
+
+
+                   </div>
+       
+                    <div class="col-4">
+                      <button type="submit" class="btn btn-secondary ">Confirmar</button>
+
+                      
+                    </div>
+                  
+                  </form>
+                 
+              </div>
+              <form action="/administrador/ofertas/agregar-oferta-conjunto" method="post">
+
+                <div class="mb-3">
+                  <label for="nombreOferta" class="form-label">Nombre de la oferta</label>
+                  <input type="text" name="nombreOferta" class="form-control" id="nombreOferta" placeholder="Nombre de la oferta">
+                </div>
+
+
+                <div class="row mb-3">
+                  <div class="col-6">                  <label for="precioOferta" class="form-label">Precio de la oferta</label>
+                    <input type="number" name="precioOferta" class="form-control" id="precioOferta" placeholder=""></div>
+                  <div class="col-6">                  <label for="fechaDeVigencia" class="form-label">Fecha de vigencia</label>
+                    <input type="date" name="fechaDeVigencia" class="form-control" id="fechaDeVigencia" placeholder=""></div>
+
+                </div>
+
+
+         
+
+                
+           
+                 
+                  
+                
+              
+
+                <div class="mb-3">
+                  <label for="estacionDeCobroParaLaOferta" class="form-label">Seleccionar las estaciones de cobros donde se aplique la oferta</label>
+                  <select id="estacionDeCobroParaLaOferta" name="estacionDeCobroParaLaOferta" class="form-select" multiple aria-label="multiple select example">>
+                  
+                    <% for( let estacionDeCobro of estacionesDeCobro ) { %>
+                      <option value="<%= estacionDeCobro._id %>"><%= estacionDeCobro.ubicacionDeEstacion %> </option>
+                    <% } %>
+
+                      
+                  </select>
+                </div>
+                
+
+                <button type="submit" class="btn btn-primary">Confirmar</button>
+
+
+              </form>
+                <!-- <form class="d-flex">
+                    <input id="searchBarOfertas" class="form-control me-2" type="search" placeholder="Buscar producto" aria-label="Search">
+                    <button class="btn btn-outline-dark" type="submit">Buscar</button>
+                  </form> -->
+
+
+               
+                  <!-- <div style="overflow-y: scroll; height:400px;" class="tablaDeProductosParaAgregarOferta " >
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Agregar</th>
+
+                          <th scope="col">Nombre</th>
+            
+                          <th scope="col">Precio Minorista</th>
+                          
+                
+                          <th scope="col">Marca</th>
+                          <th scope="col">Cantidad</th>
+                
+                          <th scope="col">Categoria</th>
+                         
+                         
+          
+                
+                
+                        </tr>
+                      </thead>
+                      <tbody>
+                       
+                          <tr>
+                            <td class="">
+                              <ul class=" d-flex justify-content-around">
+                                
+                                <li>
+                                  <a class="" href="#"><img width="32px" height="32px" src="/imgs/png/add.png" alt=""></a>
+                                </li>
+                               
+                               </ul>
+                            
+                          
+                
+                
+                
+                
+                          </tr>
+                       
+                
+                
+                
+                      </tbody>
+                    </table>
+                 
+                  </div>      -->
+            </div>
+     
+            <!-- |LISTADO DE PRODUCTOS CON SEARCHBAR|
+            productos: [
+            //con codigo de barra > se escanea o busca/filtra
+            
+            //sin codigo de barra > se agrega el nombre del producto, 
+        ],
+            nombreDeLaOferta:'combo hamburguesa' 
+            precioDeLaOferta: $ 450:
+            Disponible para: [Caja1- caja2- caja4]
+            GenerarCodigoDeBarra:|||||||,
+
+        -->
+       
+        </div>
+
+      
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script  src="/ofertasFunc.js"></script>
+
+<%- include('../partials/footer.ejs'); %>

@@ -1,0 +1,29 @@
+<%- include('../partials/headerAdm.ejs'); %>
+<%- include('../partials/flash.ejs'); %>
+
+<div class="container px-lg-5">
+    <h2>TODOS LOS USUARIOS (<%= cantidadDeUsuarios%> )</h2>
+    <a class="btn btn-outline-success px-3" href="/administrador/userpanel/nuevousuario">Nuevo usuario</a>
+
+    <div class="row">
+        <% for(let usuario of usuariosTotales){ %> 
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                <div class="card" >
+                    <img src="/imgs/userimg.png" class="card-img-top" >
+                    <div class="card-body">
+                      <h5 class="card-title"> <%= usuario.username %> </h5>
+                        <p class="card-text"> <%= usuario.funcion %> </p>
+
+                        <form action="/administrador/userpanel/<%= usuario._id %>?_method=DELETE" method="post">
+                          <button class="btn btn-warning">Eliminar</button>
+                      </form>
+                           
+                      <a href="/administrador/userpanel/<%= usuario._id %>" class="btn btn-primary ">Opciones</a>
+                    </div>
+                  </div>
+            </div>
+           
+              <% } %> 
+    </div>
+</div>
+<%- include('../partials/footer.ejs'); %>

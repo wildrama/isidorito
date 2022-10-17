@@ -1,0 +1,36 @@
+<%- include('../partials/headerAdm.ejs'); %>
+  <%- include('../partials/flash.ejs'); %>
+<div class="container">
+  <h2>Información de los cierres hechos</h2>
+  <div class="row">
+    <% for(let cierreDeCajaRealizado of cierresDeCaja){ %> 
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body border border-secondary px-lg-2">
+            <div class="card-subtitle text-end">
+              <b>
+                Cierre realizado 
+              </b>
+            </div>       
+               <a  href="/administrador/cierres-caja/<%= cierreDeCajaRealizado._id %>" class="lead text-dark">
+                <div class="cierreEnLocal">
+                  Estación de cobro: <br>
+                  <div class="text-center"><%= cierreDeCajaRealizado.estacionDeCobro.ubicacionDeEstacion %></div>  
+                </div>
+              <b> Ver cierre completo</b>  
+
+            </a>
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+
+
+
+
+
+
+  <%- include('../partials/footer.ejs'); %>

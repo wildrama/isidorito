@@ -1,0 +1,33 @@
+<%- include('../partials/headerAdm.ejs'); %>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6 ">
+            <a href="/administrador/ofertas" class="btn btn-outline-success px-md-2 my-2">Ir a OFERTAS</a>
+            <div class="ofertaCard">
+                <div class="card px-lg-4">
+                    <div class="card-title">
+                         Nombre de la oferta:   <%= ofertaConjuntoParaVer.nombreOferta %>
+                    </div>
+                    <div class="card-body ">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Precio de la oferta: <%= ofertaConjuntoParaVer.precioOferta %></li>
+                            <li class="list-group-item">Vigente hasta: <%= ofertaConjuntoParaVer.fechaDeVigencia %></li>
+                            <li class="list-group-item">Aplica en: 
+                                <ul>    
+                                    
+                               </ul>
+                        </li>
+                          </ul>
+                        <h2> </h2>                    </div>
+                        <form class="d-inline px-2" action="/administrador/ofertas/oferta-conjunto/<%= ofertaConjuntoParaVer._id%>?_method=DELETE" method="post">
+                            <button class="btn btn-warning text-end px-2">Eliminar</button>
+                        </form>
+                    </div>
+         
+            </div>
+        </div>
+    </div>
+</div>
+<h1> 
+</h1>
+<%- include('../partials/footer.ejs'); %>

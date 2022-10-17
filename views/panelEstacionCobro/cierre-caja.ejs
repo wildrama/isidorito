@@ -1,0 +1,170 @@
+<%- include('../partials/headerAdm.ejs'); %>
+  <%- include('../partials/flash.ejs'); %>
+
+    <div class="container px-4 px-md-2">
+      <a class="px-3 btn btn-success " href="/administrador/estacionesdecobro/<%= estacionDeCobro._id %>">
+        < Atras</a>
+
+          <div class="row  justify-content-center">
+            <div class="col-md-8 border border-dark p-lg-5 p-y-2 ">
+              <div class="lead px-md-3 text-center">
+                Cierre de caja para : <%= estacionDeCobro.ubicacionDeEstacion %> en el dia <span
+                    id="actualTime"></span>
+              </div>
+              <div id="actualTime" class="col-4 text-end lead px-md-3">
+
+
+              </div>
+              <!-- montos de las ventas + caja -->
+
+              <div class="col-12 mb-3">
+                <div class="accordion" id="accordionExample">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                      <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Se realizaron los siguientes ingresos de efectivo de la caja:
+                      </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                      data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+                        <div class="row justify-content-between mb-3">
+                          <div class="col-4 mb-3">Cantidad:</div>
+                          <div class="col-4 mb-3">Comentario :</div>
+          
+                          <div class="col-4 mb-3">Fecha:</div>
+
+
+                          <% for( let ingresos of estacionDeCobro.ingresosDeEfectivoManual ) { %>
+
+                            <div class="col-4">
+                              <%= ingresos.cantidad %>
+                            </div>
+                            <div class="col-4">
+                              <%= ingresos.comentarioDeIngreso %>
+                            </div>
+                            <div class="col-4">
+                              <%= ingresos.fecha.toLocaleString() %>
+                            </div>
+                           
+
+                            <% } %>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+<div class="col-12 mb-3">
+
+      Se realizaron los siguientes retiros de efectivo de la caja:
+     
+
+      <div class="accordion" id="accordionExample2">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseOne2" aria-expanded="true" aria-controls="collapseOne2">
+              Se realizaron los siguientes Egresos de efectivo de la caja:
+            </button>
+          </h2>
+          <div id="collapseOne2" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+            data-bs-parent="#accordionExample2">
+            <div class="accordion-body">
+              <div class="row justify-content-between mb-3">
+                <div class="col-4 mb-3">Cantidad:</div>
+                <div class="col-4 mb-3">Comentario :</div>
+
+                <div class="col-4 mb-3">Fecha:</div>
+
+
+                <% for( let egresos of estacionDeCobro.egresoDeEfectivoManual ) { %>
+
+                  <div class="col-4">
+                    <%= egresos.cantidad %>
+                  </div>
+                  <div class="col-4">
+                    <%= egresos.comentarioDeEgreso %>
+                  </div>
+                  <div class="col-4">
+                    <%= egresos.fecha.toLocaleString() %>
+                  </div>
+                  
+                  <% } %>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+</div>
+
+              <div class="col-12 mb-3 px-1">
+
+                El dinero en caja en este momento es: $<%= estacionDeCobro.dineroEnEstacion %>
+
+              </div>
+
+              <div class="col-12 mb-3 px-1"> Se ingreso en el inicio del ciclo de la estación $<%= estacionDeCobro.dineroDeInicio %>
+              </div>
+              <div class="col-12 mb-3 px-1"> Se realizaron <span><%= estacionDeCobro.comprasRealizadasEnEfectivo %></span>  ventas en efectivo
+              </div>
+              <div class="col-12 mb-3 px-1"> Se realizaron <span><%= estacionDeCobro.comprasRealizadasEnOtro %></span> ventas con tarjeta/transferencia/otro
+              </div>
+
+
+              
+                  <div class="col-12 mb-3 px-1">
+                    Total de dinero recaudado en ventas en efectivo : <%= estacionDeCobro.dineroDeVentasEnEfectivo %>
+                  </div>
+                  <div class="col-12 mb-3 px-1">
+                    Total de dinero recaudado en ventas en tarjeta/transferencia : <%= estacionDeCobro.dineroDeVentasEnOtro %>
+                  </div>
+                  <form  class="" action="/administrador/estacionesdecobro/<%= estacionDeCobro._id %>/cierre-caja/guardar" method="POST">
+
+                  <div class="col-12">
+                    <div class="mb-3">
+                      
+
+                    <input class="d-none" type="text" value="<%= estacionDeCobro.dineroEnEstacion %>" name="dineroEnCaja" >
+                    <input class="d-none" type="text" value="<%= estacionDeCobro.dineroDeInicio %>" name="dineroDeInicio" >
+                    <input class="d-none" type="text" value="<%= estacionDeCobro.comprasRealizadasEnEfectivo %>" name="cantidadTotalDeVentasEnEfectivo" >
+                    <input class="d-none" type="text" value="<%= estacionDeCobro.comprasRealizadasEnOtro %>" name="cantidadTotalDeVentasEnOtro" >
+
+                    <input class="d-none" type="text" value="<%= estacionDeCobro.dineroDeVentasEnEfectivo %>" name="dineroTotalDeVentasEnEfectivo" >
+                    <input class="d-none" type="text" value="<%= estacionDeCobro.dineroDeVentasEnOtro %>" name="dineroTotalDeVentasEnOtro" >
+                    <input class="d-none" type="text" value="<%= estacionDeCobro._id %>" name="estacionDeCobro" >
+                      <label for="comentarioDeCierre" class="form-label">Agregar comentario</label>
+                      <textarea class="form-control" name="comentarioDeCierre" id="comentarioDeCierre" rows="3"></textarea>
+                    </div>  
+                  </div>  
+
+                    <ul class="nav d-flex justify-content-around">
+                    <li class="nav-item">
+                      <a href="/administrador/estacionesdecobro/<%= estacionDeCobro._id %>">Cancelar</a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="/administrador/estacionesdecobro/<%= estacionDeCobro._id %>/cierre-caja/imprimir">Imprimir</a>
+                    </li>
+                    <li class="nav-item">
+                      <button> Auditar Cierre</button>
+                    </li>
+                    
+                  </ul>
+
+
+                </form>
+                </div>
+            </div>
+          </div>
+    </div>
+
+
+    <script src="/postCierre.js"></script>
+
+    <%- include('../partials/footer.ejs'); %>

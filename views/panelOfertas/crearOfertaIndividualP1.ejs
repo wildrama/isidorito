@@ -1,0 +1,63 @@
+<%- include('../partials/headerAdm.ejs'); %>
+
+<div class="container">
+    <a class="px-3 btn btn-success " href="/administrador/ofertas">
+        < Atras</a>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6">
+           
+
+                <div class="mb-3">
+                    <form id="searchBarFormCodigoIndividual" class="my-2" action="">
+                        <input name="codigoDeProducto" id="codigoIndividualInput" class="form-control py-2" type="text" placeholder="Buscar producto por codigo de barra" aria-label="Buscar">
+                        <button class="btn btn-outline-dark my-2" type="submit">Buscar</button>
+                        
+                    </form>
+              
+                    <h3 class="text-center">Resultado:</h3>
+
+                 <div id="productoIndividualContainer" class="py-2 productoIndividualp1 border border-secondary px-3 py-2">
+                   <div class="d-flex mb-2" >Nombre: <p id="nombreProdIndividual"> </p></div>
+                   <div class="d-flex mb-2" >Marca: <p id="marcaProdIndividual"> </p></div>
+                   <div class="d-flex mb-2" >Precio: <p id="precioProdIndividual"> </p></div>
+
+                    <div class="d-flex mb-2" >Cantidad en stock: <p id="cantidadProdIndividual"> </p></div>
+                        <p id="idContainer">  </p>
+                 </div>
+                
+                </div>
+                
+
+                <div class="container text-end py-2">
+                    <a id="btn2daPantalla" class="btn btn-success" >Continuar</a>
+
+                 </div>
+
+              
+
+           
+              
+            <!-- |LISTADO DE PRODUCTOS CON SEARCHBAR|
+            productos: [
+            //con codigo de barra > se escanea o busca/filtra
+            
+        ],
+            cantidadDeProductosParaAplicarOferta: 3,
+            productoEnOferta:'combo hamburguesa' 
+            precioDeLaOferta: $ 450:
+            Disponible para: [Caja1- caja2- caja4] -->
+
+                
+       
+        </div>
+
+        <div class="col-12">
+
+        </div>
+    </div>
+</div>
+
+<script src="/ofertasFunc.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<%- include('../partials/footer.ejs'); %>

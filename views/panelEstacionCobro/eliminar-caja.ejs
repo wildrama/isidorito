@@ -1,0 +1,59 @@
+<%- include('../partials/headerAdm.ejs'); %>
+  <%- include('../partials/flash.ejs'); %>
+
+    <div class="container p-md-4">
+      <a class="px-3 btn btn-success " href="/administrador/estacionesdecobro/<%= estacionDeCobro._id %>">
+        < Atras</a>
+
+          <div class="row  justify-content-center">
+            <div class="col-md-8 border border-dark p-lg-5 p-y-2">
+              <h2 class=" px-md-3 text-center">
+                Eliminar la estación de cobro <%= estacionDeCobro.ubicacionDeEstacion %>
+              </h2> 
+                <p class="px-lg-5 lead">
+                    Si elimina una estación de cobro, se borra el contenido accesible a esa estación. Las
+                    ventas realizadas siguen siendo parte del sistema
+                              <!-- Button trigger modal -->
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                      data-bs-target="#exampleModal">
+                      Eliminar estación de cobro
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                      aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content text-dark">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Eliminar estación de cobro</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                              aria-label="Cancelar"></button>
+                          </div>
+                          <div class="modal-body ">
+                            Esta segur@ de eliminarla?
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <form class="d-inline px-2"
+                              action="/administrador/estacionesdecobro/<%= estacionDeCobro._id%>?_method=DELETE"
+                              method="post">
+                              <button class="btn btn-warning">Eliminar</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </p>
+              <!-- montos de las ventas + caja -->
+
+              <div class="card">
+                <!-- dinero en caja se resetea -->
+                <!-- dinero en estación -->
+
+              </div>
+            </div>
+
+          </div>
+    </div>
+
+    <%- include('../partials/footer.ejs'); %>

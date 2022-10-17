@@ -1,0 +1,41 @@
+<%- include('../partials/headerAdm.ejs'); %>
+  <%- include('../partials/flash.ejs'); %>
+
+    <div class="container p-md-4">
+      <a class="px-3 btn btn-success " href="/administrador/estacionesdecobro/<%= estacionDeCobro._id %>">
+        < Atras</a>
+
+          <div class="row  justify-content-center">
+            <div class="col-md-8 border border-dark p-lg-5 p-y-2">
+              <p class="lead px-md-3 text-center">
+                Egreso de dinero de la caja : <%= estacionDeCobro.ubicacionDeEstacion %>
+              </p> 
+             
+              <form  action="/administrador/estacionesdecobro/<%= estacionDeCobro._id %>/egreso-efectivo" method="POST">
+                
+                
+                    <div class="mb-3">
+                        <label for="dineroDeEgreso" class="form-label">Colocar el monto que se desea retirar de la estación</label>
+                        <input placeholder="" type="number" name="dineroDeEgreso" class="form-control" id="dineroDeEgreso" required>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="comentarioDeEgreso" class="form-label">Agregar comentario</label>
+                        <textarea class="form-control" name="comentarioDeEgreso" id="comentarioDeEgreso" rows="3"></textarea>
+                      </div>
+                      <!-- <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="">
+                        <label class="form-check-label" for="">Check me out</label>
+                      </div> -->
+                   
+                    <button type="submit" class="btn btn-primary">Retirar dinero a la estación</button>
+                    
+
+            </form>
+
+            </div>
+
+          </div>
+    </div>
+
+    <%- include('../partials/footer.ejs'); %>

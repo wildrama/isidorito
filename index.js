@@ -25,7 +25,7 @@ const ExpressError=require('./utils/ExpressError');
 
 
 
-const dbUrl = 'mongodb://localhost:27017/dbEscososa';
+const dbUrl = 'mongodb://localhost:27017/dbIsidorito';
 main().catch(err => console.log(err));
 
 async function main() {
@@ -136,7 +136,7 @@ app.get('/', (req, res) => {
 
 // error midller ware base
 app.all('*', (req, res, next) => {
-  next(new ExpressError('Esta pagina no existe. Vuleve al Inicio', 404))
+  next(new ExpressError('Esta pagina no existe. Vuleve al Inicio I.I', 404))
 })
 
 
@@ -151,5 +151,5 @@ app.use(function (err, req, res, next) {
 }); 
 
 // endapp
-app.listen(port, () => console.log(`SISTEMA DE GESTION ESCOSOSA v.0.0.0.0 ${port}!`))
+app.listen(port, () => console.log(`Isidorito v.0.1 ${port}!`))
 

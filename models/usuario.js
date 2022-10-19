@@ -7,7 +7,7 @@ const passportLocalMongoose= require('passport-local-mongoose');
 const UserSchema = new Schema({
     funcion:{
         type: String,
-        enum:['CAJA', 'STOCK', 'PEDIDOS','ADMINISTRADOR'],
+        enum:['CAJA', 'STOCK', 'REPARTIDOR','ADMINISTRADOR'],
         required:true,
     }
     

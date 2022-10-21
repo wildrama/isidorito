@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 3011;
+const port = 3031;
 const mongoose = require('mongoose');
 
 const path = require('path');
@@ -67,7 +67,7 @@ const administradorBuscarRoutes =require('./routes/administradorBuscar');
 const administradorEstacionDeCobroRoutes  = require('./routes/administradorEstaciones');
 const administradorOfertasRoutes =require('./routes/administradorOfertas');
 const administradorCierresDeCajaRoutes =require('./routes/administradorCierreDeCaja');
-
+const pedidosRoutes = require('./routes/pedidosRutas');
 const busquedaNombre = require('./routes/buscarProd');
 const codigoBarra = require('./routes/codigoBarra');
  
@@ -118,7 +118,7 @@ app.use('/administrador/productos',administradorProductosRoutes);
 app.use('/administrador/userpanel',administradorUsuariosRoutes);
 app.use('/administrador/estacionesdecobro',administradorEstacionDeCobroRoutes);
 app.use('/administrador/cierres-caja',administradorCierresDeCajaRoutes);
-
+app.use('/pedidos',pedidosRoutes);
 app.use('/caja',cajaRoutes);
 app.use('/administrador/caja', admCaja)
 app.use('/administrador/buscar',administradorBuscarRoutes);
@@ -128,6 +128,7 @@ app.use('/codigobarra', codigoBarra)
 app.use('/', ingresos)
 
 app.use('/save', saveVentasRoutes);
+// falta ingreso repartidor
 
 // RENDER HOME
 app.get('/', (req, res) => {

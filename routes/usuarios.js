@@ -36,11 +36,11 @@ if(req.user.funcion){
 
         res.redirect(redirectUrl)
         break;
-      case 'CAJA':
+      case 'REPARTIDOR':
           console.log('Haz iniciado como', role)
-          const redirectUrl2 = req.session.returnTo || '/ingreso-caja';
+          const redirectUrl2 = req.session.returnTo || '/ingreso-repartidor';
           delete req.session.returnTo;
-
+          
           return res.redirect(redirectUrl2);     
             
 

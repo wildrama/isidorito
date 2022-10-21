@@ -27,11 +27,11 @@ router.post('/crear-pedido',catchAsync(async(req,res)=>{
     req.flash('success','Nuevo pedido realizo correctamente')
     res.redirect(`/pedidos/${nuevoProducto._id}`)
 
-    
+
 
 }))
 // mostrar todos los pedidos realizados por un usuario en particular
-router.get('/:id',isLoggedIn , catchAsync(async (req, res) => {
+router.get('/panel-pedidos/:id',isLoggedIn , catchAsync(async (req, res) => {
     // const busqueda = req.body.busqueda
     const idUsuario = req.params.id;
      const pedidos = await Pedidos.find({usuarioRepartidor:idUsuario});
@@ -44,12 +44,12 @@ router.get('/:id',isLoggedIn , catchAsync(async (req, res) => {
 
 //mostrar todos los pedidos realizados
 
-router.get('/',isLoggedIn ,isAdmin(roleADM), catchAsync(async (req, res) => {
+router.get('/',isLoggedIn , catchAsync(async (req, res) => {
     // const busqueda = req.body.busqueda
      console.log(req.user.funcion)
-     const productos = await Pedido.find({});
-     const cantidadTotalDeProductos = await Pedidos.countDocuments({}).exec();
-     res.render('stock/verStock', { productos, cantidadTotalDeProductos });
+     const pedidos = await Pedidos.find({});
+     const cantidadTotalDePedido = await Pedidos.countDocuments({}).exec();
+     res.render('stock/verStock', { pedidos, cantidadTotalDePedido });
   
  
  
@@ -62,3 +62,4 @@ router.get('/',isLoggedIn ,isAdmin(roleADM), catchAsync(async (req, res) => {
 
 
 // imprimir Pedido
+module.exports = router;

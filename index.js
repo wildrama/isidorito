@@ -114,20 +114,20 @@ app.use((req, res, next) => {
 
 
 app.use('/',loginRoutes);
-app.use('/administrador/productos',administradorProductosRoutes);
-app.use('/administrador/userpanel',administradorUsuariosRoutes);
+// app.use('/administrador/productos',administradorProductosRoutes);
+// app.use('/administrador/userpanel',administradorUsuariosRoutes);
 // app.use('/administrador/estacionesdecobro',administradorEstacionDeCobroRoutes);
-app.use('/administrador/cierres-caja',administradorCierresDeCajaRoutes);
+// app.use('/administrador/cierres-caja',administradorCierresDeCajaRoutes);
 app.use('/pedidos',pedidosRoutes);
-app.use('/caja',cajaRoutes);
-app.use('/administrador/caja', admCaja)
-app.use('/administrador/buscar',administradorBuscarRoutes);
-app.use('/administrador/ofertas',administradorOfertasRoutes)
-app.use('/buscanombre', busquedaNombre)
-app.use('/codigobarra', codigoBarra)
+// app.use('/caja',cajaRoutes);
+// app.use('/administrador/caja', admCaja)
+// app.use('/administrador/buscar',administradorBuscarRoutes);
+// app.use('/administrador/ofertas',administradorOfertasRoutes)
+// app.use('/buscanombre', busquedaNombre)
+// app.use('/codigobarra', codigoBarra)
 app.use('/', ingresos)
 
-app.use('/save', saveVentasRoutes);
+// app.use('/save', saveVentasRoutes);
 // falta ingreso repartidor
 
 // RENDER HOME

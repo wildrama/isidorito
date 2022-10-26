@@ -58,20 +58,20 @@ const sessionConfig = {
 app.use(session(sessionConfig)); 
 
 const ingresos = require('./routes/ingresos')
-// const cajaRoutes= require('./routes/cajaRegular')
-// const admCaja = require('./routes/cajaAdministrador')
+const cajaRoutes= require('./routes/cajaRegular')
+const admCaja = require('./routes/cajaAdministrador')
 const loginRoutes = require('./routes/usuarios')
-// const administradorUsuariosRoutes = require('./routes/administradorUsuarios');
-// const administradorProductosRoutes = require('./routes/administradorProductos');
-// const administradorBuscarRoutes = require('./routes/administradorBuscar');
-// const administradorEstacionDeCobroRoutes  = require('./routes/administradorEstaciones');
-// const administradorOfertasRoutes = require('./routes/administradorOfertas');
-// const administradorCierresDeCajaRoutes = require('./routes/administradorCierreDeCaja');
+const administradorUsuariosRoutes = require('./routes/administradorUsuarios');
+const administradorProductosRoutes = require('./routes/administradorProductos');
+const administradorBuscarRoutes = require('./routes/administradorBuscar');
+const administradorEstacionDeCobroRoutes  = require('./routes/administradorEstaciones');
+const administradorOfertasRoutes = require('./routes/administradorOfertas');
+const administradorCierresDeCajaRoutes = require('./routes/administradorCierreDeCaja');
 const pedidosRoutes = require('./routes/pedidosRutas');
-// const busquedaNombre = require('./routes/buscarProd');
-// const codigoBarra = require('./routes/codigoBarra');
+const busquedaNombre = require('./routes/buscarProd');
+const codigoBarra = require('./routes/codigoBarra');
  
-// const saveVentasRoutes = require('./routes/savesDeCaja')
+const saveVentasRoutes = require('./routes/savesDeCaja')
 
 
 // const stockRoutes = require('./routes/stock')
@@ -114,20 +114,20 @@ app.use((req, res, next) => {
 
 
 app.use('/',loginRoutes);
-// app.use('/administrador/productos',administradorProductosRoutes);
-// app.use('/administrador/userpanel',administradorUsuariosRoutes);
-// app.use('/administrador/estacionesdecobro',administradorEstacionDeCobroRoutes);
-// app.use('/administrador/cierres-caja',administradorCierresDeCajaRoutes);
+app.use('/administrador/productos',administradorProductosRoutes);
+app.use('/administrador/userpanel',administradorUsuariosRoutes);
+app.use('/administrador/estacionesdecobro',administradorEstacionDeCobroRoutes);
+app.use('/administrador/cierres-caja',administradorCierresDeCajaRoutes);
 app.use('/pedidos',pedidosRoutes);
-// app.use('/caja',cajaRoutes);
-// app.use('/administrador/caja', admCaja)
-// app.use('/administrador/buscar',administradorBuscarRoutes);
-// app.use('/administrador/ofertas',administradorOfertasRoutes)
-// app.use('/buscanombre', busquedaNombre)
-// app.use('/codigobarra', codigoBarra)
+app.use('/caja',cajaRoutes);
+app.use('/administrador/caja', admCaja)
+app.use('/administrador/buscar',administradorBuscarRoutes);
+app.use('/administrador/ofertas',administradorOfertasRoutes)
+app.use('/buscanombre', busquedaNombre)
+app.use('/codigobarra', codigoBarra)
 app.use('/', ingresos)
 
-// app.use('/save', saveVentasRoutes);
+app.use('/save', saveVentasRoutes);
 // falta ingreso repartidor
 
 // RENDER HOME

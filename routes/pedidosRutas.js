@@ -13,6 +13,9 @@ const roleCaja = 'CAJA';
 
 // isLoggedIn,isAdmin(roleADM),
 // 
+router.get('/', (req,res)=>{
+    res.render('pedidos/pedidoIndx');
+})
 router.get('/pedidos-repartidor', (req,res)=>{
     res.render('pedidos/pedidoIndx');
 })

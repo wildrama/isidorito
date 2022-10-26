@@ -23,9 +23,9 @@ router.get('/ingresar', (req, res) => {
   res.render('home');
 })
 
-router.post('/ingresar', passport.authenticate('local', { failureFlash: true, failureRedirect: '/ingresar' }),  (req, res) => {
+router.post('/ingresar', passport.authenticate('local', { failureFlash: true, failureRedirect: '/' }),  (req, res) => {
 if(req.user.funcion){
-  const role = req.user.funcion;
+  let role = req.user.funcion;
   switch( role) {
       case 'ADMINISTRADOR': 
         // code block
@@ -38,7 +38,7 @@ if(req.user.funcion){
         break;
       case 'REPARTIDOR':
           console.log('Haz iniciado como', role)
-          const redirectUrl2 = req.session.returnTo || '/ingreso-repartidor';
+          const redirectUrl2 = req.session.returnTo || '/pedidos';
           delete req.session.returnTo;
           
           return res.redirect(redirectUrl2);     
@@ -62,11 +62,18 @@ router.get('/cerrar-sesion', (req,res)=>{
   res.redirect('/')
 })
 
+router.get('/repartidorNuevo', async( req, res)=>{
+  const usuario = new User({funcion:'REPARTIDOR', username:'rep'});
+  const nuevoUsuario = await User.register(usuario,'123');
+  req.flash('success','Usuario creado correctamente');
+  
+  res.redirect('/ingreso-repartidor');
+})
 
 
 router.get('/crearAdmin1', async( req, res)=>{
-  const usuario = new User({funcion:'ADMINISTRADOR', username:'escososa'});
-  const nuevoUsuario = await User.register(usuario,'admescososa2022');
+  const usuario = new User({funcion:'ADMINISTRADOR', username:'adm'});
+  const nuevoUsuario = await User.register(usuario,'123');
   req.flash('success','Usuario creado correctamente');
   
   res.redirect('/');

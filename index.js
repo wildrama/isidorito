@@ -67,7 +67,9 @@ const administradorBuscarRoutes = require('./routes/administradorBuscar');
 const administradorEstacionDeCobroRoutes  = require('./routes/administradorEstaciones');
 const administradorOfertasRoutes = require('./routes/administradorOfertas');
 const administradorCierresDeCajaRoutes = require('./routes/administradorCierreDeCaja');
+const clientesRoutes = require('./routes/clientesRutas');
 const pedidosRoutes = require('./routes/pedidosRutas');
+
 const busquedaNombre = require('./routes/buscarProd');
 const codigoBarra = require('./routes/codigoBarra');
  
@@ -118,6 +120,7 @@ app.use('/administrador/productos',administradorProductosRoutes);
 app.use('/administrador/userpanel',administradorUsuariosRoutes);
 app.use('/administrador/estacionesdecobro',administradorEstacionDeCobroRoutes);
 app.use('/administrador/cierres-caja',administradorCierresDeCajaRoutes);
+app.use('/clientes', clientesRoutes);
 app.use('/pedidos',pedidosRoutes);
 app.use('/caja',cajaRoutes);
 app.use('/administrador/caja', admCaja)

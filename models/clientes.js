@@ -9,6 +9,7 @@ const clienteSchema = new Schema ({
    },
    dueño:String,
    direccion:String,
+
    telefono1:Number,
    telefono2:Number,
    telefono3:Number,

@@ -1,4 +1,4 @@
-<%- include('../views/partials/headerPedido.ejs'); %>
+<%- include('./partials/headerPedido.ejs'); %>
 
 <%- include('./partials/flash.ejs'); %>
 
@@ -23,10 +23,10 @@
                   <form action="/ingresar" method="POST" class="signin-form">
                     <div class="form-group mt-3">
                       <input type="text" class="form-control"  name="username"required>
-                      <label class="form-control-placeholder" name="username" for="username">Usuario</label>
+                      <label class="form-control-placeholder" for="username">Usuario</label>
                     </div>
                     <div class="form-group">
-                      <input id="password-field" type="password" name="password" name="password" class="form-control" required>
+                      <input id="password-field" type="password"  name="password" class="form-control" required>
                       <label class="form-control-placeholder" for="password">Contraseña</label>
                       <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                     </div>
@@ -55,4 +55,4 @@
       <script src="js/bootstrap.min.js"></script>
       <script src="js/main.js"></script>
                      
-      <%- include('../views/partials/footer.ejs'); %>
+      <%- include('./partials/footer.ejs'); %>

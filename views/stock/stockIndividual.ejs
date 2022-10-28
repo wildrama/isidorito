@@ -77,7 +77,7 @@
 	<script src="../../jsBarcode.min.js"></script>
 
 		<script>
- 		 JsBarcode('#codigoBarra', <% producto.codigo %>)
+ 		 JsBarcode('#codigoBarra', <%= producto.codigo %>)
 		</script>
   
         <%- include('../partials/footer.ejs'); %>

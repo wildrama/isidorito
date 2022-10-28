@@ -13,16 +13,16 @@ const roleCaja = 'CAJA';
 
 // isLoggedIn,isAdmin(roleADM),
 // 
-router.get('/', (req,res)=>{
-    res.render('pedidos/pedidoIndx');
-})
+
 router.get('/pedidos-repartidor', (req,res)=>{
     res.render('pedidos/pedidoIndx');
 })
 // crear pedido
-router.get('/crear-pedido', (req,res)=>{
-    res.render('pedidos/crearPedido');
-})
+router.get('/crear-pedido', catchAsync(async(req,res)=>{
+    const clientesActuales = await Clientes.find({})
+    const fechaHoy = Date.now();
+    res.render('pedidos/crearPedido',{clientesActuales,fechaHoy});
+}));
 
 router.post('/crear-pedido',catchAsync(async(req,res)=>{
     const nuevoPedido = new Pedidos(req.body.nuevoPedido);

@@ -38,11 +38,11 @@ if(req.user.funcion){
         break;
       case 'REPARTIDOR':
           console.log('Haz iniciado como', role)
-          const redirectUrl2 = req.session.returnTo || '/pedidos';
+          const redirectUrl2 = req.session.returnTo || '/pedidos/pedidos-repartidor';
           delete req.session.returnTo;
           
           return res.redirect(redirectUrl2);     
-            
+        
 
   }
   

@@ -1,5 +1,7 @@
 
+<%- include('../partials/headerPedido.ejs'); %>
 
+<%- include('../partials/flash.ejs'); %>
 
 <div class="container">
 
@@ -7,8 +9,8 @@
 
     <h2>Armar Pedido</h2>
 
-    <div class="row justify-content-around">
-        <div class="col-sm-8">
+    <div class="row justify-content-between align-items-baseline">
+        <div class="col-9">
             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                 <option selected>Open this select menu</option>
                 <option value="1">One</option>
@@ -16,15 +18,15 @@
                 <option value="3">Three</option>
               </select>
         </div>
-        <div class="col-sm-4">
-            <a href="">Add+</a>
+        <div class="col-3">
+            <a href="">Agregar+</a>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-7">
+        <div class="col-7">
             <input type="search" name="inputIrBuscar" id="inputIrBuscar">
         </div>
-        <div class="col-sm-5 text-center">
+        <div class="col-5 text-center">
             <p>
             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                 <option selected>Ordenar por</option>

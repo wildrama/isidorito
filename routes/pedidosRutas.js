@@ -4,6 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, isAdmin, isCaja } = require('../middleware');
 const Pedidos = require('../models/pedidosRepartidor');
 const Clientes = require('../models/clientes');
+const Producto = require('../models/productos');
 
 
 
@@ -55,6 +56,36 @@ router.get('/',isLoggedIn , catchAsync(async (req, res) => {
      res.render('stock/verStock', { pedidos, cantidadTotalDePedido });
   
  
+ 
+ }))
+
+//  buscar productos para el pedido
+
+
+router.get('/buscar-productos', catchAsync(async (req, res) => {
+    const inputData = req.query.busqueda;
+     console.log(req.query.busqueda)
+     try {
+  
+        const busquedaRealizada = await Producto.find({
+           $or:[
+             {nombre:{$regex: inputData, $options : 'i'}},
+             {marca:{$regex: inputData, $options : 'i'}}
+            
+           ]
+             });
+  
+  
+             console.log(busquedaRealizada);
+             res.json(busquedaRealizada);
+  
+    } catch (error) {
+        res.send(error)
+    }
+    //  const cantidadTotalDePedido = await Pedidos.countDocuments({}).exec();
+    //  res.render('stock/verStock', { pedidos, cantidadTotalDePedido });
+    
+//  res.send(busquedaRealizada)
  
  }))
 

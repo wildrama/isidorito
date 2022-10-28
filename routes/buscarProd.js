@@ -29,7 +29,7 @@ router.post('/', catchAsync(async (req , res) => {
            $or:[
              {nombre:{$regex: query.search_query, $options : 'i'}},
              {marca:{$regex: query.search_query, $options : 'i'}},
-  
+            
            ]
              });
   

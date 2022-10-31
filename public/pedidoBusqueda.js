@@ -1,5 +1,6 @@
 const inputBuscar = document.querySelector('#inputIrBuscar');
 
+const displayProductos = document.querySelector('#displayProductos');
 
 const pul = document.querySelector('#pulBuscarProducto');
 const tableParaProductosP = document.querySelector('#tableParaProductosP');
@@ -8,56 +9,92 @@ const lupa = document.querySelector('#lupaBusqueda')
 
 const buscarproducto = document.querySelector('#buscarproducto');
 const formSearch = document.querySelector('#formSearch');
-const formSearchCodigo = document.querySelector('#formSearchCodigo');
+const formBuscarPedidos = document.querySelector('#formBuscarPedidos');
 
 const buscarcodigo = document.querySelector('#buscarcodigo');
 const alertP = document.querySelector('#alertP');
 
-inputBuscar.addEventListener("keypress", async function(e){
-    const query_buscar = inputBuscar.value;
 
+
+ 
+
+
+formBuscarPedidos.addEventListener("submit", async function(e){
+e.preventDefault();
+  const query_buscar = inputBuscar.value;
 
   console.log(query_buscar)
   try {
     // console.log(query_buscar)
     const res = await axios.get(`/pedidos/buscar-productos?busqueda=${query_buscar}`); 
     const productos = res.data;
-
     
     console.log(productos)  
     for(let producto of productos){
         console.log(producto.nombre)
 
-        
- 
-    //   const td0 = document.createElement('td');
-    //   const td1 = document.createElement('td');
+      
+      
+      const col9 = document.createElement('div');
+      const rowProd = document.createElement('div');
 
-    //   const td2 = document.createElement('td');
+      const divNombre = document.createElement('div');
+      const divMarca = document.createElement('div');
+      const divPrecioM = document.createElement('div');
+      const divPrecioU = document.createElement('div');
 
-    //   const td3 = document.createElement('td');
+      const col3 = document.createElement('div');
 
-    //   const td4 = document.createElement('td');
+      const divMinus = document.createElement('div');
+      const divCantidadActual = document.createElement('div');
 
-    //   const tr = document.createElement('tr');
+      const divPlus = document.createElement('div');
 
-    //   const ul = document.createElement('ul');
-    //   const li = document.createElement('li');
-    //   const li2 = document.createElement('li');
-    //   const accion1 = document.createElement('a');
-    //   const imgButton1 = document.createElement('img');
-    //   const accion2 = document.createElement('a');
+      rowProd.classList.add('row', 'mb-1','border', 'border-info')
+      col9.classList.add('col-9', 'd-flex', 'justify-content-around', 'text-center')
+      col3.classList.add('col-3','d-flex' , 'justify-content-between', ',align-items-center')
 
     //     accion1.href =`/administrador/productos/${producto._id}/upstockprecio`;
     //     imgButton1.classList.add('editButton')
     //       imgButton1.src='/imgs/png/contract.png'
-    //   td1.textContent= producto.precioMinorista;
-    //   td0.textContent= producto.nombre;
-    //   td2.textContent= producto.marca;
-    //   td3.textContent= producto.cantidad;
-    //   accion1.append(imgButton1);
+      divNombre.textContent= producto.nombre;
+      divMarca.textContent= producto.marca;
+      divPrecioM.textContent= producto.precioMayorista;
+      divMinus.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+      <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+    </svg>`;
+      divCantidadActual.textContent = 0,
+      divPlus.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+    </svg>`;
+      //   accion1.append(imgButton1);
     //   tr.append(td0,td1,td2,td3,accion1)
     //   tableBody.append(tr);
+    col9.append(divNombre,divMarca,divPrecioM);
+    col3.append(divMinus,divCantidadActual,divPlus)
+    rowProd.append(col9,col3);
+      displayProductos.append(rowProd);
+      
+
+      divPlus.addEventListener('click', ()=>{
+        let cantidadElegida = 0
+        
+      })
+      // 
+//   //For every image check if url has filter in it and hide/show as needed.
+//   for (let i = 0; i < productos.length; $i++) {
+
+//     if ($imgsCollection[$i].getAttribute('src').indexOf($filter) > -1) {
+
+//         $imgsCollection[$i].style.display = 'block';
+//     } else {
+
+//         $imgsCollection[$i].style.display = 'none';
+
+//     }
+//  }
 
   }
 
@@ -78,9 +115,16 @@ inputBuscar.addEventListener("keypress", async function(e){
       alerP.classList.add('d-none')
           }, 3000)
   }
+
  
 });
-inputBuscar.addEventListener('click', function(){
-    console.log('click')
+document.getElementById('eliminarProductos').addEventListener('click', function(){
+  
+  inputBuscar.value= "";
+
+  inputBuscar.focus();
+
+  displayProductos.innerHTML = "";
 })
+
 

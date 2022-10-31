@@ -25,21 +25,31 @@
     <div class="container">
 
     
-      <div class="row justify-content-between align-items-center">
+      <form id="formBuscarPedidos" class="row justify-content-between align-items-center px-1">
         <div class="col-10">
 
             <input class="form-control" placeholder="Tap para buscar" type="search" name="inputIrBuscar" id="inputIrBuscar">
           
           </div>
-          <div id="lupaBusqueda" class="col-2 text-start">
+          <div class="col-2 d-flex justify-content-around align-items-center ">
+               <button id="lupaBusqueda" class=" btn">
 
-              <img  class="p-3 img-fluid"  src="/imgs/lupa.svg" alt="">
-              
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>          
+
+          </button>
+          <div id="eliminarProductos" class="">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+</svg>
           </div>
-        </div>
-        <div class="mt-2">
+          </div>
+       
+        </form>
+        <div id="displayProductos" class="mt-2">
 
-          <div class="displayProductos row mb-1 border border-info  ">
+          <!-- <div class=" row mb-1 border border-info  ">
             <div class="col-9 d-flex justify-content-between text-center">
               <div class="">
                 nombres producto
@@ -56,7 +66,7 @@
                 <div class="">0</div>
                 <div>-</div>
               </div>
-            </div>
+            </div> -->
             
         </div>
           
@@ -111,12 +121,17 @@
 
 
       <div class="row text-center">
-        <div class="col-sm-6"><a href="">Eliminar producto</a></div>
-        <div class="col-sm-6"><p>TOTAL: $0</p></div>
+      
+        <div id="eliminarProductosIndividuales" class="col-sm-6">
+          <p >Eliminar producto</p>
+        </div>
+        <div class="col-sm-6">
+          <p>TOTAL: $0</p>
+        </div>
       </div>
 
       <div class="finalizar text-end ">
-        <a class="" href="">Finalizar</a>
+        <p  class="">Finalizar</p>
       </div>
     </div>
 <%- include('../partials/footerPedido.ejs'); %>

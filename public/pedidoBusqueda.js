@@ -13,22 +13,23 @@ const formSearchCodigo = document.querySelector('#formSearchCodigo');
 const buscarcodigo = document.querySelector('#buscarcodigo');
 const alertP = document.querySelector('#alertP');
 
-
-lupa.addEventListener('click', async function(event){
-
-
-//   try {
+inputBuscar.addEventListener("keypress", async function(e){
     const query_buscar = inputBuscar.value;
+
+
+  console.log(query_buscar)
+  try {
     // console.log(query_buscar)
     const res = await axios.get(`/pedidos/buscar-productos?busqueda=${query_buscar}`); 
     const productos = res.data;
 
-
+    
     console.log(productos)  
     for(let producto of productos){
         console.log(producto.nombre)
-    }
-    // if(producto._id){
+
+        
+ 
     //   const td0 = document.createElement('td');
     //   const td1 = document.createElement('td');
 
@@ -58,27 +59,25 @@ lupa.addEventListener('click', async function(event){
     //   tr.append(td0,td1,td2,td3,accion1)
     //   tableBody.append(tr);
 
-    //   inputBuscar.value="";
-      
-    // inputBuscar.focus();
+  }
 
-    // }
+
    
-    // inputBuscar.value="";
+   
 
   
-//       } catch (error) {
+      } catch (error) {
 
  
-//         inputBuscar.value="";
+        inputBuscar.value="";
 
-//      inputBuscar.focus();
+     inputBuscar.focus();
       
-//         alerP.classList.remove('d-none')
-//         setTimeout(() => {
-//       alerP.classList.add('d-none')
-//           }, 3000)
-//   }
+        alerP.classList.remove('d-none')
+        setTimeout(() => {
+      alerP.classList.add('d-none')
+          }, 3000)
+  }
  
 });
 inputBuscar.addEventListener('click', function(){

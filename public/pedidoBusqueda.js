@@ -15,8 +15,9 @@ const buscarcodigo = document.querySelector('#buscarcodigo');
 const alertP = document.querySelector('#alertP');
 
 
-
+let productosParaElPedido = [];
  
+ const todosLosMas = document.querySelector('agregarUnElementoAlaLista')
 
 
 formBuscarPedidos.addEventListener("submit", async function(e){
@@ -29,7 +30,8 @@ e.preventDefault();
     const res = await axios.get(`/pedidos/buscar-productos?busqueda=${query_buscar}`); 
     const productos = res.data;
     
-    console.log(productos)  
+    productosParaElPedido.push(productos)
+
     for(let producto of productos){
         console.log(producto.nombre)
 
@@ -51,9 +53,10 @@ e.preventDefault();
       const divPlus = document.createElement('div');
 
       rowProd.classList.add('row', 'mb-1','border', 'border-info')
-      col9.classList.add('col-9', 'd-flex', 'justify-content-around', 'text-center')
-      col3.classList.add('col-3','d-flex' , 'justify-content-between', ',align-items-center')
-
+      col9.classList.add('col-9', 'd-flex', 'justify-content-between', 'text-center')
+      col3.classList.add('col-3','d-flex' , 'justify-content-end', ',align-items-center')
+      divCantidadActual.classList.add('px-3')
+divPlus.classList.add('agregarUnElementoAlaLista')
     //     accion1.href =`/administrador/productos/${producto._id}/upstockprecio`;
     //     imgButton1.classList.add('editButton')
     //       imgButton1.src='/imgs/png/contract.png'
@@ -73,14 +76,15 @@ e.preventDefault();
     //   tr.append(td0,td1,td2,td3,accion1)
     //   tableBody.append(tr);
     col9.append(divNombre,divMarca,divPrecioM);
-    col3.append(divMinus,divCantidadActual,divPlus)
+    col3.append(divCantidadActual,divPlus)
     rowProd.append(col9,col3);
       displayProductos.append(rowProd);
       
+      let cantidadElegida = 0
 
       divPlus.addEventListener('click', ()=>{
-        let cantidadElegida = 0
-        
+        divCantidadActual.value = cantidadElegida++;
+     
       })
       // 
 //   //For every image check if url has filter in it and hide/show as needed.
@@ -116,10 +120,23 @@ e.preventDefault();
           }, 3000)
   }
 
+ console.log(productosParaElPedido)  
+ console.log(todosLosMas);  
  
 });
+console.log(todosLosMas);  
+
+const agregarProductoAlPedido = ()=>{
+
+  productosParaElPedido.forEach( p => {
+    let ip = {
+      id : p._id,
+
+    }
+  })
+}
 document.getElementById('eliminarProductos').addEventListener('click', function(){
-  
+  console.log(productosParaElPedido)
   inputBuscar.value= "";
 
   inputBuscar.focus();

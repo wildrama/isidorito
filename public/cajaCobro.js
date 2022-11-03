@@ -55,7 +55,7 @@ window.onload = async () => {
 				ofertasIndividuales.push(oferta)
 				console.log(oferta)
 
-			})
+			})	
 
 
 
@@ -101,6 +101,7 @@ window.onload = async () => {
 					tr.appendChild(thCheck);
 					thPrecio.style.cursor = "pointer"
 					tablaCajaCobro.appendChild(tr)
+					
 					checkbox.addEventListener('change', () => {
 
 						console.log(checkbox.checked)
@@ -180,7 +181,7 @@ hotkeys('f2', function (event, handler){
 export const agregarFiambre = (nombre, precio, id) => {
 	let fiambre = {
 		nombre: nombre,
-		precio, precio,
+		precio: precio,
 		cantidadAgregada: 1,
 		impuestoPrecio: precio,
 		idArr: id,
@@ -206,7 +207,7 @@ export const eliminar = () => {
 	console.log(productosAgregados)
 	console.log("Los productos que se van a intentar eliminar son:")
 	console.log(arrEliminar)
-
+	
 	arrEliminar.map(arr => {
 		for (let i = 0; i < productosAgregados.length; i++) {
 			console.log(`Se va a comparar ${arr} con ${productosAgregados[i].nombre}`)

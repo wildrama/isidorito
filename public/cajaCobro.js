@@ -240,7 +240,7 @@ export const importar = () => {
 			id: importando.id,
 			borrado: false
 		}
-		
+
 		for (let i = 0; i < productosAgregados.length; i++) {
 			if (productosAgregados[i].nombre == aAg.nombre) {
 				document.getElementsByClassName(productosAgregados[i].idArr)[0].style.visibility = "visible"
@@ -653,7 +653,7 @@ cajaCobroForm.addEventListener('submit', async e => {
 						sumarConImpuesto()
 						thSubtotal.innerHTML = "$" + aMostrar
 
-
+						
 					}
 				})
 

@@ -10,7 +10,6 @@ const lupa = document.querySelector('#lupaBusqueda')
 const buscarproducto = document.querySelector('#buscarproducto');
 const formSearch = document.querySelector('#formSearch');
 const formBuscarPedidos = document.querySelector('#formBuscarPedidos');
-
 const buscarcodigo = document.querySelector('#buscarcodigo');
 const alertP = document.querySelector('#alertP');
 
@@ -82,10 +81,18 @@ divPlus.classList.add('agregarUnElementoAlaLista')
       
       let cantidadElegida = 0
 
-      divPlus.addEventListener('click', ()=>{
+      divPlus.addEventListener('click', (e)=>{
         divCantidadActual.value = cantidadElegida++;
+
+        
+
+
+
      
       })
+
+
+
       // 
 //   //For every image check if url has filter in it and hide/show as needed.
 //   for (let i = 0; i < productos.length; $i++) {
@@ -102,12 +109,33 @@ divPlus.classList.add('agregarUnElementoAlaLista')
 
 const mostrarProductosAgregados = () =>{
 
+  productosAgregadosAlPedido.forEach( (productoRow )=>{
+
+
+
+
+    for(let p; p < productosAgregadosAlPedido.length; p++){
+
+          
+    const rowProductoRow = document.createElement('tr')
+    const tdProductoRowAccion = document.createElement('td');
+    const tdProductoRowNombreProducto = document.createElement('td');
+    const tdProductoRowCantidadProducto = document.createElement('td');
+    const tdProductoRowPrecioProducto = document.createElement('td');
+
+
+    
+    }
+
+
+
+
+  })
   
   
-  var table = document.getElementById('emptbl');
-  var rowCount = table.rows.length;
-  var cellCount = table.rows[0].cells.length; 
-  var row = table.insertRow(rowCount);
+  var rowCount = tableParaProductosP.rows.length;
+  var cellCount = tableParaProductosP.rows[0].cells.length; 
+  var row = tableParaProductosP.insertRow(rowCount);
   for(var i =0; i <= cellCount; i++){
     var cell = 'cell'+i;
     cell = row.insertCell(i);
@@ -148,11 +176,14 @@ const mostrarProductosAgregados = () =>{
           }, 3000)
   }
 
+
  console.log(productosParaElPedido)  
  console.log(todosLosMas);  
  
 });
 console.log(todosLosMas);  
+
+
 
 const mostrarProductosAgregados = () =>{
 

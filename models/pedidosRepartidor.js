@@ -19,6 +19,10 @@ productosPedidos:[
     ref: 'Producto'
  }
 ],
+productoCantidad:{
+    idString: String,
+    cantidadDeUnMismoProducto: Number
+},
 productosPedidosNombre:[String],
 productosPedidosCantidad:[Number],
 estadoDePedido:String,

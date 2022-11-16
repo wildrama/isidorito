@@ -32,7 +32,7 @@ const administradorProductosRoutes = require('./routes/administradorProductos');
 const administradorBuscarRoutes = require('./routes/administradorBuscar');
 const administradorEstacionDeCobroRoutes  = require('./routes/administradorEstaciones');
 const administradorOfertasRoutes = require('./routes/administradorOfertas');
-const administradorCierresDeCajaRoutes = require('./routes/administradorCierreDeCaja');
+// const administradorCierresDeCajaRoutes = require('./routes/administradorCierreDeCaja');
 const clientesRoutes = require('./routes/clientesRutas');
 const pedidosRoutes = require('./routes/pedidosRutas');
 

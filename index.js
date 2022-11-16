@@ -1,11 +1,12 @@
 const express = require('express');
 const app = express();
-const port = 3031;
-const mongoose = require('mongoose');
-
+const port = 3035;
 const path = require('path');
 
-const methodOverride = require('method-override')
+const mongoose = require('mongoose');
+
+
+const methodOverride = require('method-override');
 
 const flash = require('connect-flash');
 
@@ -55,7 +56,7 @@ const sessionConfig = {
   }
 }
 // sessionMiddleware
-app.use(session(sessionConfig)); 
+app.use(session(sessionConfig));
 
 
 
@@ -66,7 +67,6 @@ app.use(express.json());
 // statics files
 app.use(express.static('public'));
 app.use(express.static('files'));
-
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'ejs');
 app.set('view engine', 'ejs');

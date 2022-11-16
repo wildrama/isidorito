@@ -26,7 +26,7 @@ const productSchema = new Schema({
   categoriaInterna: {
 
     type: String,
-    enum: ['almacen', 'varios', 'fiambreria', 'pañales', 'fideos', 'arroz', 'harina', 'no perecederos', 'articulos de limpieza', 'aceite/vinagre', 'sal', 'higene corporal', 'galletitas', 'articulos del hogar', 'higene femenina', 'panaderia', 'bebida con alcohol', 'bebidas sin alcohol', 'golosinas', 'yerba', 'azucar', 'te cafe', 'verduleria']
+    enum: ['almacen', 'varios', 'fiambreria', 'pañales', 'fideos', 'arroz', 'harina', 'no perecederos', 'articulos de limpieza', 'aceite/vinagre', 'sal', 'higene corporal', 'galletitas', 'articulos del hogar', 'higene femenina', 'panaderia', 'bebida con alcohol', 'bebidas sin alcohol', 'golosinas', 'yerba', 'azucar', 'te cafe', 'verduleria','enlatdos']
 
   },
   presentacion: {

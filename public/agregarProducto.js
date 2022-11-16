@@ -12,6 +12,7 @@ const button = document.createElement("button");
 const tabla = document.createElement("table");
 const th = document.createElement("thead");
 const tb = document.createElement("tbody");
+
 const tdChk = document.createElement("td");
 const tdNombre = document.createElement("td");
 const tdPrecio = document.createElement("td");

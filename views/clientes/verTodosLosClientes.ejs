@@ -1,0 +1,111 @@
+<%- include('../partials/headerPedido.ejs'); %>
+
+<%- include('../partials/flash.ejs'); %>
+
+<div class="container">
+    <h3>Clientes actuales </h3>
+    <p>A continuación de muestran todos los clientes cargados en el sistema</p>
+    <div class="row justify-content-around">
+    
+        <div class="col-12 col-md-6 d-flex">
+
+            <% for( let cliente of todosLosClientes) { %>
+            
+           
+            <div class="card">
+                <div class="card-top">
+                    <p class="text-muted">
+                        Ref: <%= cliente.dueño  %> 
+                    </p>
+                </div>
+
+                <div class="card-tittle">
+                    Nombre LOCAL: 
+                    <p class="lead">
+                    <%= cliente.nombreLocal %> 
+                    </p>
+                </div>
+
+                <div class="card-body">
+                    Dirección: <%= cliente.direccion %> 
+
+                    Telefono 1: <%=cliente.telefono1  %> 
+                    Telefono 2: <%=cliente.telefono2   %> 
+                    Telefono 3: <%=cliente.telefono3   %> 
+
+                   <div class="">
+                    Comentario
+                    <p class="p-2">
+
+                    </p>
+                   </div>
+                   
+                 
+                   <div class="">
+                    <table class="pedidosRealizados">
+                        <thead>
+                          <tr>
+                            <th scope="col">Fecha Pedido</th>
+                            <th scope="col">Productos</th>
+                            
+                            <th scope="col">Cantidad de productos</th>
+                            
+                            <th scope="col">Monto</th>
+                            
+                            
+                            
+                            
+                            
+                    
+                    
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% for (let pedidosR of clientes.pedidosRealizados){ %>
+                            <tr>
+                    
+                                <td>
+                                    <%= pedidosR.createdAt %> 
+                                </td>
+                              <td>
+                                <a href="/pedidos/<%= pedidosR._id %>">PRODUCTOS</a>
+                              </td>
+                           
+                            
+                              
+                       
+                    
+                              <td>
+                                <%= producto.cantidadDeProductos %>
+                              </td>
+                        
+                             
+                              <td>
+                                <%= producto.importeTotal%>
+                              </td>
+                    
+                         
+                              
+                            
+                    
+                    
+                    
+                    
+                            </tr>
+                            <%} %>
+                    
+                    
+                    
+                        </tbody>
+                      </table>
+                    <table></table>
+                   </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    
+    </div>
+</div>
+
+<%- include('../partials/footer.ejs'); %>

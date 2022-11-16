@@ -112,7 +112,7 @@ e.preventDefault();
 
        if(cantidadElegida < 2){
         // idArray.push(producto._id)
-          
+           
         console.log(idArray)
   
           

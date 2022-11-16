@@ -1,0 +1,96 @@
+<%- include('../partials/headerPedido.ejs'); %>
+
+<%- include('../partials/flash.ejs'); %>
+<div class="container">
+
+    <div class="row">
+        <a href="/pedidos/pedidos-repartidor">Atras</a>
+
+        <div class="col-12">
+            <p class="text-center">
+                Productos en stock (MAYORISTA)
+            </p>
+        </div> 
+        <div class="col-12">
+
+            <div class="barraBuscadorFiltro">
+                <form action="" method="GET">
+                    <input class="form-control" type="search" name="inputBuscadorSTOCK" id="inputBuscadorSTOCK">
+                </form>
+            </div>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col"> </th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Marca</th>
+
+                    <th scope="col">Precio Mayorista</th>
+            
+                    <th scope="col">Cantidad</th>
+            
+                    <th scope="col">Categoria Int</th>
+                    <th scope="col">Peso</th>
+
+                    <th scope="col">Fecha Venc</th>
+            
+                
+            
+           
+            
+            
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for (let producto of productos){ %>
+                    <tr>
+                      <td class="">
+                        <a class="productosAcciones" href="/administrador/productos/<%= producto._id %>/upstock "><img width="32px" height="32px" src="/imgs/png/verCompleto.png" alt=""></a>
+
+                     
+                      </td>
+                      <td>
+                        <a href="/administrador/productos/<%= producto._id %>"><%= producto.nombre %></a>
+                      </td>
+                   
+                    
+                      
+                      <td>
+                        <%= producto.marca %>
+                      </td>
+                      <td>
+                        <%= producto.precioMayorista %>
+                      </td>
+            
+                      <td>
+                        <%= producto.cantidad %>
+                      </td>
+                      <td>
+                        <%= producto.categoriaInterna %>
+                      </td>
+                      
+                      <td>
+                        <%= producto.peso %>
+                      </td>
+                      <td>
+                        <%= producto.fechaDeVencimiento%>
+                      </td>
+            
+                 
+                      
+                    
+            
+            
+            
+            
+                    </tr>
+                    <%} %>
+            
+            
+            
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer.ejs'); %>

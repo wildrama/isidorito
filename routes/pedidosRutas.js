@@ -34,6 +34,18 @@ router.post('/crear-pedido',catchAsync(async(req,res)=>{
 
 
 }))
+// isAdmin(roleADM),
+// RENDER VER TABLA DE STOCK
+router.get('/stockMayorista',isLoggedIn , catchAsync(async (req, res) => {
+    const busqueda = req.params.busquedaStock
+     console.log(req.user.funcion)
+     const productos = await Producto.find({});
+    //  const cantidadTotalDeProductos = await Producto.countDocuments({}).exec();
+     res.render('pedidos/productosStock', { productos});
+    
+    
+ 
+ }))
 // mostrar todos los pedidos realizados por un usuario en particular
 router.get('/panel-pedidos/:id',isLoggedIn , catchAsync(async (req, res) => {
     // const busqueda = req.body.busqueda

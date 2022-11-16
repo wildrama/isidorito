@@ -292,7 +292,7 @@ export const importar = () => {
 									document.getElementsByClassName(producto.idArr)[0].style.display = "none";
 								} else {
 									document.getElementsByClassName(producto.idArr)[0].style.display = "table-row";
-
+									
 								}
 								const tr = document.createElement("tr")
 								const thNombre = document.createElement("td");

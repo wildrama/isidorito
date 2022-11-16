@@ -7,6 +7,15 @@ const Clientes = require('../models/clientes');
 
 // const RoleRep = "REPARTIDOR";
 // isAdmin(roleADM),
+
+// render index clientes 
+
+router.get('/clientes-index', isLoggedIn, catchAsync(async (req, res) => {
+    const usuario = req.user.funcion;
+     
+     res.render('clientes/clientesIndex',{usuario});
+   }))
+ 
 // render formulario para agregar cliente
 
 router.get('/agregar-cliente', isLoggedIn, catchAsync(async (req, res) => {
@@ -29,10 +38,19 @@ router.post('/agregar-cliente',catchAsync(async(req,res)=>{
 
 
 // ver Todos los clientes de ser necesario
-router.get('/clientes-todos', catchAsync(async(req,res)=>{
-    const todosLosClientes = await Clientes.find({});
+router.get('/ver-clientes', catchAsync(async(req,res)=>{
 
-    res.render('clientes/verTodosLosClientes',{todosLosClientes});
+    try {
+
+        const todosLosClientes = await Clientes.find({}).populate('pedidosRealizados');
+
+        res.render('clientes/verTodosLosClientes',{todosLosClientes});
+
+    } catch (error) {
+        console.log(error)
+        res.redirect('/clientes/clientes-index');
+    }
+ 
 }))
 
 // ver cliente individual

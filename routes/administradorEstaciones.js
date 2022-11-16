@@ -4,7 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, isAdmin, isCaja } = require('../middleware');
 const EstacionDeCobro = require('../models/estaciondecobro');
 const Venta = require('../models/ventas');
-const CierreCaja = require('../models/cierrecaja');
+const CierreCaja = require('../cierrecaja');
 
 
 

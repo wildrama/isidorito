@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const EstacionDeCobro = require('./estaciondecobro');
-const Producto = require('./productos');
+const EstacionDeCobro = require('./models/estaciondecobro');
+const Producto = require('./models/productos');
 const { Schema } = mongoose;
-const Usuario = require('./usuario')
+const Usuario = require('./models/usuario')
 // fecha de salida
 const cierresDeCajaRealizados = new Schema({
     dineroEnCaja: {

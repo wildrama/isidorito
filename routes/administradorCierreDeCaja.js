@@ -3,7 +3,7 @@ const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, isAdmin, isCaja } = require('../middleware');
 const EstacionDeCobro = require('../models/estaciondecobro');
-const CierreCaja = require('../models/cierreCaja');
+const CierreCaja = require('../models/cierrecaja');
 
 
 

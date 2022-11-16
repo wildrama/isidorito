@@ -37,6 +37,6 @@ usuarioRepartidor:{
 }
 
 }, { timestamps: true });     
-const Pedidos = mongoose.model('Pedido', pedidosSchema);
+const Pedido = mongoose.model('Pedido', pedidosSchema);
 
-module.exports = Pedidos;
+module.exports = Pedido;

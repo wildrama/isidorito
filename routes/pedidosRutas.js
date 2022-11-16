@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, isAdmin, isCaja } = require('../middleware');
-const Pedidos = require('../models/pedidosRepartidor');
-const Clientes = require('../models/clientes');
+const Pedido = require('../models/pedidosRepartidor');
+const Cliente = require('../models/clientes');
 const Producto = require('../models/productos');
 
 
@@ -20,13 +20,13 @@ router.get('/pedidos-repartidor', (req,res)=>{
 })
 // crear pedido
 router.get('/crear-pedido', catchAsync(async(req,res)=>{
-    const clientesActuales = await Clientes.find({})
+    const clientesActuales = await Cliente.find({})
     const fechaHoy = Date.now();
     res.render('pedidos/crearPedido',{clientesActuales,fechaHoy});
 }));
 
 router.post('/crear-pedido',catchAsync(async(req,res)=>{
-    const nuevoPedido = new Pedidos(req.body.nuevoPedido);
+    const nuevoPedido = new Pedido(req.body.nuevoPedido);
     await nuevoPedido.save()
     req.flash('success','Nuevo pedido realizo correctamente')
     res.redirect(`/pedidos/${nuevoProducto._id}`)
@@ -44,15 +44,15 @@ router.get('/stockMayorista',isLoggedIn , catchAsync(async (req, res) => {
      res.render('pedidos/productosStock', { productos});
     
     
- 
+    
  }))
 // mostrar todos los pedidos realizados por un usuario en particular
 router.get('/panel-pedidos/:id',isLoggedIn , catchAsync(async (req, res) => {
     // const busqueda = req.body.busqueda
     const idUsuario = req.params.id;
-     const pedidos = await Pedidos.find({usuarioRepartidor:idUsuario});
-     const cantidadTotalDePedidos = await Pedidos.countDocuments({usuarioRepartidor:idUsuario}).exec();
-     res.render('stock/verStock', { pedidos, cantidadTotalDePedidos });
+     const pedidos = await Pedido.find({usuarioRepartidor:idUsuario});
+     const cantidadTotalDePedidos = await Pedido.countDocuments({usuarioRepartidor:idUsuario}).exec();
+     res.render('pedidos/pedidoIndividual', { pedidos, cantidadTotalDePedidos });
   
  
  
@@ -60,15 +60,16 @@ router.get('/panel-pedidos/:id',isLoggedIn , catchAsync(async (req, res) => {
 
 //mostrar todos los pedidos realizados
 
-router.get('/',isLoggedIn , catchAsync(async (req, res) => {
+router.get('/pedidos-todos',isLoggedIn , catchAsync(async (req, res) => {
     // const busqueda = req.body.busqueda
      console.log(req.user.funcion)
-     const pedidos = await Pedidos.find({});
-     const cantidadTotalDePedido = await Pedidos.countDocuments({}).exec();
-     res.render('stock/verStock', { pedidos, cantidadTotalDePedido });
-  
- 
- 
+     const repartidor = req.user;
+     const pedidos = await Pedido.find({});
+     const cantidadTotalDePedido = await Pedido.countDocuments({}).exec();
+     res.render('pedidos/verTodosLosPedidos', { pedidos, cantidadTotalDePedido,repartidor });
+    
+    
+    
  }))
 
 //  buscar productos para el pedido

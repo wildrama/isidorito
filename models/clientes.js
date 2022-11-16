@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
-const Pedidos = require('./pedidosRepartidor');
+const Pedido = require('./pedidosRepartidor');
 
 const clienteSchema = new Schema ({
 
@@ -18,14 +18,14 @@ const clienteSchema = new Schema ({
    pedidosRealizados:[
     {
        type: Schema.Types.ObjectId,
-       ref: 'Pedidos'
+       ref: 'Pedido'
     }
    ]
  
    
    
    }, { timestamps: true });     
-   const Clientes = mongoose.model('Cliente', clienteSchema);
+   const Cliente = mongoose.model('Cliente', clienteSchema);
    
-   module.exports = Clientes;
+   module.exports = Cliente;
    

@@ -3,107 +3,61 @@
 <%- include('../partials/flash.ejs'); %>
 
 <div class="container">
+
+    <a href="/clientes/clientes-index" class="p-3 btn btn-info">Volver atras</a>
+
     <h3>Clientes actuales </h3>
     <p>A continuación de muestran todos los clientes cargados en el sistema</p>
     <div class="row justify-content-around">
     
-        <div class="col-12 col-md-6 d-flex">
 
             <% for( let cliente of todosLosClientes) { %>
             
-           
-            <div class="card">
-                <div class="card-top">
+                <div class="col-12 col-md-6 d-flex justify-content-center">
+
+            <div class="card px-3">
+               
+                
+                
+
+                <div class="card-tittle">
+                    <div class="d-flex align-items-baseline justify-content-between">
+                       Local: 
+
+                        <p class="lead">
+                        <%= cliente.nombreLocal %> 
+
+                        </p>
+                    </div>
                     <p class="text-muted">
                         Ref: <%= cliente.dueño  %> 
                     </p>
                 </div>
 
-                <div class="card-tittle">
-                    Nombre LOCAL: 
-                    <p class="lead">
-                    <%= cliente.nombreLocal %> 
-                    </p>
-                </div>
-
                 <div class="card-body">
                     Dirección: <%= cliente.direccion %> 
-
+                    <br>
                     Telefono 1: <%=cliente.telefono1  %> 
+                    <br>
                     Telefono 2: <%=cliente.telefono2   %> 
+                    <br>
                     Telefono 3: <%=cliente.telefono3   %> 
 
                    <div class="">
-                    Comentario
+                    Comentario:
                     <p class="p-2">
 
                     </p>
                    </div>
                    
-                 
-                   <div class="">
-                    <table class="pedidosRealizados">
-                        <thead>
-                          <tr>
-                            <th scope="col">Fecha Pedido</th>
-                            <th scope="col">Productos</th>
-                            
-                            <th scope="col">Cantidad de productos</th>
-                            
-                            <th scope="col">Monto</th>
-                            
-                            
-                            
-                            
-                            
-                    
-                    
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <% for (let pedidosR of clientes.pedidosRealizados){ %>
-                            <tr>
-                    
-                                <td>
-                                    <%= pedidosR.createdAt %> 
-                                </td>
-                              <td>
-                                <a href="/pedidos/<%= pedidosR._id %>">PRODUCTOS</a>
-                              </td>
-                           
-                            
-                              
-                       
-                    
-                              <td>
-                                <%= producto.cantidadDeProductos %>
-                              </td>
-                        
-                             
-                              <td>
-                                <%= producto.importeTotal%>
-                              </td>
-                    
-                         
-                              
-                            
-                    
-                    
-                    
-                    
-                            </tr>
-                            <%} %>
-                    
-                    
-                    
-                        </tbody>
-                      </table>
-                    <table></table>
-                   </div>
+                   <a href="/clientes/<%= cliente._id %>" class="text-center btn btn-warning">Ver pedidos para este cliente</a>
+                
                 </div>
             </div>
-            <% } %>
         </div>
+
+            <% } %>
+      
     
     </div>
 </div>

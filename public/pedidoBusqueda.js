@@ -119,6 +119,8 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
           
           // tdProductoRowCantidadProducto.id = `${producto._id}c`
           // tdProductoRowPrecioProducto.id = `${producto._id}p`
+          tableParaProductosP.innerHTML = "";
+          mostrarProductosAgregados()
 
        }else{
         let precioParcialProducto = producto.precioMayorista * cantidadElegida;
@@ -143,7 +145,8 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
         console.log(pa.cantidad)
 
        } 
-
+       tableParaProductosP.innerHTML = "";
+       mostrarProductosAgregados()
         // if (productosAgregadosArr.find(p => p.id == producto._id)) {
         //   /* vendors contains the element we're looking for */
         //   console.log('producto existente' )
@@ -164,7 +167,7 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
        }
       
        divCantidadActual.innerHTML = cantidadElegida;
-       console.log(cantidadElegida)
+       console.log(productosAgregadosArr)
         // if (idArray.includes(e.target.id)){
         //   console.log('Ya existe')
         //  }else{
@@ -173,7 +176,6 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
         // var imageSrc = cartItem.getElementsByClassName('product-image')[0].src;
         // addItemToCart (price, imageSrc);
         // updateCartPrice()
-        
       
       })
 
@@ -192,7 +194,6 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
 
 //     }
 //  }
-tableParaProductosP.innerHTML="";
 
 const mostrarProductosAgregados =  () =>{
   productosAgregadosArr.forEach( productoRow =>{
@@ -218,7 +219,7 @@ const mostrarProductosAgregados =  () =>{
   
   // construir tabla en base al array productosAgregadosArr  mostrarProductosAgregados()
 
-
+  // corregir errores de tabla dinamica
 }
 
 

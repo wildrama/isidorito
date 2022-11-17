@@ -15,7 +15,7 @@ const alertP = document.querySelector('#alertP');
 let productosAgregadosArr = []
 let productosParaElPedido = [];
  const todosLosMas = document.querySelector('agregarUnElementoAlaLista')
-
+let productosSeleccionados = []
 
 formBuscarPedidos.addEventListener("keypress", async function(e){
 
@@ -119,8 +119,10 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
           
           // tdProductoRowCantidadProducto.id = `${producto._id}c`
           // tdProductoRowPrecioProducto.id = `${producto._id}p`
-          tableParaProductosP.innerHTML = "";
-          mostrarProductosAgregados()
+
+
+          // tableParaProductosP.innerHTML = "";
+          // mostrarProductosAgregados()
 
        }else{
         let precioParcialProducto = producto.precioMayorista * cantidadElegida;
@@ -145,8 +147,7 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
         console.log(pa.cantidad)
 
        } 
-       tableParaProductosP.innerHTML = "";
-       mostrarProductosAgregados()
+
         // if (productosAgregadosArr.find(p => p.id == producto._id)) {
         //   /* vendors contains the element we're looking for */
         //   console.log('producto existente' )
@@ -176,7 +177,9 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
         // var imageSrc = cartItem.getElementsByClassName('product-image')[0].src;
         // addItemToCart (price, imageSrc);
         // updateCartPrice()
-      
+        tableParaProductosP.innerHTML = "";
+        mostrarProductosAgregados();
+
       })
 
 
@@ -195,32 +198,7 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
 //     }
 //  }
 
-const mostrarProductosAgregados =  () =>{
-  productosAgregadosArr.forEach( productoRow =>{
 
-
-    let rowProductoRow = document.createElement('tr')
-    let tdProductoRowAccion = document.createElement('td');
-    let tdProductoRowNombreProducto = document.createElement('td');
-    let tdProductoRowCantidadProducto = document.createElement('td');
-    let tdProductoRowPrecioProducto = document.createElement('td');
-
-
-    tdProductoRowAccion.innerHTML = "x x"
-    tdProductoRowNombreProducto.innerHTML= `${productoRow.nombre}--${productoRow.marca}`;
-
-    tdProductoRowCantidadProducto.innerHTML = productoRow.cantidad;
-    tdProductoRowPrecioProducto.innerHTML = productoRow.precioMayorista;
-    tableParaProductosP.append(rowProductoRow);
-    rowProductoRow.append(tdProductoRowAccion,tdProductoRowNombreProducto,tdProductoRowCantidadProducto,tdProductoRowPrecioProducto)
-   
-
-  })
-  
-  // construir tabla en base al array productosAgregadosArr  mostrarProductosAgregados()
-
-  // corregir errores de tabla dinamica
-}
 
 
   }
@@ -243,14 +221,42 @@ const mostrarProductosAgregados =  () =>{
       //     }, 3000)
   }
 
-
+  const mostrarProductosAgregados =  () =>{
+    productosAgregadosArr.forEach( productoRow =>{
+  
+  
+      let rowProductoRow = document.createElement('tr')
+      let tdProductoRowAccion = document.createElement('td');
+      let tdProductoRowNombreProducto = document.createElement('td');
+      let tdProductoRowCantidadProducto = document.createElement('td');
+      let tdProductoRowPrecioProducto = document.createElement('td');
+  
+  
+      tdProductoRowAccion.innerHTML = "x x"
+      tdProductoRowNombreProducto.innerHTML= `${productoRow.nombre}--${productoRow.marca}`;
+  
+      tdProductoRowCantidadProducto.innerHTML = productoRow.cantidad;
+      tdProductoRowPrecioProducto.innerHTML = productoRow.precioMayorista;
+      tableParaProductosP.append(rowProductoRow);
+      rowProductoRow.append(tdProductoRowAccion,tdProductoRowNombreProducto,tdProductoRowCantidadProducto,tdProductoRowPrecioProducto)
+     
+      
+    })
+  
+    
+    // construir tabla en base al array productosAgregadosArr  mostrarProductosAgregados()
+  
+    // corregir errores de tabla dinamica
+  }
  console.log(productosParaElPedido)  
  
- 
+ tableParaProductosP.innerHTML = "";
+ mostrarProductosAgregados();
 });
 
+const totalCost = () =>{
 
-
+}
 
 const agregarProductoAlPedido = ()=>{
 

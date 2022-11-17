@@ -12,15 +12,15 @@ const formSearch = document.querySelector('#formSearch');
 const formBuscarPedidos = document.querySelector('#formBuscarPedidos');
 const buscarcodigo = document.querySelector('#buscarcodigo');
 const alertP = document.querySelector('#alertP');
-
+let productosAgregadosArr = []
 let productosParaElPedido = [];
  const todosLosMas = document.querySelector('agregarUnElementoAlaLista')
 
 
-formBuscarPedidos.addEventListener("submit", async function(e){
-e.preventDefault();
-  const query_buscar = inputBuscar.value;
+formBuscarPedidos.addEventListener("keypress", async function(e){
 
+  const query_buscar = e.target.value;
+  displayProductos.innerHTML = "";
   console.log(query_buscar) 
   
   try {
@@ -82,61 +82,43 @@ e.preventDefault();
     rowProd.append(col9,col3);
       displayProductos.append(rowProd);
 
-      const productoAgregado = {
-        id: producto._id,
-        nombre: producto.nombre,
-        marca: producto.nombre,
-        precio: producto.nombre,
-        cantidad: producto.cantidad,
-
-      }
+      
       let cantidadElegida = 0;
       let idArray = [];
-
+      console.log(productosAgregadosArr)
       // console.log(idP.textContent)
       divPlus.addEventListener('click',async (e)=>{
 
         // for(let rowsActual of tableParaProductosP.children){
-        
+
         // }
-
         cantidadElegida += 1;
-        divCantidadActual.innerHTML = cantidadElegida;
-        console.log(cantidadElegida)
-        
-        let rowProductoRow = document.createElement('tr')
-          let tdProductoRowAccion = document.createElement('td');
-          let tdProductoRowNombreProducto = document.createElement('td');
-          let tdProductoRowCantidadProducto = document.createElement('td');
-          let tdProductoRowPrecioProducto = document.createElement('td');
 
+        
+          
        if(cantidadElegida < 2){
+        
         // idArray.push(producto._id)
-           
-        console.log(idArray)
+          productosAgregadosArr.push({
+            id : producto._id,
+            nombre: producto.nombre,
+            marca:producto.marca,
+            precioMayorista: producto.precioMayorista,
+            cantidad: cantidadElegida
+          })
+          console.log(productosAgregadosArr)
+          // let productoAAgregar = e.target.id;  
+          // console.log(productoAAgregar)
+          // var cartItemNombre = producto.nombre;
+          // var cartItemMarca = producto.marca;
+          // var cartItemPrecio = producto.precioMayorista;
   
           
-          let productoAAgregar = e.target.id;  
-          console.log(productoAAgregar)
-          var cartItemNombre = producto.nombre;
-          var cartItemMarca = producto.marca;
-          var cartItemPrecio = producto.precioMayorista;
-  
-          
-          console.log(cartItemNombre,cartItemMarca,cartItemPrecio)        
+          // console.log(cartItemNombre,cartItemMarca,cartItemPrecio)        
   
           
           // tdProductoRowCantidadProducto.id = `${producto._id}c`
           // tdProductoRowPrecioProducto.id = `${producto._id}p`
-
-          tdProductoRowAccion.innerHTML = "adsd"
-           tdProductoRowNombreProducto.innerHTML= `${producto.nombre}-${producto.marca}`;
-
-           tdProductoRowCantidadProducto.innerHTML = cantidadElegida;
-           tdProductoRowPrecioProducto.innerHTML = producto.precioMayorista;
-           tableParaProductosP.append(rowProductoRow);
-           rowProductoRow.append(tdProductoRowAccion,tdProductoRowNombreProducto,tdProductoRowCantidadProducto,tdProductoRowPrecioProducto)
-          
 
        }else{
         let precioParcialProducto = producto.precioMayorista * cantidadElegida;
@@ -147,9 +129,42 @@ e.preventDefault();
         // tdPrecio.innerHTML = precioParcialProducto
         console.log(cantidadElegida + 'producto añadido sin repetir' + precioParcialProducto)
         
+        // const updatedData = productosAgregadosArr.map(x => (x.id === producto._id ? { ...x, cantidad: cantidadElegida } : x));
+        var data = productosAgregadosArr.find(function(ele) {
+          return ele.id === producto._id;
+      });
+      console.log(data)
+      data.cantidad = data.cantidad+ 1;
+      data.precioMayorista = precioParcialProducto
+      console.log('producto ya existente')
+       for(let pa of productosAgregadosArr){
+        console.log(pa.nombre)
 
+        console.log(pa.cantidad)
+
+       } 
+
+        // if (productosAgregadosArr.find(p => p.id == producto._id)) {
+        //   /* vendors contains the element we're looking for */
+        //   console.log('producto existente' )
+        //   // let productoAAG={
+        //   //   id : producto._id,
+        //   //   nombre: producto.nombre,
+        //   //   marca:producto.marca,
+        //   //   precioMayorista: precioParcialProducto,
+        //   //   cantidad: cantidadElegida
+        //   // }
+        //   // productosAgregadosArr.pop();
+        //   // console.log(productosAgregadosArr)
+
+        //   // tdProductoRowCantidadProducto.innerHTML = cantidadElegida;
+        //   // tdProductoRowPrecioProducto.innerHTML = precioParcialProducto;
+        // }
+        
        }
-    
+      
+       divCantidadActual.innerHTML = cantidadElegida;
+       console.log(cantidadElegida)
         // if (idArray.includes(e.target.id)){
         //   console.log('Ya existe')
         //  }else{
@@ -177,33 +192,31 @@ e.preventDefault();
 
 //     }
 //  }
+tableParaProductosP.innerHTML="";
 
-const mostrarProductosAgregados = () =>{
-
-  productosParaElPedido.forEach( productoRow =>{
-    var cartItem = button.parentElement;
-
+const mostrarProductosAgregados =  () =>{
+  productosAgregadosArr.forEach( productoRow =>{
 
 
-    for(let p; p < productosParaElPedido.length; p++){
-
-          
-    const rowProductoRow = document.createElement('tr')
-    const tdProductoRowAccion = document.createElement('td');
-    const tdProductoRowNombreProducto = document.createElement('td');
-    const tdProductoRowCantidadProducto = document.createElement('td');
-    const tdProductoRowPrecioProducto = document.createElement('td');
+    let rowProductoRow = document.createElement('tr')
+    let tdProductoRowAccion = document.createElement('td');
+    let tdProductoRowNombreProducto = document.createElement('td');
+    let tdProductoRowCantidadProducto = document.createElement('td');
+    let tdProductoRowPrecioProducto = document.createElement('td');
 
 
-    
-    }
+    tdProductoRowAccion.innerHTML = "x x"
+    tdProductoRowNombreProducto.innerHTML= `${productoRow.nombre}--${productoRow.marca}`;
 
-
-
+    tdProductoRowCantidadProducto.innerHTML = productoRow.cantidad;
+    tdProductoRowPrecioProducto.innerHTML = productoRow.precioMayorista;
+    tableParaProductosP.append(rowProductoRow);
+    rowProductoRow.append(tdProductoRowAccion,tdProductoRowNombreProducto,tdProductoRowCantidadProducto,tdProductoRowPrecioProducto)
+   
 
   })
   
-  
+  // construir tabla en base al array productosAgregadosArr  mostrarProductosAgregados()
 
 
 }
@@ -223,47 +236,20 @@ const mostrarProductosAgregados = () =>{
 
      inputBuscar.focus();
       
-        alerP.classList.remove('d-none')
-        setTimeout(() => {
-      alerP.classList.add('d-none')
-          }, 3000)
+      //   alerP.classList.remove('d-none')
+      //   setTimeout(() => {
+      // alerP.classList.add('d-none')
+      //     }, 3000)
   }
 
 
  console.log(productosParaElPedido)  
- console.log(todosLosMas);  
+ 
  
 });
-console.log(todosLosMas);  
 
 
 
-const mostrarProductosAgregados = () =>{
-
-
-  
-    var table = document.getElementById('emptbl');
-    var rowCount = table.rows.length;
-    var cellCount = table.rows[0].cells.length; 
-    var row = table.insertRow(rowCount);
-    for(var i =0; i <= cellCount; i++){
-      var cell = 'cell'+i;
-      cell = row.insertCell(i);
-      var copycel = document.getElementById('col'+i).innerHTML;
-      cell.innerHTML=copycel;
-      if(i == 3){ 
-        var radioinput = document.getElementById('col3').getElementsByTagName('input'); 
-        for(var j = 0; j <= radioinput.length; j++) { 
-          if(radioinput[j].type == 'radio') { 
-            var rownum = rowCount;
-            radioinput[j].name = 'gender['+rownum+']';
-          }
-        }
-      }
-    }
- 
-
-}
 
 const agregarProductoAlPedido = ()=>{
 

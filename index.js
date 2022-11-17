@@ -43,12 +43,12 @@ const saveVentasRoutes = require('./routes/savesDeCaja')
 
 
 
-const dbUrl = 'mongodb://localhost:27017/dbIsidorito11';
+const dbUrl = 'mongodb://localhost:27017/dbIsidorito';
 main().catch(err => console.log(err));
 
 async function main() {
   await mongoose.connect(dbUrl);
-  console.log("everything abot db is OK")
+  console.log("everything abot db is OK" + dbUrl)
 }
 
 const store = new MongoStore({

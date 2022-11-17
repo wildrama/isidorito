@@ -92,6 +92,7 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
         // for(let rowsActual of tableParaProductosP.children){
 
         // }
+        totalCost(producto)
         cantidadElegida += 1;
 
         
@@ -254,8 +255,20 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
  mostrarProductosAgregados();
 });
 
-const totalCost = () =>{
+const totalCost =  (producto) =>{
+  let costoTotalS = localStorage.getItem('totalCostPedido')
 
+
+  if(costoTotalS != null){
+    costoTotalS = parseInt(costoTotalS);
+
+    localStorage.setItem("totalCostPedido", costoTotalS + producto.precioMayorista)
+
+
+  }else{
+    localStorage.setItem
+  }
+  localStorage.setItem("totalCostPedido",  producto.precioMayorista)
 }
 
 const agregarProductoAlPedido = ()=>{

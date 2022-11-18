@@ -23,18 +23,15 @@ productoCantidad:{
     idString: String,
     cantidadDeUnMismoProducto: Number
 },
-productosPedidosNombre:[String],
-productosPedidosCantidad:[Number],
+productosPedidosNombre:[],
+productosPedidosCantidad:[],
 estadoDePedido:String,
 
 cantidadDeProductos:Number,
 
 importeTotal:Number,
 
-usuarioRepartidor:{
-    type: Schema.Types.ObjectId,
-    ref: 'Usuario'
-}
+
 
 }, { timestamps: true });     
 const Pedido = mongoose.model('Pedido', pedidosSchema);

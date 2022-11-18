@@ -106,7 +106,8 @@ router.get('/buscar-productos', catchAsync(async (req, res) => {
 // post del pedido
 
 router.post('/save-pedido', catchAsync(async(req,res)=>{
-    const nuevoPedido = new Pedido(req.body.nuevoPedido);
+    console.log(req.body)
+    const nuevoPedido = new Pedido(req.body);
     await nuevoPedido.save()
     req.flash('success','Nuevo pedido realizo correctamente')
     console.log(nuevoPedido)

@@ -21,9 +21,7 @@ let productosParaElPedido = [];
  const todosLosMas = document.querySelector('agregarUnElementoAlaLista')
 let productosSeleccionados = []
 let montoFinal = 0;
-var sum = 0;//Initial value hast to be 0
 
-var sum1 = 0;//Initial value hast to be 0
 const idRepartidor = document.querySelector('#idRepartidor').innerHTML
 montoFinalPedido.innerHTML= "00.0";
 
@@ -203,11 +201,14 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
 
           }
         
-      
+          var sum = 0;//Initial value hast to be 0
+
+          var sum1 = 0;//Initial value hast to be 0     
 for (let i = 0; i < productosAgregadosArr.length; i ++) {
     var number = parseFloat(productosAgregadosArr[i].precioMayorista);//Convert to numbers with parseFloat
     sum += number;//Sum the numbers
 }
+console.log('la cantidad total es:'+sum1)          
 
 montoFinalPedido.innerHTML=sum;//Output 70
 
@@ -335,16 +336,32 @@ let clienteSeleccionado = seleccionCliente.options[seleccionCliente.selectedInde
 finalizarPedidoBTN.onclick = async () => {
 
 
+  var sum = 0;//Initial value hast to be 0
 
+  var sum1 = 0;//Initial value hast to be 0     
+for (let i = 0; i < productosAgregadosArr.length; i ++) {
+var number = parseFloat(productosAgregadosArr[i].precioMayorista);//Convert to numbers with parseFloat
+sum += number;//Sum the numbers
+}
+console.log('la cantidad total es:'+sum1)          
+
+montoFinalPedido.innerHTML=sum;//Output 70
+
+for (let n = 0; n < productosAgregadosArr.length; n ++) {
+var number1 = parseFloat(productosAgregadosArr[n].cantidad);//Convert to numbers with parseFloat
+sum1 += number1;//Sum the numbers
+}
+
+console.log('la cantidad total es:'+sum1)   
 
 
 	//Maqueta de datos, remotamente la definitiva.
 
-	let cantidadTotal = 0;
-	productosAgregadosArr.map(p => {
-		cantidadTotal = p.cantidad + cantidadTotal
-	})
-	cantidadTotal = cantidadTotal - 1;
+	// let cantidadTotal = 0;
+	// productosAgregadosArr.map(p => {
+	// 	cantidadTotal = p.cantidad + cantidadTotal
+	// })
+	// cantidadTotal = cantidadTotal - 1;
 
 
 
@@ -367,13 +384,15 @@ finalizarPedidoBTN.onclick = async () => {
 	// }
 
 	const res = await axios.post('/pedidos/save-pedido', {
-		precioTotalMayorista: sum,
-		productosDeStock: productosAgregadosArr,
+    clienteNombre: clienteSeleccionado,
+    cliente:clienteSeleccionado,
+		productosPedidosNombre: productosAgregadosArr,
+    
+    importeTotal: sum,
 
-		cantidadDeProductosTotales: sum1,
-		idCliente: clienteSeleccionado,
-		nombreDelUsuario: idRepartidor
+		productosPedidosCantidad: sum1,
 	})
+		// usuarioRepartidor: `${idRepartidor}`
 
 if(res){
   hacerOtroPedido.classList.remove('d-none');

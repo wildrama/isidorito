@@ -12,6 +12,7 @@ const formSearch = document.querySelector('#formSearch');
 const formBuscarPedidos = document.querySelector('#formBuscarPedidos');
 const buscarcodigo = document.querySelector('#buscarcodigo');
 const alertP = document.querySelector('#alertP');
+const finalizarPedidoBTN = document.querySelector('#finalizarPedidoBTN');
 let productosAgregadosArr = []
 let productosParaElPedido = [];
  const todosLosMas = document.querySelector('agregarUnElementoAlaLista')
@@ -92,7 +93,7 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
         // for(let rowsActual of tableParaProductosP.children){
 
         // }
-        totalCost(producto)
+        // totalCost(producto)
         cantidadElegida += 1;
 
         
@@ -180,7 +181,9 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
         // updateCartPrice()
         tableParaProductosP.innerHTML = "";
         mostrarProductosAgregados();
-
+        if (productosAgregadosArr.length < 2) {
+          finalizarPedidoBTN.classList.add('btn-primary')
+        }
       })
 
 
@@ -240,7 +243,7 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
       tdProductoRowPrecioProducto.innerHTML = productoRow.precioMayorista;
       tableParaProductosP.append(rowProductoRow);
       rowProductoRow.append(tdProductoRowAccion,tdProductoRowNombreProducto,tdProductoRowCantidadProducto,tdProductoRowPrecioProducto)
-     
+      
       
     })
   
@@ -255,21 +258,21 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
  mostrarProductosAgregados();
 });
 
-const totalCost =  (producto) =>{
-  let costoTotalS = localStorage.getItem('totalCostPedido')
+// const totalCost =  (producto) =>{
+//   let costoTotalS = localStorage.getItem('totalCostPedido')
 
 
-  if(costoTotalS != null){
-    costoTotalS = parseInt(costoTotalS);
+//   if(costoTotalS != null){
+//     costoTotalS = parseInt(costoTotalS);
 
-    localStorage.setItem("totalCostPedido", costoTotalS + producto.precioMayorista)
+//     localStorage.setItem("totalCostPedido", costoTotalS + producto.precioMayorista)
 
 
-  }else{
-    localStorage.setItem
-  }
-  localStorage.setItem("totalCostPedido",  producto.precioMayorista)
-}
+//   }else{
+//     localStorage.setItem
+//   }
+//   localStorage.setItem("totalCostPedido",  producto.precioMayorista)
+// }
 
 const agregarProductoAlPedido = ()=>{
 
@@ -281,17 +284,9 @@ const agregarProductoAlPedido = ()=>{
   })
 }
 
+
+
 document.getElementById('eliminarProductos').addEventListener('click', function(){
-  var table = document.getElementById('emptbl');
-  var rowCount = table.rows.length;
-  if(rowCount > '2'){
-    var row = table.deleteRow(rowCount-1);
-    rowCount--;
-  }
-  else{
-    alert('There should be atleast one row');
-  }
-  console.log(productosParaElPedido)
   inputBuscar.value= "";
 
   inputBuscar.focus();
@@ -299,4 +294,67 @@ document.getElementById('eliminarProductos').addEventListener('click', function(
   displayProductos.innerHTML = "";
 })
 
+// finalizar pedido y guardarlo
+finalizarPedidoBTN.onclick = async () => {
 
+
+
+
+
+	//Maqueta de datos, remotamente la definitiva.
+
+	let cantidadTotal = 0;
+	productosAgregadosArr.map(p => {
+		cantidadTotal = p.cantidad + cantidadTotal
+	})
+	cantidadTotal = cantidadTotal - 1;
+
+
+	const stringValorDelProducto = () => {
+		let stringBase = ""
+		productosAgregadosArr.map(p => {
+			if (p.nombre != "vacio") {
+				stringBase = stringBase + `${p.nombre}x${p.cantidad}: $${p.cantidad}\n`
+
+
+			}
+		})
+		return stringBase;
+
+
+
+	}
+	// const ventaRealizada = {
+
+	// }
+
+	const res = await axios.post('/save/save-pedido', {
+		dineroIngresado: ingresoDinero,
+		dineroDeSalida: vueltoGlobal,
+		productosDeStock: productosAgregadosArr,
+
+		cantidadDeProductosTotales: cantidadTotal,
+		estacionDeCobro: idCliente,
+		nombreDelUsuario: idRepartidor
+	})
+
+
+
+
+	console.log("PEDIDOFINALIZADO")
+	// console.log(ventaRealizada)
+	// console.log(ventaRealizada.valorDelProducto)
+
+	// set time out para el aler de venta finalizada
+	
+	
+	console.log(res)
+
+	
+
+
+	dineroIngresado.value = "";
+	vuelto.innerHTML = "$"
+
+	
+}

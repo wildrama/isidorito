@@ -22,7 +22,8 @@ router.get('/pedidos-repartidor', (req,res)=>{
 router.get('/crear-pedido', catchAsync(async(req,res)=>{
     const clientesActuales = await Cliente.find({})
     const fechaHoy = Date.now();
-    res.render('pedidos/crearPedido',{clientesActuales,fechaHoy});
+    const idRepartidorActual = req.user
+    res.render('pedidos/crearPedido',{clientesActuales,fechaHoy,idRepartidorActual});
 }));
 
 router.post('/crear-pedido',catchAsync(async(req,res)=>{
@@ -66,6 +67,7 @@ router.get('/pedidos-todos',isLoggedIn , catchAsync(async (req, res) => {
      const repartidor = req.user;
      const pedidos = await Pedido.find({});
      const cantidadTotalDePedido = await Pedido.countDocuments({}).exec();
+     console.log(pedidos)
      res.render('pedidos/verTodosLosPedidos', { pedidos, cantidadTotalDePedido,repartidor });
     
     
@@ -101,7 +103,17 @@ router.get('/buscar-productos', catchAsync(async (req, res) => {
 //  res.send(busquedaRealizada)
  
  }))
+// post del pedido
 
+router.post('/save-pedido', catchAsync(async(req,res)=>{
+    const nuevoPedido = new Pedido(req.body.nuevoPedido);
+    await nuevoPedido.save()
+    req.flash('success','Nuevo pedido realizo correctamente')
+    console.log(nuevoPedido)
+
+    // res.redirect(`/pedidos/${nuevoProducto._id}`)
+    res.redirect('/pedidos/crear-pedido');
+}))
 // editar un pedido en especifico
 
 
@@ -109,4 +121,11 @@ router.get('/buscar-productos', catchAsync(async (req, res) => {
 
 
 // imprimir Pedido
+
+// router.get('/pedidos/stockMayorista', catchAsync(async(res,res)=>{
+//     const todosLosPedidos = await Pedido.find({})
+//     console.log(todosLosPedidos)
+
+//     res.render('pedidos/verTodosLosPedidos')
+// }))
 module.exports = router;

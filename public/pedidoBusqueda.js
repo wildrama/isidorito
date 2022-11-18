@@ -13,10 +13,19 @@ const formBuscarPedidos = document.querySelector('#formBuscarPedidos');
 const buscarcodigo = document.querySelector('#buscarcodigo');
 const alertP = document.querySelector('#alertP');
 const finalizarPedidoBTN = document.querySelector('#finalizarPedidoBTN');
+const hacerOtroPedido =document.querySelector('#hacerOtroPedido');
+const montoFinalPedido =document.querySelector('#montoFinalPedido');
+const contenedorBusquedaGRAL = document.querySelector('#contenedorBusquedaGRAL')
 let productosAgregadosArr = []
 let productosParaElPedido = [];
  const todosLosMas = document.querySelector('agregarUnElementoAlaLista')
 let productosSeleccionados = []
+let montoFinal = 0;
+var sum = 0;//Initial value hast to be 0
+
+var sum1 = 0;//Initial value hast to be 0
+const idRepartidor = document.querySelector('#idRepartidor').innerHTML
+montoFinalPedido.innerHTML= "00.0";
 
 formBuscarPedidos.addEventListener("keypress", async function(e){
 
@@ -184,6 +193,30 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
         if (productosAgregadosArr.length < 2) {
           finalizarPedidoBTN.classList.add('btn-primary')
         }
+
+
+        
+     
+        if (        montoFinalPedido.innerHTML== "NaN"
+          ){
+            montoFinalPedido.innerHTML= "00.0";
+
+          }
+        
+      
+for (let i = 0; i < productosAgregadosArr.length; i ++) {
+    var number = parseFloat(productosAgregadosArr[i].precioMayorista);//Convert to numbers with parseFloat
+    sum += number;//Sum the numbers
+}
+
+montoFinalPedido.innerHTML=sum;//Output 70
+
+for (let n = 0; n < productosAgregadosArr.length; n ++) {
+    var number1 = parseFloat(productosAgregadosArr[n].cantidad);//Convert to numbers with parseFloat
+    sum1 += number1;//Sum the numbers
+}
+
+console.log('la cantidad total es:'+sum1)          
       })
 
 
@@ -201,8 +234,6 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
 
 //     }
 //  }
-
-
 
 
   }
@@ -283,8 +314,14 @@ const agregarProductoAlPedido = ()=>{
     }
   })
 }
+const seleccionCliente = document.querySelector('#seleccionCliente');
 
-
+seleccionCliente.addEventListener('change', event =>{
+  contenedorBusquedaGRAL.classList.remove('d-none');
+  contenedorBusquedaGRAL.classList.add('d-block')
+  // console.log('DisplayTabla y busqueda'+  event.target.options[event.target.selectedIndex].value
+  // ); // 👉️ get selected VALUE
+}); 
 
 document.getElementById('eliminarProductos').addEventListener('click', function(){
   inputBuscar.value= "";
@@ -293,7 +330,7 @@ document.getElementById('eliminarProductos').addEventListener('click', function(
 
   displayProductos.innerHTML = "";
 })
-
+let clienteSeleccionado = seleccionCliente.options[seleccionCliente.selectedIndex].value;
 // finalizar pedido y guardarlo
 finalizarPedidoBTN.onclick = async () => {
 
@@ -308,6 +345,7 @@ finalizarPedidoBTN.onclick = async () => {
 		cantidadTotal = p.cantidad + cantidadTotal
 	})
 	cantidadTotal = cantidadTotal - 1;
+
 
 
 	const stringValorDelProducto = () => {
@@ -328,33 +366,32 @@ finalizarPedidoBTN.onclick = async () => {
 
 	// }
 
-	const res = await axios.post('/save/save-pedido', {
-		dineroIngresado: ingresoDinero,
-		dineroDeSalida: vueltoGlobal,
+	const res = await axios.post('/pedidos/save-pedido', {
+		precioTotalMayorista: sum,
 		productosDeStock: productosAgregadosArr,
 
-		cantidadDeProductosTotales: cantidadTotal,
-		estacionDeCobro: idCliente,
+		cantidadDeProductosTotales: sum1,
+		idCliente: clienteSeleccionado,
 		nombreDelUsuario: idRepartidor
 	})
 
+if(res){
+  hacerOtroPedido.classList.remove('d-none');
+
+hacerOtroPedido.classList.add('d-block');
+console.log("PEDIDOFINALIZADO")
+}
 
 
 
-	console.log("PEDIDOFINALIZADO")
 	// console.log(ventaRealizada)
 	// console.log(ventaRealizada.valorDelProducto)
 
 	// set time out para el aler de venta finalizada
 	
 	
-	console.log(res)
 
 	
 
 
-	dineroIngresado.value = "";
-	vuelto.innerHTML = "$"
-
-	
 }

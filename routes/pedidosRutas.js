@@ -73,7 +73,18 @@ router.get('/pedidos-todos',isLoggedIn , catchAsync(async (req, res) => {
     
     
  }))
+ router.delete('/:id', catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const eliminarPedido = await Pedido.findByIdAndDelete(id);
+    if (!eliminarPedido) {
+      req.flash('error', 'No se puede eliminar pedido');
+      return res.redirect('/pedidos/pedidos-todos');
+  }
+  req.flash('success', 'Pedido Eliminado');
 
+    res.redirect('/pedidos/pedidos-todos');
+    
+  }))
 //  buscar productos para el pedido
 
 

@@ -24,6 +24,7 @@
         <table class="table">
             <thead>
               <tr>
+
                 <th scope="col">Local</th>
                 <th scope="col">Productos</th>
     
@@ -38,9 +39,12 @@
     
               <% for( let pedidoIndividual of pedidos) { %>
                 <tr>
-                  <td>
-                    <a href="/pedidos/<%= pedidoIndividual._id %>?delete">ELIMINAR</a>
-                  </td>
+                  <div>
+                    <form action="/pedidos/<%= pedidoIndividual._id %>?_method=DELETE" method="post">
+                      <button class="btn btn-warning">Borrar</button>
+                  </form>
+                       
+                </div>
                   <td>
                     <%= pedidoIndividual.clienteNombre %> 
                   </td>

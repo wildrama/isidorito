@@ -6,9 +6,7 @@ const Cliente = require('./clientes');
 // fecha de salida
 const pedidosSchema = new Schema ({
 
- clienteNombre:{
-    type:String
-},
+
 cliente: {
     type: Schema.Types.ObjectId,
     ref: 'Cliente'

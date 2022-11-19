@@ -332,6 +332,7 @@ document.getElementById('eliminarProductos').addEventListener('click', function(
   displayProductos.innerHTML = "";
 })
 let clienteSeleccionado = seleccionCliente.options[seleccionCliente.selectedIndex].value;
+
 // finalizar pedido y guardarlo
 finalizarPedidoBTN.onclick = async () => {
 
@@ -382,9 +383,7 @@ console.log('la cantidad total es:'+sum1)
 	// const ventaRealizada = {
 
 	// }
-
 	const res = await axios.post('/pedidos/save-pedido', {
-    clienteNombre: clienteSeleccionado,
     cliente:clienteSeleccionado,
 		productosPedidosNombre: productosAgregadosArr,
     cantidadDeProductos: sum1,

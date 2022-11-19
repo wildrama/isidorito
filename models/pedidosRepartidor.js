@@ -19,12 +19,8 @@ productosPedidos:[
     ref: 'Producto'
  }
 ],
-productoCantidad:{
-    idString: String,
-    cantidadDeUnMismoProducto: Number
-},
-productosPedidosNombre:[],
-productosPedidosCantidad:[],
+
+productosPedidosNombre:[{}],
 estadoDePedido:String,
 
 cantidadDeProductos:Number,

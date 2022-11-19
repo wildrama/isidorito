@@ -387,10 +387,10 @@ console.log('la cantidad total es:'+sum1)
     clienteNombre: clienteSeleccionado,
     cliente:clienteSeleccionado,
 		productosPedidosNombre: productosAgregadosArr,
-    
+    cantidadDeProductos: sum1,
+
     importeTotal: sum,
 
-		productosPedidosCantidad: sum1,
 	})
 		// usuarioRepartidor: `${idRepartidor}`
 

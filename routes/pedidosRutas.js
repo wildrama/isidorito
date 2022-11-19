@@ -65,7 +65,7 @@ router.get('/pedidos-todos',isLoggedIn , catchAsync(async (req, res) => {
     // const busqueda = req.body.busqueda
      console.log(req.user.funcion)
      const repartidor = req.user;
-     const pedidos = await Pedido.find({});
+     const pedidos = await Pedido.find({}).populate('cliente');
      const cantidadTotalDePedido = await Pedido.countDocuments({}).exec();
      console.log(pedidos)
      res.render('pedidos/verTodosLosPedidos', { pedidos, cantidadTotalDePedido,repartidor });
@@ -111,7 +111,7 @@ router.post('/save-pedido', catchAsync(async(req,res)=>{
     await nuevoPedido.save()
     req.flash('success','Nuevo pedido realizo correctamente')
     console.log(nuevoPedido)
-
+    
     // res.redirect(`/pedidos/${nuevoProducto._id}`)
     res.redirect('/pedidos/crear-pedido');
 }))

@@ -8,5 +8,57 @@
         <h2>Pedidos realizados</h2>
 
         <p>Explora los pedidos realizados a los clientes a travez del repartidor : <%= repartidor.username %> </p>
+   
+        <div class="accion d-flex">
+            <div class="imprimirAlgunos">
+
+            </div>
+
+            <div class="marcarComo">
+
+            </div>
+            <div class="archivar">
+
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Local</th>
+                <th scope="col">Productos</th>
+    
+                <th scope="col">Cantidad</th>
+    
+                <th scope="col">Precio Total</th>
+    
+                
+              </tr>
+            </thead>
+            <tbody id="tableParaProductosP">
+    
+              <% for( let pedidoIndividual of pedidos) { %>
+                <tr>
+                  <td>
+                    <a href="/pedidos/<%= pedidoIndividual._id %>?delete">ELIMINAR</a>
+                  </td>
+                  <td>
+                    <%= pedidoIndividual.clienteNombre %> 
+                  </td>
+                  <td>
+                      <a href="/pedidos/<%= pedidoIndividual._id %>">Productos</a>
+                  </td>
+                  <td>
+                    <%= pedidoIndividual.cantidadDeProductos %> 
+                  </td>
+                  <td>
+                    <%= pedidoIndividual.importeTotal %> 
+                  </td>
+                </tr>
+              <% } %>
+              
+            </tbody>
+          </table>
+    
+   
     </div>
 <%- include('../partials/footer.ejs'); %>

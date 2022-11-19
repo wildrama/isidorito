@@ -315,15 +315,22 @@ const agregarProductoAlPedido = ()=>{
     }
   })
 }
+let clienteSeleccionado = "";
+let clienteNombre = ""
 const seleccionCliente = document.querySelector('#seleccionCliente');
 
 seleccionCliente.addEventListener('change', event =>{
   contenedorBusquedaGRAL.classList.remove('d-none');
   contenedorBusquedaGRAL.classList.add('d-block')
-  // console.log('DisplayTabla y busqueda'+  event.target.options[event.target.selectedIndex].value
-  // ); // 👉️ get selected VALUE
+  clienteSeleccionado = seleccionCliente.options[seleccionCliente.selectedIndex].value;
+  clienteNombre = seleccionCliente.options[seleccionCliente.selectedIndex].text;
+
+  console.log('DisplayTabla y busqueda'+  clienteSeleccionado + clienteNombre
+  ); 
+  // 👉️ get selected VALUE
 }); 
 
+  console.log(clienteNombre)
 document.getElementById('eliminarProductos').addEventListener('click', function(){
   inputBuscar.value= "";
 
@@ -331,7 +338,6 @@ document.getElementById('eliminarProductos').addEventListener('click', function(
 
   displayProductos.innerHTML = "";
 })
-let clienteSeleccionado = seleccionCliente.options[seleccionCliente.selectedIndex].value;
 
 // finalizar pedido y guardarlo
 finalizarPedidoBTN.onclick = async () => {

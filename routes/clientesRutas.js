@@ -74,7 +74,18 @@ router.get('/:id', catchAsync(async(req,res)=>{
 
 // eliminar cliente
 
+router.delete('/:id', catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const eliminarCliente = await Cliente.findByIdAndDelete(id);
+    if (!eliminarCliente) {
+      req.flash('error', 'No se puede eliminar pedido');
+      return res.redirect('/clientes/ver-clientes');
+  }
+  req.flash('success', 'Cliente Eliminado');
 
+    res.redirect('/clientes/ver-clientes');
+    
+  }))
 
 
 module.exports = router;

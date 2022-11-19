@@ -7,7 +7,7 @@ const clienteSchema = new Schema ({
     nombreLocal:{
        type:String
    },
-   dueño:String,
+   dueño:{type:String},
    direccion:String,
 
    telefono1:Number,

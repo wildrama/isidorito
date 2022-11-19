@@ -63,11 +63,14 @@ router.get('/panel-pedidos/:id',isLoggedIn , catchAsync(async (req, res) => {
 
 router.get('/pedidos-todos',isLoggedIn , catchAsync(async (req, res) => {
     // const busqueda = req.body.busqueda
-     console.log(req.user.funcion)
+     console.log('TODOS LOS PEDIDOS')
      const repartidor = req.user;
-     const pedidos = await Pedido.find({}).populate('cliente');
-     const cantidadTotalDePedido = await Pedido.countDocuments({}).exec();
-     console.log(pedidos)
+     const pedidos = await Pedido.find({}).populate('cliente').exec();
+     const cantidadTotalDePedido = await Pedido.countDocuments({});
+     for(let ped of pedidos){
+        console.log('el pedido es '+ped)
+
+     }
      res.render('pedidos/verTodosLosPedidos', { pedidos, cantidadTotalDePedido,repartidor });
     
     
@@ -79,7 +82,7 @@ router.get('/pedidos-todos',isLoggedIn , catchAsync(async (req, res) => {
     if (!eliminarPedido) {
       req.flash('error', 'No se puede eliminar pedido');
       return res.redirect('/pedidos/pedidos-todos');
-  }
+  }s
   req.flash('success', 'Pedido Eliminado');
 
     res.redirect('/pedidos/pedidos-todos');

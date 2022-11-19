@@ -15,13 +15,13 @@
             
                 <div class="col-12 col-md-6 d-flex justify-content-center">
 
-            <div class="card px-3">
+            <div class="card px-3 mb-3">
                
-                
+
                 
 
                 <div class="card-tittle">
-                    <div class="d-flex align-items-baseline justify-content-between">
+                    <div class=" align-items-baseline ">
                        Local: 
 
                         <p class="lead">
@@ -30,7 +30,7 @@
                         </p>
                     </div>
                     <p class="text-muted">
-                        Ref: <%= cliente.dueño  %> 
+                        Referencia: <%= cliente.dueño  %> 
                     </p>
                 </div>
 
@@ -46,12 +46,14 @@
                    <div class="">
                     Comentario:
                     <p class="p-2">
-
+                        <%= cliente.comentario %> 
                     </p>
                    </div>
                    
-                   <a href="/clientes/<%= cliente._id %>" class="text-center btn btn-warning">Ver pedidos para este cliente</a>
-                
+                   <a href="/clientes/<%= cliente._id %>" class="text-center btn btn-info my-2">Ver pedidos para este cliente</a>
+                   <form  class="text-end"  action="/clientes/<%= cliente._id %>?_method=DELETE" method="post">
+                    <button class="btn btn-outline-warning">Borrar</button>
+                </form>   
                 </div>
             </div>
         </div>

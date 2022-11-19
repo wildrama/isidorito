@@ -1,83 +1,61 @@
-<%- include('../partials/headerPedido.ejs'); %>
+console.log('pedido impreso')
 
-<%- include('../partials/flash.ejs'); %>
-    <div class="container">
-        <a href="/pedidos/pedidos-repartidor">Atras</a>
 
-        <h2>Pedidos realizados</h2>
 
-        <p>Explora los pedidos realizados a los clientes a travez del repartidor : <%= repartidor.username %> </p>
-   
-        <div class="accion d-flex">
-            <div class="imprimirAlgunos">
+const allCheckBox = document.querySelectorAll('input[type=checkbox]:checked')
+const printAllbtn = document.querySelector('#printAllbtn');
 
-            </div>
 
-            <div class="marcarComo">
-
-            </div>
-            <div class="archivar">
-
-            </div>
-        </div>
-        <table class="table">
-            <thead>
-              <tr>
-
-                <th scope="col">Local</th>
-                <th scope="col">Productos</th>
+let pedidosSeleccionados =[{
+    cantidad: 3,
+    productosNombre:[
+        {
+            nombreProducto: "TE no FINO",
+            precioMayorista: 22
+        }]
+},
+{
+    cantidad:6,
+    productosNombre:[
+        {
+            nombreProducto: "TE FINO",
+            precioMayorista: 34
+        }
+    ]
+}
+];
+let fechaactual =Date.now().toLocaleString();
+printAllbtn.addEventListener('click', function(){
+    // var doc = new jsPDF();
+    // console.log(allCheckBox)
+    // // doc.line(10,10,200,200)
+    var pdfObject = jsPDFInvoiceTemplate.default(props);
     
-                <th scope="col">Cantidad</th>
+    // var margin = 10;
+    // var scale = (doc.internal.pageSize.width - margin *2 )/document.body.scrollWidth;
+
+    // pedidosSeleccionados.forEach(pedidoImp =>{
+
+
+    //     //or in browser
+
+      
+    //     // doc.addPage("a4")
+    //     // doc.text('primera',10,10)
+
+    //     // doc.text(`${pedidoImp.cantidad}`,10,20)
     
-                <th scope="col">Precio Total</th>
+    //     // for(let productosElegidos of pedidoImp.productosNombre){
+    //     //     doc.text(`${productosElegidos.nombreProducto}`,10,30)
     
-                <th scope="col">
-                  <a onclick="generatePDF()" id="printAllbtn" class="btn btn-secondary ">Imprimir TODOS</a> 
-                </th>
-              </tr>
-            </thead>
-            <tbody id="tableParaProductosP">
-    
-              <% for( let pedidoIndividual of pedidos) { %>
-                <tr>
-                  <div>
-                 
-                       
-                </div>
-                  <td>
-                    <%= pedidoIndividual.cliente.nombreLocal %> 
-                  </td>
-                  <td>
-                      <a href="/pedidos/<%= pedidoIndividual._id %>/ver-pedido">Productos</a>
-                  </td>
-                  <td>
-                    <%= pedidoIndividual.cantidadDeProductos %> 
-                  </td>
-                  <td>
-                    <%= pedidoIndividual.importeTotal %> 
-                  </td>
-                  <td>
-                    <!-- <form action="/pedidos/<%= pedidoIndividual._id %>?_method=DELETE" method="post">
-                      <button class="btn btn-warning">Borrar</button>
-                  </form>                -->
-                  <button class="btn btn-outline-secondary"> </button>
-                  <input type="checkbox" name="imprimir" id="">
-                </td>
-                </tr>
-              <% } %>
-              
-            </tbody>
-          </table>
-    
-   
-    </div>
-    <script src="https://unpkg.com/jspdf-invoice-template@1.4.0/dist/index.js"></script>
-    <script>
-      function generatePDF(){
-        var pdfObject = jsPDFInvoiceTemplate.default(props); 
-      }
-      var props = {
-    outputType: jsPDFInvoiceTemplate.OutputType.Save,
+    //     // }
+    // })
+    // if(pedidos.lenght > 1 ){
+    // }
+    // doc.save(`impresionDeLosPedidos${fechaactual}.pdf`)
+})
+var props = {
+  
     returnJsPDFDocObject: true,
     fileName: "Invoice 2021",
     orientationLandscape: false,
@@ -104,10 +82,10 @@
         }
     },
     business: {
-        name: "Isidorito",
-        address: "San Pedro, Buenos Aires",
-        phone: "3329",
-        email: "isidorito@example.com",
+        name: "Business Name",
+        address: "Albania, Tirane ish-Dogana, Durres 2001",
+        phone: "(+355) 069 11 11 111",
+        email: "email@example.com",
         email_1: "info@example.al",
         website: "www.example.al",
     },
@@ -151,11 +129,11 @@
           { title: "Total"}
         ],
         table: Array.from(Array(10), (item, index)=>([
-          
+        `asdaddas`
         ])),
         additionalRows: [{
             col1: 'Total:',
-            col2: '145,250.50',
+            col2: `$aaasasaas}`,
             col3: 'ALL',
             style: {
                 fontSize: 14 //optional, default 12
@@ -186,8 +164,3 @@
     pageEnable: true,
     pageLabel: "Page ",
 };
-    </script>
-
-    <!-- <script type="module" src="/imprimirPedido.js" ></script> -->
-    
-    <%- include('../partials/footer.ejs'); %>

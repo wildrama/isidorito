@@ -17,7 +17,7 @@ productosPedidos:[
     ref: 'Producto'
  }
 ],
-
+   
 productosPedidosNombre:[{}],
 estadoDePedido:String,
 

@@ -42,9 +42,17 @@ if(req.user.funcion){
           delete req.session.returnTo;
           
           return res.redirect(redirectUrl2);     
+              break;
+      case 'CAJA':
+          console.log('Haz iniciado como', role)
+          const redirectUrl3 = req.session.returnTo || '/caja/cajaCobro';
+          delete req.session.returnTo;
+          
+          return res.redirect(redirectUrl3);     
         
 
-  }
+
+  } 
   
 } else{
   

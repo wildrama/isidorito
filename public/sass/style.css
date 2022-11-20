@@ -1,9 +1,9 @@
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
 .body-inicio {
-  background-color: #B4B4BB;
+  background-color: #8a8a8a;
 }
 
 .body-inicio {
@@ -11,22 +11,22 @@ body {
 }
 
 nav {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
 .subnav {
-  background-color: #1B4EA3;
+  background-color: #04710b;
 }
 
 .subnav input {
   border: 2px solid rgba(0, 0, 0, 0);
   border-radius: 23px;
-  background-color: #1B4EA3;
+  background-color: #04710b;
   color: white;
 }
 
 .subnav .buscar {
-  background-color: #1B4EA3;
+  background-color: #04710b;
   color: white;
 }
 
@@ -48,7 +48,7 @@ nav {
 }
 
 .accionesrapidas {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
 .accionesrapidas a {
@@ -134,7 +134,7 @@ nav {
 }
 
 .container-split .right a:hover {
-  border-color: #1B4EA3;
+  border-color: #1ba32f;
 }
 
 .container-split .centered {

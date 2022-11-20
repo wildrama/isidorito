@@ -77,12 +77,18 @@ router.get('/pedidos-todos',isLoggedIn , catchAsync(async (req, res) => {
     
  }))
  router.get('/todos-axios', catchAsync(async (req, res) => {
-    // const busqueda = req.body.busqueda
+    try {
+           // const busqueda = req.body.busqueda
      console.log('TODOS LOS PEDIDOS')
      const pedidos = await Pedido.find({}).populate('cliente').exec();
-  
-     res.send({ pedidos });
+    const fechaRegistroPedido = Date.now()
+     res.send({ pedidos,fechaRegistroPedido });
     
+    } catch (error) {
+        res.send({ error });
+
+    }
+ 
     
     
  }))

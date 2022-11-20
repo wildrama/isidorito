@@ -71,8 +71,8 @@ router.get('/cerrar-sesion', (req,res)=>{
 })
 
 router.get('/repartidorNuevo', async( req, res)=>{
-  const usuario = new User({funcion:'REPARTIDOR', username:'rep'});
-  const nuevoUsuario = await User.register(usuario,'123');
+  const usuario = new User({funcion:'REPARTIDOR', username:'repartidor1'});
+  const nuevoUsuario = await User.register(usuario,'repartidor2022isidorito');
   req.flash('success','Usuario creado correctamente');
   
   res.redirect('/ingreso-repartidor');
@@ -80,8 +80,8 @@ router.get('/repartidorNuevo', async( req, res)=>{
 
 
 router.get('/crearAdmin1', async( req, res)=>{
-  const usuario = new User({funcion:'ADMINISTRADOR', username:'adm'});
-  const nuevoUsuario = await User.register(usuario,'123');
+  const usuario = new User({funcion:'ADMINISTRADOR', username:'isidoritoAdm'});
+  const nuevoUsuario = await User.register(usuario,'2022isidorito');
   req.flash('success','Usuario creado correctamente');
   
   res.redirect('/');

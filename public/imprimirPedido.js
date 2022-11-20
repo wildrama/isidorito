@@ -36,7 +36,7 @@ let fechaactual =Date.now().toLocaleString();
         business: {
             name: "Isidorito",
             address: "San Pedro, Buenos",
-            phone: "(+355) 069 11 11 111",
+            phone: "(3329) 069 11 11 111",
             email: "contacto@isidorito.com",
             
             website: "www.ididorito.com.ar/nosotros",

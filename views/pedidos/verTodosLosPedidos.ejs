@@ -45,7 +45,7 @@
                        
                 </div>
                   <td>
-                    <%= pedidoIndividual.cliente.nombreLocal %> 
+                    <!-- <%= pedidoIndividual.cliente %>  -->
                   </td>
                   <td>
                       <a href="/pedidos/<%= pedidoIndividual._id %>/ver-pedido">Productos</a>
@@ -72,9 +72,20 @@
    
     </div>
     <script src="https://unpkg.com/jspdf-invoice-template@1.4.0/dist/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-      function generatePDF(){
+ let listadoDePedidos = "";
+    
+     async function generatePDF(){
+
+      const res = await axios.get('/pedidos/todos-axios');
+     listadoDePedidos = res.data;
+      if (listadoDePedidos){
+
         var pdfObject = jsPDFInvoiceTemplate.default(props); 
+
+      }
+     
       }
       var props = {
     outputType: jsPDFInvoiceTemplate.OutputType.Save,
@@ -134,57 +145,32 @@
             } 
           }, 
           { 
-            title: "Title",
-            style: {
-              width: 30
-            } 
-          }, 
-          { 
-            title: "Description",
+            title: "Productos",
             style: {
               width: 80
             } 
           }, 
-          { title: "Price"},
-          { title: "Quantity"},
-          { title: "Unit"},
-          { title: "Total"}
+          { 
+            title: "Descripción",
+            style: {
+              width: 30
+            } 
+          }, 
+          { title: "Precio"},
+          // { title: "Cantidad"},
+          // { title: "Unidad"},
+          // { title: "Total"}
         ],
-        table: Array.from(Array(10), (item, index)=>([
+        table: Array.from(productosPedido, (productoIm, index)=>([
             index + 1,
-            "There are many variations ",
-            "Lorem Ipsum is simply dummy text dummy text ",
-            200.5,
-            4.5,
-            "m2",
-            400.5
+            `${productoIm.cliente.nombreLocal}`,
+            `${productoIm.cantidadDeProductos }`,
+            `${productoIm.importeTotal }`,
+
         ])),
-        additionalRows: [{
-            col1: 'Total:',
-            col2: '145,250.50',
-            col3: 'ALL',
-            style: {
-                fontSize: 14 //optional, default 12
-            }
-        },
-        {
-            col1: 'VAT:',
-            col2: '20',
-            col3: '%',
-            style: {
-                fontSize: 10 //optional, default 12
-            }
-        },
-        {
-            col1: 'SubTotal:',
-            col2: '116,199.90',
-            col3: 'ALL',
-            style: {
-                fontSize: 10 //optional, default 12
-            }
-        }],
-        invDescLabel: "Invoice Note",
-        invDesc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.",
+
+        invDescLabel: "Cliente:",
+        invDesc: "ZOESITA",
     },
     footer: {
         text: "The invoice is created on a computer and is valid without the signature and stamp.",

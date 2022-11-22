@@ -81,11 +81,11 @@ router.get('/pedidos-todos',isLoggedIn , catchAsync(async (req, res) => {
            // const busqueda = req.body.busqueda
      console.log('TODOS LOS PEDIDOS')
      const pedidos = await Pedido.find({}).populate('cliente').exec();
-    const fechaRegistroPedido = Date.now()
-     res.send({ pedidos,fechaRegistroPedido });
+    // const fechaRegistroPedido = Date.now()
+     res.send( pedidos );
     
     } catch (error) {
-        res.send({ error });
+        res.send( error );
 
     }
  

@@ -32,12 +32,12 @@
                 <th scope="col">Precio Total</th>
     
                 <th scope="col">
-                  <a onclick="generatePDF()" id="printAllbtn" class="btn btn-secondary ">Imprimir TODOS</a> 
+                  <a  id="printAllbtn" class="btn btn-secondary ">Imprimir TODOS</a> 
                 </th>
               </tr>
             </thead>
             <tbody id="tableParaProductosP">
-    
+              
               <% for( let pedidoIndividual of pedidos) { %>
                 <tr>
                   <div>
@@ -60,8 +60,7 @@
                     <!-- <form action="/pedidos/<%= pedidoIndividual._id %>?_method=DELETE" method="post">
                       <button class="btn btn-warning">Borrar</button>
                   </form>                -->
-                  <button class="btn btn-outline-secondary"> </button>
-                  <input type="checkbox" name="imprimir" id="">
+                  <input type="checkbox"  id="<%= pedidoIndividual._id %>IMP">
                 </td>
                 </tr>
               <% } %>
@@ -71,9 +70,8 @@
     
    
     </div>
-    <script src="https://unpkg.com/jspdf-invoice-template@1.4.0/dist/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
+    <!-- <script>
            function generatePDF(){
             
 
@@ -163,9 +161,10 @@
         pageEnable: true,
         pageLabel: "Page ",
      };
-    </script>
+    </script> -->
 
 
-    <!-- <script type="module" src="/imprimirPedido.js" ></script> -->
-    
+    <script type="module" src="/imprimirPedido.js" ></script>
+    <script src="https://unpkg.com/jspdf-invoice-template@1.4.0/dist/index.js"></script>
+
     <%- include('../partials/footer.ejs'); %>

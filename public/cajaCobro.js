@@ -101,7 +101,7 @@ window.onload = async () => {
 					tr.appendChild(thCheck);
 					thPrecio.style.cursor = "pointer"
 					tablaCajaCobro.appendChild(tr)
-					
+
 					checkbox.addEventListener('change', () => {
 
 						console.log(checkbox.checked)
@@ -130,7 +130,7 @@ window.onload = async () => {
 						cantidadAgregada: 1,
 						impuestoPrecio: parseFloat(oferta.precioOferta),
 						idArr: productosAgregados.length
-
+						
 
 
 					})

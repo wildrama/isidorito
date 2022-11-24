@@ -33,42 +33,18 @@
     
                 <th scope="col">
                   <a  id="printAllbtn" class="btn btn-secondary ">Imprimir TODOS</a> 
+                  <input type="checkbox" name="seleccionarTodosLosPedidos10" id="seleccionarTodosLosPedidos10">
                 </th>
               </tr>
             </thead>
-            <tbody id="tableParaProductosP">
+            <tbody id="tableParaPedidos">
               
-              <% for( let pedidoIndividual of pedidos) { %>
-                <tr>
-                  <div>
-                 
-                       
-                </div>
-                  <td>
-                    <!-- <%= pedidoIndividual.cliente %>  -->
-                  </td>
-                  <td>
-                      <a href="/pedidos/<%= pedidoIndividual._id %>/ver-pedido">Productos</a>
-                  </td>
-                  <td>
-                    <%= pedidoIndividual.cantidadDeProductos %> 
-                  </td>
-                  <td>
-                    <%= pedidoIndividual.importeTotal %> 
-                  </td>
-                  <td>
-                    <!-- <form action="/pedidos/<%= pedidoIndividual._id %>?_method=DELETE" method="post">
-                      <button class="btn btn-warning">Borrar</button>
-                  </form>                -->
-                  <input type="checkbox"  id="<%= pedidoIndividual._id %>IMP">
-                </td>
-                </tr>
-              <% } %>
+             
               
             </tbody>
           </table>
     
-   
+
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- <script>

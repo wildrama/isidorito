@@ -68,7 +68,7 @@ router.get('/pedidos-todos',isLoggedIn , catchAsync(async (req, res) => {
      const pedidos = await Pedido.find({}).populate('cliente').exec();
      const cantidadTotalDePedido = await Pedido.countDocuments({});
      for(let ped of pedidos){
-        console.log('el pedido es '+ped)
+        console.log(cantidadTotalDePedido+ped)
 
      }
      res.render('pedidos/verTodosLosPedidos', { pedidos, cantidadTotalDePedido,repartidor });
@@ -98,7 +98,7 @@ router.get('/pedidos-todos',isLoggedIn , catchAsync(async (req, res) => {
     if (!eliminarPedido) {
       req.flash('error', 'No se puede eliminar pedido');
       return res.redirect('/pedidos/pedidos-todos');
-  }s
+  }
   req.flash('success', 'Pedido Eliminado');
 
     res.redirect('/pedidos/pedidos-todos');

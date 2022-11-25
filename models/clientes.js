@@ -5,10 +5,13 @@ const Pedido = require('./pedidosRepartidor');
 const clienteSchema = new Schema ({
 
     nombreLocal:{
-       type:String
+       type:String,
+       required:true,
+    
    },
    dueño:{
-      type:String
+      type:String,
+      required:true,
    },
    direccion:String,
 

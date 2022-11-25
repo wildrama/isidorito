@@ -42,18 +42,20 @@
                     Telefono 2: <%=cliente.telefono2   %> 
                     <br>
                     Telefono 3: <%=cliente.telefono3   %> 
-
-                   <div class="">
-                    Comentario:
-                    <p class="p-2">
-                        <%= cliente.comentario %> 
-                    </p>
-                   </div>
+                    <br>
+                    <br>
+                    Correo: <%= cliente.correo %> 
+                      <div class="">
+                       <p class="py-2 ">
+                        Comentario: <%= cliente.comentario %> 
+              
+                       </p>
+                      </div>
                    
                    <a href="/clientes/<%= cliente._id %>" class="text-center btn btn-info my-2">Ver pedidos para este cliente</a>
-                   <form  class="text-end"  action="/clientes/<%= cliente._id %>?_method=DELETE" method="post">
+                   <!-- <form  class="text-end"  action="/clientes/<%= cliente._id %>?_method=DELETE" method="post">
                     <button class="btn btn-outline-warning">Borrar</button>
-                </form>   
+                </form>    -->
                 </div>
             </div>
         </div>

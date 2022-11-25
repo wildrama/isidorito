@@ -393,7 +393,7 @@ console.log('la cantidad total es:'+sum1)
     cliente:clienteSeleccionado,
 		productosPedidosNombre: productosAgregadosArr,
     cantidadDeProductos: sum1,
-
+    
     importeTotal: sum,
 
 	})

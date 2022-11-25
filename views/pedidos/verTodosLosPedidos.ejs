@@ -37,9 +37,32 @@
                 </th>
               </tr>
             </thead>
-            <tbody id="tableParaPedidos">
+            <tbody id="tableParaProductosP">
               
-             
+              <% for( let pedidoIndividual of pedidos) { %>
+                <tr>
+                  <div>
+                </div>
+                  <td>
+                    <%= pedidoIndividual.cliente.nombreLocal %> 
+                  </td>
+                  <td>
+                      <a href="/pedidos/<%= pedidoIndividual._id %>/ver-pedido">INFO COMPLETA</a>
+                  </td>
+                  <td>
+                    <%= pedidoIndividual.cantidadDeProductos %> 
+                  </td>
+                  <td>
+                    <%= pedidoIndividual.importeTotal %> 
+                  </td>
+                  <td>
+                    <!-- <form action="/pedidos/<%= pedidoIndividual._id %>?_method=DELETE" method="post">
+                      <button class="btn btn-warning">Borrar</button>
+                  </form>                -->
+                  <input type="checkbox"  id="<%= pedidoIndividual._id %>IMP">
+                </td>
+                </tr>
+              <% } %>
               
             </tbody>
           </table>

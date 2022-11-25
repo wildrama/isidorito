@@ -53,12 +53,20 @@ router.get('/panel-pedidos/:id',isLoggedIn , catchAsync(async (req, res) => {
     const idUsuario = req.params.id;
      const pedidos = await Pedido.find({usuarioRepartidor:idUsuario});
      const cantidadTotalDePedidos = await Pedido.countDocuments({usuarioRepartidor:idUsuario}).exec();
-     res.render('pedidos/pedidoIndividual', { pedidos, cantidadTotalDePedidos });
+     res.render('pedidos/verPedidoIndividual', { pedidos, cantidadTotalDePedidos });
   
  
  
  }))
-
+ router.get('/:id/ver-pedido',isLoggedIn , catchAsync(async (req, res) => {
+    // const busqueda = req.body.busqueda
+    const idUsuario = req.params.id;
+     const pedidoIndividual = await Pedido.findById(idUsuario).populate('cliente');;
+     res.render('pedidos/verPedidoIndividual', { pedidoIndividual });
+     
+ 
+ 
+ }))
 //mostrar todos los pedidos realizados
 
 router.get('/pedidos-todos',isLoggedIn , catchAsync(async (req, res) => {

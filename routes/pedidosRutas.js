@@ -153,8 +153,46 @@ router.post('/save-pedido', catchAsync(async(req,res)=>{
     // res.redirect(`/pedidos/${nuevoProducto._id}`)
     res.redirect('/pedidos/crear-pedido');
 }))
+
 // editar un pedido en especifico
 
+router.get('/:id/editar-pedido',isLoggedIn , catchAsync(async (req, res) => {
+    // const busqueda = req.body.busqueda
+    const idPedido = req.params.id;
+     const pedidoIndividual = await Pedido.findById(idPedido).populate('cliente');;
+     res.render('pedidos/editarPedidoIndividual', { pedidoIndividual });
+     
+ 
+ 
+ }))
+
+router.put('/:id/editar-pedido',isLoggedIn,isAdmin(roleADM), catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const { nombre, cantidad, marca, precioMinorista, precioMayorista, precioCosto, categoria, peso, fechaDeVencimiento, impuestoAplicado} = req.body
+    const producto = await Producto.findByIdAndUpdate(id, {
+        nombre: nombre,
+       cantidad: cantidad,
+        marca: marca,
+        precioMinorista: precioMinorista,
+        precioMayorista: precioMayorista,
+        precioCosto: precioCosto, 
+        categoriaInterna: categoria,
+        impuestoAplicado: impuestoAplicado,
+        fechaDeVencimiento: fechaDeVencimiento,
+        peso: peso,
+        fechaDeVencimiento: fechaDeVencimiento
+    },
+          { runValidators: true });
+              res.json(producto)	
+  
+    if (!producto) {
+      req.flash('error', 'No se puede encontrar editar el producto');
+      return res.redirect('/administrador/productos');
+  }
+   
+  
+  }))
+  
 
 // marcar como "ENTREGADO" a un pedido
 

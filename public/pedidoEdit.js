@@ -31,6 +31,7 @@ let productosSeleccionados = []
 let montoFinal = 0;
 const idPedido = document.querySelector('#idPedido').innerHTML;
 // const idRepartidor = document.querySelector('#idRepartidor').innerHTML
+const idCliente = document.querySelector('#idCliente').innerHTML;
 
 formBuscarPedidos.addEventListener("keypress", async function(e){
 
@@ -329,8 +330,9 @@ agregarProductos.addEventListener('click',async function(){
   const resIndividual = await axios.get(`/pedidos/${idPedido}/traer-pedido`); 
   const pedidoInd = resIndividual.data;
   pedidoInd.productosPedidosNombre.forEach(productoExistente =>{
-    
+    finalizarPedidoBTN.classList.remove('d-none');
 
+    finalizarPedidoBTN.classList.add('d-block');
     productosAgregadosArr.push(productoExistente)
     console.log(productosAgregadosArr)
 
@@ -400,7 +402,7 @@ for (let i = 0; i < productosAgregadosArr.length; i ++) {
 var number = parseFloat(productosAgregadosArr[i].precioMayorista);//Convert to numbers with parseFloat
 sum += number;//Sum the numbers
 }
-console.log('la cantidad total es:'+sum1)          
+console.log('el precio total es:'+sum)          
 
 montoFinalPedido.innerHTML=sum;//Output 70
 
@@ -422,25 +424,38 @@ console.log('la cantidad total es:'+sum1)
 
 
 
-	const stringValorDelProducto = () => {
-		let stringBase = ""
-		productosAgregadosArr.map(p => {
-			if (p.nombre != "vacio") {
-				stringBase = stringBase + `${p.nombre}x${p.cantidad}: $${p.cantidad}\n`
+	// const stringValorDelProducto = () => {
+	// 	let stringBase = ""
+	// 	productosAgregadosArr.map(p => {
+	// 		if (p.nombre != "vacio") {
+	// 			stringBase = stringBase + `${p.nombre}x${p.cantidad}: $${p.cantidad}\n`
 
 
-			}
-		})
-		return stringBase;
+	// 		}
+	// 	})
+	// 	return stringBase;
 
 
-
-	}
-	// const ventaRealizada = {
 
 	// }
-	const res = await axios.post(`/pedidos/${idPedido}/editar-pedido`, {
-    cliente:clienteSeleccionado,
+
+  console.log("Pedido Actualizado")
+
+	// const ventaRealizada = {
+    let estadoDePedidoCambio = 'PEDIDO' ;
+    let Archivar = 'NO' 
+	// }
+  // let res1 = {
+  //   cliente:idCliente,
+	// 	productosPedidosNombre: productosAgregadosArr,
+  //   archivar:Archivar,
+  //   estadoDePedido:estadoDePedidoCambio,
+  //   cantidadDeProductos: sum1,
+  //   importeTotal: sum,
+
+	// }
+	const res22 = await axios.post(`/pedidos/${idPedido}/editar-pedido`, {
+    cliente:idCliente,
 		productosPedidosNombre: productosAgregadosArr,
     archivar:Archivar,
     estadoDePedido:estadoDePedidoCambio,
@@ -450,9 +465,9 @@ console.log('la cantidad total es:'+sum1)
 	})
 		// usuarioRepartidor: `${idRepartidor}`
 
-if(res){
+if(res22){
 // axios.get(`/pedidos/${idPedido}/ver-pedido`);
-console.log("Pedido Actualizado")
+console.log(res22)
 }
 
 

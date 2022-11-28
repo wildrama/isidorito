@@ -20,7 +20,7 @@ productosPedidos:[
    
 productosPedidosNombre:[{}],
 estadoDePedido:String,
-archivar:Boolean,
+archivar:String,
 cantidadDeProductos:Number,
 
 importeTotal:Number,

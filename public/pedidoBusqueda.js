@@ -387,19 +387,21 @@ console.log('la cantidad total es:'+sum1)
 
 	}
 	// const ventaRealizada = {
-
+   let estadoDePedidoCambio = 'PEDIDO' ;
+   let Archivar = 'NO' 
 	// }
-	const res = await axios.post('/pedidos/save-pedido', {
+	const res3 = await axios.post('/pedidos/save-pedido', {
     cliente:clienteSeleccionado,
 		productosPedidosNombre: productosAgregadosArr,
     cantidadDeProductos: sum1,
-    
+    estadoDePedidoCambio:estadoDePedidoCambio,
+    Archivar: Archivar,
     importeTotal: sum,
 
 	})
 		// usuarioRepartidor: `${idRepartidor}`
 
-if(res){
+if(res3){
   hacerOtroPedido.classList.remove('d-none');
 
 hacerOtroPedido.classList.add('d-block');

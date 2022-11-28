@@ -8,7 +8,8 @@
 
     <a href="/pedidos/<%= pedidoIndividual._id %>/ver-pedido">Atras</a>
     <p id="idPedido" class="d-none" ><%= pedidoIndividual._id %></p>
-    
+    <p id="idCliente" class="d-none" ><%= pedidoIndividual.cliente._id %></p>
+
 
     <h2>Editar Pedido</h2> 
 
@@ -170,7 +171,7 @@
               </table>
           
             <div class="d-flex justify-content-around text-end ">
-              <button  id="finalizarPedidoBTN" class="btn btn-outline-success">Finalizar Nueva carga</button>
+              <button  id="finalizarPedidoBTN" class="btn btn-outline-success d-none">Finalizar Nueva carga</button>
            
               TOTAL:
               <p id="montoFinalPedido" class="lead  px-3">

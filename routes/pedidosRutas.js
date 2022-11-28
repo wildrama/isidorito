@@ -165,29 +165,36 @@ router.get('/:id/editar-pedido',isLoggedIn , catchAsync(async (req, res) => {
  
  
  }))
+ router.get('/:id/traer-pedido',isLoggedIn , catchAsync(async (req, res) => {
+    // const busqueda = req.body.busqueda
+    const idPedido = req.params.id;
+     const pedidoIndividual = await Pedido.findById(idPedido).populate('cliente');;
+     res.json(pedidoIndividual);
+     
+ 
+ 
+ }))
 
 router.put('/:id/editar-pedido',isLoggedIn,isAdmin(roleADM), catchAsync(async (req, res) => {
     const { id } = req.params;
-    const { nombre, cantidad, marca, precioMinorista, precioMayorista, precioCosto, categoria, peso, fechaDeVencimiento, impuestoAplicado} = req.body
-    const producto = await Producto.findByIdAndUpdate(id, {
-        nombre: nombre,
-       cantidad: cantidad,
-        marca: marca,
-        precioMinorista: precioMinorista,
-        precioMayorista: precioMayorista,
-        precioCosto: precioCosto, 
-        categoriaInterna: categoria,
-        impuestoAplicado: impuestoAplicado,
-        fechaDeVencimiento: fechaDeVencimiento,
-        peso: peso,
-        fechaDeVencimiento: fechaDeVencimiento
+    const { cliente, productosPedidos, productosPedidosNombre,estadoDePedido, archivar, cantidadDeProductos, importeTotal} = req.body
+    const pedidoActualizar = await Pedido.findByIdAndUpdate(id, {
+        cliente: cliente,
+        productosPedidos:[],
+ 
+        productosPedidosNombre: productosPedidosNombre,
+        estadoDePedido: estadoDePedido,
+        archivar: archivar,
+        cantidadDeProductos: cantidadDeProductos, 
+        importeTotal: importeTotal,
+       
     },
-          { runValidators: true });
-              res.json(producto)	
-  
-    if (!producto) {
-      req.flash('error', 'No se puede encontrar editar el producto');
-      return res.redirect('/administrador/productos');
+{ runValidators: true });
+res.json(pedidoActualizar)	
+
+    if (!pedidoActualizar) {
+      req.flash('error', 'No se puede encontrar editar el pedido');
+      return res.redirect('/pedidos/pedidios-todos');
   }
    
   

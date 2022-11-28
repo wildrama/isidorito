@@ -21,7 +21,7 @@ window.addEventListener('load', traerPedidos);
   
   const res = await axios.get('/pedidos/todos-axios');
   const ordersAll = res.data;
-  console.log(ordersAll)
+  console.log(  )
   //   for(let pedido of ordersAll){
   //   console.log(pedido.cliente)
   //   console.log(pedido.productosPedidosNombre)

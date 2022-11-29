@@ -67,7 +67,18 @@ router.get('/:id', catchAsync(async(req,res)=>{
     res.redirect('/clientes/clientes-index');
 }
 }))
+router.get('/:id/editar-cliente', catchAsync(async(req,res)=>{
+    const idCliente = req.params.id;
+    try {
+    const clienteIndividual = await Cliente.findById(idCliente).populate('pedidosRealizados');
+    res.render('clientes/editarCliente',{clienteIndividual})
 
+
+} catch (error) {
+    console.log(error)
+    res.redirect('/clientes/clientes-index');
+}
+}))
 // editar info de cliente
 
 

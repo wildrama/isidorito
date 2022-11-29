@@ -9,16 +9,16 @@
     <a href="/pedidos/pedidos-todos">Atras</a>
 
     <div class="my-1 text-end">
-        <h2><% pedidoIndividual.cliente.nombreLocal %> </h2>
+        <h2><% pedidoIndividual.cliente.nombreLocal %></h2>
         <p class="lead">
             San Pedro, Buenos Aires <br>
             (3329) 332211 <br>
             contacto@isidorito.com.ar
         </p>
     </div>
-    <div class="lineTabla">
+    <div class="lineTabla border mb-3" >
 
-    </div>s
+    </div>
     <p>Dirigido a : <b><%= pedidoIndividual.cliente.dueño %></b> 
         || <b><%= pedidoIndividual.cliente.nombreLocal%></b> </p> 
    Dirección de entrega: <p><%= pedidoIndividual.cliente.direccion %> </p>
@@ -29,7 +29,7 @@
     <br>
     <div class="container">
         <div scope="col-6 d-flex justify-content-around text-end px-4" >
-            <btn  id="printAllbtn" class="btn btn-info text-dark">Imprimir TODOS</btn> 
+            <btn  id="printAllbtn" class="btn btn-info text-dark">Imprimir</btn> 
             <a href="/pedidos/archivar-pedido" id="archivarPedido" class="btn btn-outline-info" >Archivar Pedido</a>
             <a href="/pedidos/<%= pedidoIndividual._id %>/editar-pedido" id="editarPedido" class="btn btn-secondary" >Editar Pedido</a>
 

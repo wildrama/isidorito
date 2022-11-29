@@ -23,17 +23,16 @@
         <table class="table">
             <thead>
               <tr>
+                <th scope="col">Fecha</th>
 
                 <th scope="col">Local</th>
                 <th scope="col">Productos</th>
     
                 <th scope="col">Cantidad</th>
     
-                <th scope="col">Precio Total</th>
+                <th scope="col">Precio total</th>
     
                 <th scope="col">
-                  <a  id="printAllbtn" class="btn btn-secondary ">Imprimir TODOS</a> 
-                  <input type="checkbox" name="seleccionarTodosLosPedidos10" id="seleccionarTodosLosPedidos10">
                 </th>
               </tr>
             </thead>
@@ -43,6 +42,9 @@
                 <tr>
                   <div>
                 </div>
+                <td>
+                  <%= pedidoIndividual.cliente.updatedAt.toLocaleString() %> 
+                </td>
                   <td>
                     <%= pedidoIndividual.cliente.nombreLocal %> 
                   </td>
@@ -56,10 +58,10 @@
                     <%= pedidoIndividual.importeTotal %> 
                   </td>
                   <td>
-                    <!-- <form action="/pedidos/<%= pedidoIndividual._id %>?_method=DELETE" method="post">
-                      <button class="btn btn-warning">Borrar</button>
-                  </form>                -->
-                  <input type="checkbox"  id="<%= pedidoIndividual._id %>IMP">
+                    <btn class="d-flex justify-content-around align-items-center btn btn-primary">
+                      <img class="img-fluid" src="/imgs/imprimirIMG.png" alt="">
+                      Imprimir
+                    </btn>
                 </td>
                 </tr>
               <% } %>

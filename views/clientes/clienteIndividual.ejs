@@ -4,6 +4,7 @@
 <%- include('../partials/flash.ejs'); %>
 <div class="container">
    <a href="/clientes/ver-clientes" class="p-3 btn btn-info">Volver atras</a>
+   <a href="/clientes/<%= clienteIndividual._id %>/editar-cliente" class="p-3 btn btn-primary">Editar CLIENTE</a>
 
    <div class="card px-3">
       <div class="card-tittle">
@@ -12,7 +13,7 @@
    
              <p class="lead">
              <%= clienteIndividual.nombreLocal %> 
-   
+              
              </p>
          </div>
          <p class="text-muted">

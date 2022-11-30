@@ -77,7 +77,7 @@ console.log( 'object created' + pdfObject )
           label: "Pedido #",
           num: 19,
           invDate: `${orderPrint.updatedAt.toLocaleString()}`,
-          invGenDate: `${Date.now().toLocaleString}`,
+          invGenDate: `${Date.now().toLocaleString()}`,
           headerBorder: false,
           tableBodyBorder: false,
           header: [

@@ -2,12 +2,13 @@
 
 <%- include('../partials/flash.ejs'); %>
 
+<script src="https://unpkg.com/jspdf-invoice-template@1.4.0/dist/index.js"></script>.
 
 
 <div class="container">
 
     <a href="/pedidos/pedidos-todos">Atras</a>
-
+<p id="idPedido" ><%= pedidoIndividual._id %></p>
     <div class="my-1 text-end">
         <h2><% pedidoIndividual.cliente.nombreLocal %></h2>
         <p class="lead">
@@ -29,10 +30,12 @@
     <br>
     <div class="container">
         <div scope="col-6 d-flex justify-content-around text-end px-4" >
-            <btn  id="printAllbtn" class="btn btn-info text-dark">Imprimir</btn> 
+            <btn  id="imprimirIndividual" class="btn btn-info text-dark">Imprimir</btn> 
             <a href="/pedidos/archivar-pedido" id="archivarPedido" class="btn btn-outline-info" >Archivar Pedido</a>
             <a href="/pedidos/<%= pedidoIndividual._id %>/editar-pedido" id="editarPedido" class="btn btn-secondary" >Editar Pedido</a>
+            <btn  id="imprimir1" class="btn btn-info text-dark">Imprimir1</btn> 
 
+            
           </div>
           <div class="container">
             <table class="table">
@@ -102,5 +105,12 @@
      
     </div>
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+<script type="module" src="/imprimirPedido.js" ></script>
+
 
 <%- include('../partials/footer.ejs'); %>

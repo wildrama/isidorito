@@ -3,143 +3,159 @@ console.log('pedido impreso')
 
 const tableParaPedidos = document.querySelector('#tableParaPedidos');
 const allCheckBox = document.querySelectorAll('input[type=checkbox]:checked')
-const printAllbtn = document.querySelector('#printAllbtn');
+const printAllbtn = document.querySelector('#imprimirIndividual');
+const imprimir1 = document.querySelector('#imprimir1');
 
-let ordersAll = [];
-  let ordersSelectedToPrint = [];
+const idPedido = document.querySelector('#idPedido').innerHTML;
+let orderPrint
+let props 
+let prodList
+// let ordersAll = [];
+//   let ordersSelectedToPrint = [];
   // let productosPedido = listadoDePedidos.productosNombre;
   // let cliente = listadoDePedidos.cliente
   // let fechaactual = Date.now().toLocaleString();
-
-
-  
-  
-
-window.addEventListener('load', traerPedidos);
-
-  async function traerPedidos(){
-  
-  const res = await axios.get('/pedidos/todos-axios');
-  const ordersAll = res.data;
-  console.log(  )
-  //   for(let pedido of ordersAll){
-  //   console.log(pedido.cliente)
-  //   console.log(pedido.productosPedidosNombre)
-  //   console.log(pedido + 'creado')
-  // }
-  showOrders(ordersAll);
-  // var pdfObject = jsPDFInvoiceTemplate.default(props); 
-  // console.log(pdfObject + 'creado')
-
-
-
-}
-
-printAllbtn.addEventListener('click',function(){
+const traerPedido = async ()=>{
     
-  try {
-    //example: create a PDF using the template
+    try {
+      //example: create a PDF using the template
+  
+  //add new page or new content -> see jsPDF documentation
+  
+  //... `
+  const res = await axios.get(`/pedidos/${idPedido}/traer-pedido`);
 
-//add new page or new content -> see jsPDF documentation
 
-//...
+ let order = res.data;
+ orderPrint=order;
 
-    
-if(ordersSelectedToPrint.length > 1){
-  console.log(ordersSelectedToPrint);
-  for (let orderPrint of ordersSelectedToPrint) {
-    let pdfObject = jsPDFInvoiceTemplate.default(props); 
+ 
+let productosPedidos = order.productosPedidosNombre;
+console.log(Array.from(productosPedidos,productoIm=>([
 
-    // var pdfObject = jsPDFInvoiceTemplate.default({ ...props });
-    console.log( 'object created' + pdfObject + orderPrint)
-    // pdfObject.jsPDFDocObject.save();
-    var props = {
-      outputType: jsPDFInvoiceTemplate.OutputType.Save,
-      returnJsPDFDocObject: true,
-      fileName: "remito",
-      orientationLandscape: false,
-      compress: true,
-      
-      
-      business: {
-        name: "Isidorito",
-        address: "San Pedro, Buenos",
-        phone: "(3329) 069 11 11 111",
-        email: "contacto@isidorito.com",
-        
-        website: "www.isidorito.com.ar/nosotros",
-      },
-      contact: {
-        label: "Remito dirigito a:",
-        name: `${orderPrint.cliente.dueño}`,
-        address:`${orderPrint.cliente.direccion}`,
-        phone: `${orderPrint.cliente.telefono1}`,
-        email: `${orderPrint.cliente.correo}`,
-        
-      },
-      invoice: {
-        label: "Pedido #",
-        num: 19,
-        invDate: `${orderPrint.createdAt}`,
-        invGenDate: `28/10/2022`,
-        headerBorder: false,
-        tableBodyBorder: false,
-        header: [
-          {
-            title: "#", 
-            style: { 
-              width: 10 
-            } 
-          }, 
-          { 
-            title: "Productos descripción",
-            style: {
-              width: 70
-            } 
-          }, 
-          { 
-            title: "Cantidad ",
-            style: {
-              width:20
-            } 
-          }, 
-          { title: "Por Unidad",
-        style:{width:30}},
-          // { title: "Cantidad"},
-          { title: "Por tot",
-        style:{
-          width:30
-        }},
-          { title: "Total",
+                   
+  `${productoIm.nombre} - ${productoIm.marca} `,
+  `${productoIm.cantidad}`,
+  `${productoIm.cantidad}`,
+  `${productoIm.cantidad}`,
+  `${productoIm.cantidad}`,
+])));
+
+
+ printAllbtn.addEventListener('click',generatePDF);
+  
+ function generatePDF(){
+   var pdfObject = jsPDFInvoiceTemplate.default(props); //returns number of pages created
+   // var pdfObject = jsPDFInvoiceTemplate.default({ ...props });
+console.log( 'object created' + pdfObject )
+ }
+ 
+  props = {
+        outputType: jsPDFInvoiceTemplate.OutputType.Save,
+        returnJsPDFDocObject: true,
+        fileName: "remito",
+        orientationLandscape: false,
+        compress: true,
+
+        business: {
+          name: "Isidorito",
+          address: "San Pedro, Buenos",
+          phone: "(3329) 069 11 11 111",
+          email: "contacto@isidorito.com",
+          
+          website: "www.isidorito.com.ar/nosotros",
+        },
+        contact: {
+          label: "Remito dirigito a:",
+          name: `${orderPrint.cliente.dueño}`,
+          address:`${orderPrint.cliente.direccion}`,
+          phone: `${orderPrint.cliente.telefono1}`,
+          email: `${orderPrint.cliente.correo}`,
+          
+        },
+        invoice: {
+          label: "Pedido #",
+          num: 19,
+          invDate: `${orderPrint.updatedAt.toLocaleString()}`,
+          invGenDate: `${Date.now().toLocaleString}`,
+          headerBorder: false,
+          tableBodyBorder: false,
+          header: [
+            {
+              title: "#", 
+              style: { 
+                width: 10 
+              } 
+            }, 
+            { 
+              title: "Productos descripción",
+              style: {
+                width: 70
+              } 
+            }, 
+            { 
+              title: "Cantidad ",
+              style: {
+                width:20
+              } 
+            }, 
+            { title: "Por unidad",
+          style:{width:30}},
+            // { title: "Cantidad"},
+            { title: "Parcial",
           style:{
             width:30
-          }}
-        ],
-        table: Array.from(orderPrint.productosPedidosNombre).forEach(function(productoIm, index){[
-            index + 1,
-            `${productoIm.nombre} - ${productoIm.marca} - ${productoIm.presentacion}`,
-            `${productoIm.cantidad}`,
-            `${productoIm.cantidad}`,
-            `${productoIm.cantidad}`,
-            `${productoIm.cantidad}`,
-        ]}),
-      
-        invDescLabel: "Cliente:",
-        invDesc: `${orderPrint.cliente.nombreLocal}`,
-      },
-      footer: {
-        text: "Este remito generado digitalmente es valido para el pedido realizado",
-      },
-      pageEnable: true,
-      pageLabel: "Page ",
-      };
-  }
-}
-  } catch (error) {
-    console.log(error);
-  }
+          }},
+            { title: "Total",
+            style:{
+              width:30
+            }}
+          ],
+          table: Array.from(productosPedidos,(productoIm,index)=>([
 
-});
+                   index+1,
+            `${productoIm.nombre} - ${productoIm.marca} `,
+            `${productoIm.cantidad}`,
+            `$200`,
+            `$${productoIm.precioMayorista}`,
+            '-'
+          ])),
+          invDescLabel: "Total:",
+          invDesc: `${orderPrint.importeTotal}`,
+        },
+        footer: {
+          text: "Este remito generado digitalmente es valido para el pedido realizado",
+          style: {
+                      fontStyle: "normal",
+                      fontWeight: "bold",
+                
+        }},
+        pageEnable: true,
+        pageLabel: "Page ",
+        };
+        console.log(orderPrint);
+
+        console.log(props);
+
+      // pdfObject.jsPDFDocObject.save();
+  
+  
+      // mi invoice
+     
+  // nuevo in
+    
+  
+    } catch (error) {
+      console.log(error);
+    }
+  
+  
+  }
+  imprimir1.addEventListener('click', traerPedido)
+
+
+ 
+
 
 const showOrders =  (ordersAll) =>{
   for( let orderRow of ordersAll ){
@@ -205,6 +221,21 @@ const showOrders =  (ordersAll) =>{
     });
   };
 };
+
+
+
+
+// mi array
+
+// table: Array.from(orderPrint.productosPedidosNombre).forEach(productoIm=>{
+            
+              
+//   `${productoIm.nombre} - ${productoIm.marca} - ${productoIm.presentacion}`,
+//   `${productoIm.cantidad}`,
+//   `${productoIm.cantidad}`,
+//   `${productoIm.cantidad}`,
+//   `${productoIm.cantidad}`,
+// }),
 
     // Window.onload = async () => {
     //     let listadoDePedidos ;

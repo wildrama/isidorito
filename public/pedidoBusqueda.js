@@ -1,5 +1,3 @@
-const { listenerCount } = require("../models/estaciondecobro");
-
 const inputBuscar = document.querySelector('#inputIrBuscar');
 
 const displayProductos = document.querySelector('#displayProductos');
@@ -23,6 +21,8 @@ let productosParaElPedido = [];
 const todosLosMas = document.querySelector('agregarUnElementoAlaLista')
 let productosSeleccionados = []
 let montoFinal = 0;
+// const checkboxEstado = document.querySelector('#checkboxEstado');
+// const checkboxArchivar = document.querySelector('#checkboxArchivar');
 
 const idRepartidor = document.querySelector('#idRepartidor').innerHTML
 montoFinalPedido.innerHTML = "00.0";
@@ -61,7 +61,13 @@ formBuscarPedidos.addEventListener("keypress", async function (e) {
       const divPlus = document.createElement('div');
       const idP = document.createElement('p');
 
-      rowProd.classList.add('row', 'mb-1', 'border', 'border-info', 'py-1')
+      rowProd.classList.add('row', 'mb-1', 'border', 'border-primary', 'py-1')
+      if (producto.cantidad <2){
+        rowProd.classList.add('text-danger');
+
+
+        
+      }
       col9.classList.add('col-9', 'd-flex', 'justify-content-between', 'text-center')
       col3.classList.add('col-3', 'd-flex', 'justify-content-end', ',align-items-center')
       divCantidadActual.classList.add('px-3')
@@ -98,15 +104,15 @@ formBuscarPedidos.addEventListener("keypress", async function (e) {
       console.log(productosAgregadosArr)
       // console.log(idP.textContent)
      
-      let data = productosAgregadosArr.find(function (ele) {
+      let data1 = productosAgregadosArr.find(function (ele) {
         return ele.id === producto._id;
         
       });
 
-      if (data) {
-        divCantidadActual.innerHTML = data.cantidad;
+      if (data1) {
+        divCantidadActual.innerHTML = data1.cantidad;
         divCantidadActual.style.color="blue";
-        cantidadElegida = data.cantidad;
+        cantidadElegida = data1.cantidad;
 
       }
       divPlus.addEventListener('click', async (e) => {
@@ -507,32 +513,36 @@ finalizarPedidoBTN.onclick = async () => {
   }
   let idArray = [];
   for (let i = 0; i < productosAgregadosArr.length; i++) {
-    idArray.push(productosAgregadosArr[i]._id);
+    idArray.push(productosAgregadosArr[i].id);
     // console.log(productosAgregadosArr[i].nombre)
   }
   // const ventaRealizada = {
-    let estadoDePedidoCambio = 'PEDIDO';
+  //   let estadoDePedidoCambio = 'PEDIDO';
 
-  if(checkboxEstado.checked) {
-    estadoDePedidoCambio = 'ENTREGADO';
+  // if(checkboxEstado.checked) {
+  //   estadoDePedidoCambio = 'ENTREGADO';
 
-    }
-  let Archivar = 'NO'
-  if(checkboxArchivar.checked) {
+  //   }else{
+  //     estadoDePedidoCambio = 'PEDIDO';
+
+  //   }
+  // let Archivar = 'NO'
+  // if(checkboxArchivar.checked) {
+  //   Archivar = 'SI'
 
 
-  }else{
-    Archivar = 'SI'
+  // }else{
+  //   Archivar = 'NO'
 
-  }
+  // }
   // }
   const res3 = await axios.post('/pedidos/save-pedido', {
     cliente: clienteSeleccionado,
     productosPedidos:idArray,
     productosPedidosNombre: productosAgregadosArr,
     cantidadDeProductos: sum1,
-    estadoDePedidoCambio: estadoDePedidoCambio,
-    Archivar: Archivar,
+    estadoDePedidoCambio: 'PEDIDO',
+    Archivar: 'NO',
     importeTotal: sum,
 
   })
@@ -543,9 +553,8 @@ finalizarPedidoBTN.onclick = async () => {
 
     // hacerOtroPedido.classList.add('d-block');
     // console.log("PEDIDOFINALIZADO")
-    await axios.get(`/pedidos/${idPedido}/ver-pedido`);
+    window.location.href = '/pedidos/crear-pedido/b';    
 
-    
   }
 
 

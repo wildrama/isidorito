@@ -59,7 +59,7 @@ router.post('/save-venta', catchAsync(async(req,res)=>{
     
     await ventaEfectuada.save();
 
-    const ventaID= ventaEfectuada._id;
+    const ventaID = ventaEfectuada._id;
 
 
 

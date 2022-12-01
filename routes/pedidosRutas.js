@@ -25,12 +25,19 @@ router.get('/crear-pedido', catchAsync(async(req,res)=>{
     const idRepartidorActual = req.user
     res.render('pedidos/crearPedido',{clientesActuales,fechaHoy,idRepartidorActual});
 }));
+router.get('/crear-pedido/b', catchAsync(async(req,res)=>{
+    const clientesActuales = await Cliente.find({})
+    const fechaHoy = Date.now();
+    const idRepartidorActual = req.user;
+    req.flash('success','Nuevo pedido realizo correctamente')
 
+    res.render('pedidos/crearPedido',{clientesActuales,fechaHoy,idRepartidorActual});
+}));
 router.post('/crear-pedido',catchAsync(async(req,res)=>{
     const nuevoPedido = new Pedido(req.body.nuevoPedido);
     await nuevoPedido.save()
     req.flash('success','Nuevo pedido realizo correctamente')
-    res.redirect(`/pedidos/${nuevoProducto._id}`)
+    res.redirect(`/pedidos/${nuevoProducto._id}/ver-pedido`)
 
 
 

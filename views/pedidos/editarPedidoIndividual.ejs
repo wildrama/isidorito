@@ -38,7 +38,20 @@
     
        <p class="text-muted" ><%= pedidoIndividual.cliente.comentario %> </p> 
     </div>
-  
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" name="checkboxEstado" id="checkboxEstado">
+                <label class="form-check-label" for="checkboxEstado">Estado de pedido</label>
+              </div>
+
+              <div class="form-check form-switch">
+                <input class="form-check-input" name="checkboxArchivar" type="checkbox" id="checkboxArchivar">
+                <label class="form-check-label" for="checkboxArchivar">Archivar</label>
+              </div>
+            </div>
+    </div>
     <div class="container">
         <div scope="col-6 d-flex justify-content-around text-end px-4" >
             <btn  id="agregarProductos" class="btn btn-success  ">Agregar Producto</btn> 

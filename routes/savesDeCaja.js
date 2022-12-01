@@ -22,7 +22,7 @@ const roleCaja = 'CAJA';
     //     ],
     //     estacionDeCobro: req.body.estacionDeCobro.id
     // }; 
-     
+
 router.post('/save-venta', catchAsync(async(req,res)=>{
     const userActual = req.user.username;
     //  const dineroIngresadoEnCaja = req.body.dineroIngresadoEnCaja;
@@ -90,7 +90,7 @@ res.json('COMPRA FINALIZADA')
 
 router.get('/:id/try-save', async(req,res)=>{
     const estacionId =req.params.id;
-
+    
     const ventaEfectuada = await new Venta({
         dineroIngresado : 1030,
         dineroDeSalida : 30,

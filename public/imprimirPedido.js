@@ -7,9 +7,9 @@ const printAllbtn = document.querySelector('#imprimirIndividual');
 const imprimir1 = document.querySelector('#imprimir1');
 
 const idPedido = document.querySelector('#idPedido').innerHTML;
-let orderPrint
+let orderPrint 
 let props 
-let prodList
+let prodList 
 // let ordersAll = [];
 //   let ordersSelectedToPrint = [];
   // let productosPedido = listadoDePedidos.productosNombre;
@@ -31,15 +31,12 @@ const traerPedido = async ()=>{
 
  
 let productosPedidos = order.productosPedidosNombre;
-console.log(Array.from(productosPedidos,productoIm=>([
 
-                   
-  `${productoIm.nombre} - ${productoIm.marca} `,
-  `${productoIm.cantidad}`,
-  `${productoIm.cantidad}`,
-  `${productoIm.cantidad}`,
-  `${productoIm.cantidad}`,
-])));
+if(order){
+  imprimir1.classList.add("text-muted");
+  printAllbtn.classList.remove("d-none")
+  printAllbtn.classList.add("d-block")
+}
 
 
  printAllbtn.addEventListener('click',generatePDF);
@@ -113,10 +110,10 @@ console.log( 'object created' + pdfObject )
           ],
           table: Array.from(productosPedidos,(productoIm,index)=>([
 
-                   index+1,
+            index+1,
             `${productoIm.nombre} - ${productoIm.marca} `,
-            `${productoIm.cantidad}`,
-            `$200`,
+            `X-${productoIm.cantidad}`,
+            `$${productoIm.precioUnidad}`,
             `$${productoIm.precioMayorista}`,
             '-'
           ])),

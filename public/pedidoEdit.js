@@ -118,6 +118,7 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
             id : producto._id,
             nombre: producto.nombre,
             marca:producto.marca,
+            precioUnidad:producto.precioMayorista,
             precioMayorista: producto.precioMayorista,
             cantidad: cantidadElegida
           })
@@ -466,8 +467,8 @@ console.log('la cantidad total es:'+sum1)
 		// usuarioRepartidor: `${idRepartidor}`
 
 if(res22){
-// axios.get(`/pedidos/${idPedido}/ver-pedido`);
-console.log(res22)
+await axios.get(`/pedidos/${idPedido}/ver-pedido`);
+
 }
 
 

@@ -181,13 +181,13 @@ router.post('/:id/editar-pedido',isLoggedIn, catchAsync(async (req, res) => {
     const { cliente, productosPedidosNombre,estadoDePedido, archivar, cantidadDeProductos, importeTotal} = req.body
     const pedidoActualizar = await Pedido.findByIdAndUpdate(id, {
         cliente: cliente,
- 
+
         productosPedidosNombre: productosPedidosNombre,
         estadoDePedido: estadoDePedido,
         archivar: archivar,
         cantidadDeProductos: cantidadDeProductos, 
         importeTotal: importeTotal,
-       
+
     },
 { runValidators: true });
 res.json(pedidoActualizar)	
@@ -195,11 +195,9 @@ res.json(pedidoActualizar)
     if (!pedidoActualizar) {
       req.flash('error', 'No se puede encontrar editar el pedido');
       return res.redirect('/pedidos/pedidios-todos');
-  }
-   
-  
-  }))
-  
+  }  
+}))
+
 
 // marcar como "ENTREGADO" a un pedido
 

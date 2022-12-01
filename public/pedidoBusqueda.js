@@ -62,12 +62,7 @@ formBuscarPedidos.addEventListener("keypress", async function (e) {
       const idP = document.createElement('p');
 
       rowProd.classList.add('row', 'mb-1', 'border', 'border-primary', 'py-1')
-      if (producto.cantidad <2){
-        rowProd.classList.add('text-danger');
-
-
-        
-      }
+   
       col9.classList.add('col-9', 'd-flex', 'justify-content-between', 'text-center')
       col3.classList.add('col-3', 'd-flex', 'justify-content-end', ',align-items-center')
       divCantidadActual.classList.add('px-3')
@@ -94,10 +89,18 @@ formBuscarPedidos.addEventListener("keypress", async function (e) {
 
       //   tableBody.append(tr);
       col9.append(divNombre, divMarca, divPrecioM);
-      col3.append(divMinus,divCantidadActual, divPlus)
       rowProd.append(col9, col3);
       displayProductos.append(rowProd);
+      if (producto.cantidad <2){
+        rowProd.classList.add('text-danger');
+        col3.append(divCantidadActual)
 
+        
+        
+      }else{
+        col3.append(divMinus,divCantidadActual, divPlus)
+
+      }
 
       let cantidadElegida = 0;
    

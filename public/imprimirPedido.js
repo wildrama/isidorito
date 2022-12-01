@@ -36,6 +36,8 @@ if(order){
   imprimir1.classList.add("text-muted");
   printAllbtn.classList.remove("d-none")
   printAllbtn.classList.add("d-block")
+  imprimir1.classList.add("d-none");
+
 }
 
 
@@ -71,8 +73,8 @@ console.log( 'object created' + pdfObject )
           
         },
         invoice: {
-          label: "Pedido #",
-          num: 19,
+          label: "Pedido",
+        
           invDate: `${orderPrint.updatedAt.toLocaleString()}`,
           invGenDate: `${Date.now().toLocaleString()}`,
           headerBorder: false,

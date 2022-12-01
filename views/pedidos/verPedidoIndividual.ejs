@@ -29,13 +29,14 @@
     Fecha: <p> <%= pedidoIndividual.cliente.updatedAt.toLocaleString() %></p>
 
     <br>    
-    <div class="container d-flex justify-content-center">
-        <div scope="col-6 d-flex justify-content-around text-end px-4" >
-            <btn  id="imprimir1" class="btn btn-info text-dark">Preparar Impreson</btn> 
+    <div class="container ">
+        <div class="col-8 d-flex justify-content-around text-end px-4" >
+            <a href="/pedidos/<%= pedidoIndividual._id %>/editar-pedido" id="editarPedido" class="btn btn-secondary" >Editar Pedido</a>
+
+            <a href="/pedidos/archivar-pedido" id="archivarPedido" class="btn btn-outline-info d-none" >Archivar Pedido</a>
+            <btn  id="imprimir1" class="btn btn-info text-dark">Preparar Impresión</btn> 
 
             <btn  id="imprimirIndividual" class="btn btn-info text-dark d-none">Imprimir</btn> 
-            <a href="/pedidos/archivar-pedido" id="archivarPedido" class="btn btn-outline-info" >Archivar Pedido</a>
-            <a href="/pedidos/<%= pedidoIndividual._id %>/editar-pedido" id="editarPedido" class="btn btn-secondary" >Editar Pedido</a>
 
             
           </div>

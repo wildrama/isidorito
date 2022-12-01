@@ -5,6 +5,7 @@ const { isLoggedIn, isAdmin, isCaja } = require('../middleware');
 const Pedido = require('../models/pedidosRepartidor');
 const Cliente = require('../models/clientes');
 const Producto = require('../models/productos');
+const Usuario = require('../models/usuario');
 
 
 
@@ -15,23 +16,23 @@ const roleCaja = 'CAJA';
 // isLoggedIn,isAdmin(roleADM),
 // 
 
-router.get('/pedidos-repartidor', (req,res)=>{
-    res.render('pedidos/pedidoIndx');
-})
+router.get('/pedidos-repartidor',catchAsync(async (req,res)=>{
+    const usuario = req.user.funcion;
+    res.render('pedidos/pedidoIndx',{usuario});
+}))
 // crear pedido
 router.get('/crear-pedido', catchAsync(async(req,res)=>{
     const clientesActuales = await Cliente.find({})
     const fechaHoy = Date.now();
-    const idRepartidorActual = req.user
-    res.render('pedidos/crearPedido',{clientesActuales,fechaHoy,idRepartidorActual});
+    const idRepartidorActual = req.user;
+    const usuario = req.user.funcion;
+
+    res.render('pedidos/crearPedido',{usuario,clientesActuales,fechaHoy,idRepartidorActual});
 }));
 router.get('/crear-pedido/b', catchAsync(async(req,res)=>{
-    const clientesActuales = await Cliente.find({})
-    const fechaHoy = Date.now();
-    const idRepartidorActual = req.user;
-    req.flash('success','Nuevo pedido realizo correctamente')
 
-    res.render('pedidos/crearPedido',{clientesActuales,fechaHoy,idRepartidorActual});
+    req.flash('success','Pedido realizo correctamente')
+    res.redirect(`/pedidos/crear-pedido`)
 }));
 router.post('/crear-pedido',catchAsync(async(req,res)=>{
     const nuevoPedido = new Pedido(req.body.nuevoPedido);

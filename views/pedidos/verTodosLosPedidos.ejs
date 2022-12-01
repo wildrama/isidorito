@@ -58,9 +58,8 @@
                     <%= pedidoIndividual.importeTotal %> 
                   </td>
                   <td>
-                    <btn  class="d-flex justify-content-around align-items-center btn btn-primary imprimirAccionTabla">
-                      <img class="img-fluid" src="/imgs/imprimirIMG.png" alt="">
-                    </btn>
+               <a class="btn btn-info" href="/pedidos/<%= pedidoIndividual._id %>/ver-pedido">Ver pedido</a>
+
                 </td>
                 </tr>
               <% } %>

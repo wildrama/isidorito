@@ -62,12 +62,7 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
       const idP = document.createElement('p');
 
       rowProd.classList.add('row', 'mb-1', 'border', 'border-primary', 'py-1')
-      if (producto.cantidad <2){
-        rowProd.classList.add('text-danger');
-
-
-        
-      }
+  
       rowProd.classList.add('row', 'mb-1','border', 'border-info')
       col9.classList.add('col-9', 'd-flex', 'justify-content-between', 'text-center')
       col3.classList.add('col-3','d-flex' , 'justify-content-end', ',align-items-center')
@@ -98,7 +93,16 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
     col3.append(divMinus,divCantidadActual,divPlus)
     rowProd.append(col9,col3);
       displayProductos.append(rowProd);
+      if (producto.cantidad <2){
+        rowProd.classList.add('text-danger');
+        col3.append(divCantidadActual)
 
+        
+        
+      }else{
+        col3.append(divMinus,divCantidadActual, divPlus)
+
+      }
       
       let cantidadElegida = 0;
    
@@ -628,6 +632,7 @@ console.log('la cantidad total es:'+sum1)
 
 if(res22){
 await axios.get(`/pedidos/${idPedido}/ver-pedido`);
+window.location.href = `/pedidos/${idPedido}/ver-pedido`;    
 
 }
 

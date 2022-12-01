@@ -113,6 +113,7 @@ formBuscarPedidos.addEventListener("keypress", async function(e){
             nombre: producto.nombre,
             marca:producto.marca,
             precioMayorista: producto.precioMayorista,
+            precioUnidad:producto.precioMayorista,
             cantidad: cantidadElegida
           })
           console.log(productosAgregadosArr)

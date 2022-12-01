@@ -178,10 +178,10 @@ router.get('/:id/editar-pedido',isLoggedIn , catchAsync(async (req, res) => {
 router.post('/:id/editar-pedido',isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     console.log(req.body);
-    const { cliente, productosPedidosNombre,estadoDePedido, archivar, cantidadDeProductos, importeTotal} = req.body
+    const { cliente,productosPedidos, productosPedidosNombre,estadoDePedido, archivar, cantidadDeProductos, importeTotal} = req.body
     const pedidoActualizar = await Pedido.findByIdAndUpdate(id, {
         cliente: cliente,
-
+        productosPedidos:productosPedidos,
         productosPedidosNombre: productosPedidosNombre,
         estadoDePedido: estadoDePedido,
         archivar: archivar,

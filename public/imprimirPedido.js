@@ -50,7 +50,7 @@ console.log( 'object created' + pdfObject )
   props = {
         outputType: jsPDFInvoiceTemplate.OutputType.Save,
         returnJsPDFDocObject: true,
-        fileName: "remito",
+        fileName: "remitoPedido",
         orientationLandscape: false,
         compress: true,
 
@@ -121,7 +121,7 @@ console.log( 'object created' + pdfObject )
           invDesc: `${orderPrint.importeTotal}`,
         },
         footer: {
-          text: "Este remito generado digitalmente es valido para el pedido realizado",
+          text: "Este remito generado digitalmente es valido para el pedido ortorgado",
           style: {
                       fontStyle: "normal",
                       fontWeight: "bold",

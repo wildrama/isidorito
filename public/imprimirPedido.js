@@ -29,7 +29,7 @@ const traerPedido = async ()=>{
  let order = res.data;
  orderPrint=order;
 
- 
+
 let productosPedidos = order.productosPedidosNombre;
 
 if(order){
@@ -53,14 +53,14 @@ console.log( 'object created' + pdfObject )
         outputType: jsPDFInvoiceTemplate.OutputType.Save,
         returnJsPDFDocObject: true,
         fileName: "remitoPedido",
-        orientationLandscape: false,
+        orientationLandscape :false,
         compress: true,
 
         business: {
           name: "Isidorito",
           address: "San Pedro, Buenos",
-          phone: "(3329) 069 11 11 111",
-          email: "contacto@isidorito.com",
+          phone: "(3329) 563576",
+          email: "distribuidoraisidorito@hotmail.com.com",
           
           website: "www.isidorito.com.ar/nosotros",
         },
@@ -156,70 +156,70 @@ console.log( 'object created' + pdfObject )
  
 
 
-const showOrders =  (ordersAll) =>{
-  for( let orderRow of ordersAll ){
+// const showOrders =  (ordersAll) =>{
+//   for( let orderRow of ordersAll ){
 
 
-    let rowPedidoRow = document.createElement('tr')
-    let tdClienteNombreLocal = document.createElement('td');
-    let ulProductos = document.createElement('td');
-    let tdPedidoCantidadProductos = document.createElement('td');
-    let tdPrecioTotalPedido = document.createElement('td');
-    let checkboxImprimir = document.createElement('input')
-    let eliminarPedido = document.createElement('div');
-    checkboxImprimir.setAttribute("type", "checkbox");
-    checkboxImprimir.classList.add("check");
-    tdClienteNombreLocal.innerHTML = `${orderRow.cliente.nombreLocal} . ${orderRow.cliente.dueño}`;
+//     let rowPedidoRow = document.createElement('tr')
+//     let tdClienteNombreLocal = document.createElement('td');
+//     let ulProductos = document.createElement('td');
+//     let tdPedidoCantidadProductos = document.createElement('td');
+//     let tdPrecioTotalPedido = document.createElement('td');
+//     let checkboxImprimir = document.createElement('input')
+//     let eliminarPedido = document.createElement('div');
+//     checkboxImprimir.setAttribute("type", "checkbox");
+//     checkboxImprimir.classList.add("check");
+//     tdClienteNombreLocal.innerHTML = `${orderRow.cliente.nombreLocal} . ${orderRow.cliente.dueño}`;
 
-    orderRow.productosPedidosNombre.forEach(producto=>{
-      ulProductos.innerHTML= `
-      <li class="">
-          ${producto.nombre} - ${producto.marca}
-      </li>
-    `;
-    });
+//     orderRow.productosPedidosNombre.forEach(producto=>{
+//       ulProductos.innerHTML= `
+//       <li class="">
+//           ${producto.nombre} - ${producto.marca}
+//       </li>
+//     `;
+//     });
 
-    tdPedidoCantidadProductos.innerHTML = orderRow.cantidadDeProductos;
-    tdPrecioTotalPedido.innerHTML = orderRow.importeTotal;
-    tableParaPedidos.append(rowPedidoRow);
-    eliminarPedido.innerHTML=`<form action="/pedidos/${orderRow._id}?_method=DELETE" method="post">
-    <button class="btn btn-warning">Borrar</button>
-</form>`;
-    rowPedidoRow.append(tdClienteNombreLocal,ulProductos,tdPedidoCantidadProductos,tdPrecioTotalPedido,checkboxImprimir)
+//     tdPedidoCantidadProductos.innerHTML = orderRow.cantidadDeProductos;
+//     tdPrecioTotalPedido.innerHTML = orderRow.importeTotal;
+//     tableParaPedidos.append(rowPedidoRow);
+//     eliminarPedido.innerHTML=`<form action="/pedidos/${orderRow._id}?_method=DELETE" method="post">
+//     <button class="btn btn-warning">Borrar</button>
+// </form>`;
+//     rowPedidoRow.append(tdClienteNombreLocal,ulProductos,tdPedidoCantidadProductos,tdPrecioTotalPedido,checkboxImprimir)
     
-    checkboxImprimir.addEventListener('change', () => {
-      console.log(checkboxImprimir.checked);
-  if(checkboxImprimir.checked == true) {
-    ordersSelectedToPrint.push(orderRow)
-    console.log(ordersSelectedToPrint);
-    }
-    if(checkboxImprimir.checked == false){
+//     checkboxImprimir.addEventListener('change', () => {
+//       console.log(checkboxImprimir.checked);
+//   if(checkboxImprimir.checked == true) {
+//     ordersSelectedToPrint.push(orderRow)
+//     console.log(ordersSelectedToPrint);
+//     }
+//     if(checkboxImprimir.checked == false){
         
-							for (let i = 0; i < ordersSelectedToPrint.length; i++) {
-								if (ordersSelectedToPrint[i].id == orderRow.id) {
-									ordersSelectedToPrint.splice(i, 1);
-								}
-							}
-              console.log('checkboxImprimir desclicleada')
-              console.log(ordersSelectedToPrint);
-              console.log(checkboxImprimir.checked);
+// 							for (let i = 0; i < ordersSelectedToPrint.length; i++) {
+// 								if (ordersSelectedToPrint[i].id == orderRow.id) {
+// 									ordersSelectedToPrint.splice(i, 1);
+// 								}
+// 							}
+//               console.log('checkboxImprimir desclicleada')
+//               console.log(ordersSelectedToPrint);
+//               console.log(checkboxImprimir.checked);
 
 
-    }
-    console.log(checkboxImprimir.checked.length)
-      //  Array.from(ordersSelectedToPrint[i], (productoIm, index)=>([
-      //     index + 1,
-      //     `${productoIm.cliente.nombreLocal}`,
-      //     `${productoIm.cantidadDeProductos }`,
-      //     `${productoIm.importeTotal }`,
+//     }
+//     console.log(checkboxImprimir.checked.length)
+//       //  Array.from(ordersSelectedToPrint[i], (productoIm, index)=>([
+//       //     index + 1,
+//       //     `${productoIm.cliente.nombreLocal}`,
+//       //     `${productoIm.cantidadDeProductos }`,
+//       //     `${productoIm.importeTotal }`,
 
-      // ])),
+//       // ])),
 
       
       
-    });
-  };
-};
+//     });
+//   };
+// };
 
 
 

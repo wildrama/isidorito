@@ -14,7 +14,6 @@
         <div class="col-9">
             <select id="seleccionCliente" aria-placeholder="Seleccionar Cliente" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
               <option>Elegir Cliente</option>
-
               <% for( let clientes of clientesActuales ) { %>
                   <option value="<%= clientes._id %>" ><%= clientes.nombreLocal %></option>
                 <% } %>
@@ -25,11 +24,9 @@
         </div>
     </div>
     <div id="contenedorBusquedaGRAL" class="container d-none">
-
     
       <form id="formBuscarPedidos" class="row justify-content-between align-items-center px-1">
         <div class="col-10">
-
             <input class="form-control" placeholder="buscar" type="text" name="inputIrBuscar" id="inputIrBuscar">
           
           </div>
@@ -48,7 +45,6 @@
             </svg>
           </div>
           </div>
-
         </form>
         <div id="displayProductos" class="mt-2" >
 

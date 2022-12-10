@@ -51,7 +51,7 @@ formBuscarPedidos.addEventListener("input", async function (e) {
       const divMarca = document.createElement('div');
       const divPrecioM = document.createElement('div');
       const divPrecioU = document.createElement('div');
-
+      
       const col3 = document.createElement('div');
 
       const divMinus = document.createElement('div');
@@ -61,7 +61,7 @@ formBuscarPedidos.addEventListener("input", async function (e) {
       const idP = document.createElement('p');
 
       rowProd.classList.add('row', 'mb-1', 'border', 'border-primary', 'p-1')
-   
+      
       col9.classList.add('col-9', 'd-flex', 'justify-content-between', '')
       col3.classList.add('col-3', 'd-flex', 'justify-content-end', ',align-items-center')
       divCantidadActual.classList.add('px-3')

@@ -7,9 +7,9 @@
     <a href="/pedidos/pedidos-repartidor">Atras</a>
     <div class="h4">Armar Pedido</div>
   <p id="idRepartidor" class="d-none"><%= idRepartidorActual._id %> </p>
-  
-  <div class="row justify-content-between ">
-        <div class="col-10">
+    <div class="container">
+      <div class="row justify-content-between ">
+        <div class="col-9">
             <select id="seleccionCliente" aria-placeholder="Seleccionar Cliente" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
               <option>Elegir Cliente</option>
               <% for( let clientes of clientesActuales ) { %>
@@ -17,10 +17,13 @@
                 <% } %>
               </select>
         </div>
-        <div class="col-2 px-3">
+        <div class="col-3 px-1">
             <a class="btn btn-outline-success" href="/clientes/agregar-cliente">Agregar+</a>
         </div>
     </div>
+    </div>
+
+
     <div id="contenedorBusquedaGRAL" class="container d-none">
     
       <form id="formBuscarPedidos" class="row justify-content-between align-items-center px-1">
@@ -28,13 +31,13 @@
             <input class="form-control" placeholder="buscar" type="text" name="inputIrBuscar" id="inputBuscar">
 
           </div>
-          <div class="col-3 d-flex justify-content-around align-items-center ">
+          <div class="col-3 d-flex justify-content-between align-items-center ">
                <button id="lupaBusqueda" class=" btn">
 
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
             </svg>          
-
+            
           </button>
           <div id="eliminarProductos" class="">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">

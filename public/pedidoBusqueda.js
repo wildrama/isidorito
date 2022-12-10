@@ -27,21 +27,20 @@ let montoFinal = 0;
 const idRepartidor = document.querySelector('#idRepartidor').innerHTML
 montoFinalPedido.innerHTML = "00.0";
 
-formBuscarPedidos.addEventListener("keypress", async function (e) {
-
+formBuscarPedidos.addEventListener("input", async function (e) {
+  
   const query_buscar = e.target.value;
   displayProductos.innerHTML = "";
   console.log(query_buscar)
-
+  
   try {
     // console.log(query_buscar)
     const res = await axios.get(`/pedidos/buscar-productos?busqueda=${query_buscar}`);
     const productos = res.data;
-
+    
     productosParaElPedido.push(productos)
 
     for (let producto of productos) {
-      console.log(producto.nombre)
 
 
 

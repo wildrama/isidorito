@@ -1,4 +1,4 @@
-const inputBuscar = document.querySelector('#inputIrBuscar');
+const inputBuscar = document.querySelector('#inputBuscar');
 
 const displayProductos = document.querySelector('#displayProductos');
 
@@ -27,9 +27,9 @@ let montoFinal = 0;
 const idRepartidor = document.querySelector('#idRepartidor').innerHTML
 montoFinalPedido.innerHTML = "00.0";
 
-formBuscarPedidos.addEventListener("input", async function (e) {
-  
-  const query_buscar = e.target.value;
+formBuscarPedidos.addEventListener("submit", async function (e) {
+  e.preventDefault();
+  const query_buscar = inputBuscar.value;
   displayProductos.innerHTML = "";
   console.log(query_buscar)
 
@@ -96,7 +96,7 @@ formBuscarPedidos.addEventListener("input", async function (e) {
         col3.append(divCantidadActual)
 
         
-        
+
       }else{
         col3.append(divMinus,divCantidadActual, divPlus)
 

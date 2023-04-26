@@ -16,6 +16,7 @@
       Ingrese nuevamente el codigo
     </p>
   </div>  
+  
     <!-- <div class="col-12 col-lg-6 mb-3">
       <form class="" id="buscarPorCodigoForm" >
         <label  class="" for="inputCodigo">Por Codigo</label>
@@ -34,7 +35,32 @@
         <button class="btn btn-outline-success" type="submit">Buscar</button>
     </form>  -->
 
+    <div class="container">
+      <h1>Buscar Productos</h1>
+      <div class="form-group">
+        <label for="inputSearch">Buscar:</label>
+        <!-- <input type="text" id="inputSearch" class="form-control" placeholder="Ingrese nombre del producto"> -->
+  
+      </div>
+      <div id="divResultados" class="row"></div>
 
+<div class="divProductoElegida"></div>
+
+<p class="lead">BUSCADOR NUEVO</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+      <div class="list-group" id="searchResults"></div>
+    </div>
+    <div class="col-md-4">
+      <div id="productCard"></div>
+    </div>
+  </div>
+</div>
+
+
+    </div>
   <h2>Debajo se mostrara el producto si se encontro alguna coincidencia </h2>
  <div class="row">
      <div class="col-10">
@@ -168,6 +194,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script  src="/app.js"></script>
-
+  <script src="/sbar.js"></script>
 
   <%- include('../partials/footer.ejs'); %>

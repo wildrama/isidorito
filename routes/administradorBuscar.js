@@ -48,7 +48,19 @@ router.post('/',  async(req,res)=>{
 
   }))
   
-  
+  router.get('/productosb', async (req, res) => {
+    const searchText = req.query.q;
+    if (searchText) {
+      const filteredProducts = await Producto.find({ nombre: { $regex: searchText, $options: 'i' } });
+      res.json(filteredProducts);
+    } else {
+      const allProducts = await Producto.find();
+      res.json(allProducts);
+    }
+  });
+
+
+
 router.post('/mixto', isLoggedIn, async(req,res)=>{
     const query = req.body.buscar;
     console.log(query);

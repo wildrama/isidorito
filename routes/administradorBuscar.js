@@ -47,7 +47,51 @@ router.post('/',  async(req,res)=>{
     
 
   }))
-  
+  // Ruta para buscar por código de barras
+router.get('/buscar-por-codigo-de-barras/:codigoDeBarras', async (req, res) => {
+  const { codigoDeBarras } = req.params;
+  try {
+    const producto = await Producto.findOne({codigo: codigoDeBarras });
+    if (!producto) {
+      return res.status(404).json({ message: 'No se encontró ningún producto con ese código de barras.' });
+    }
+    return res.json(producto);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Error al buscar el producto.' });
+  }
+});
+
+
+// Ruta para buscar por texto
+router.get('/buscar-por-texto/:busqueda', async (req, res) => {
+  const { busqueda } = req.params;
+
+  try {
+
+   
+        const productos = await Producto.find({
+          $or: [
+            { nombre: { $regex: busqueda, $options: 'i' } },
+            { marca: { $regex: busqueda, $options: 'i'} },
+          ],
+        });
+        res.json(productos);
+
+
+    // const searchText = req.query.q;
+    // if (searchText) {
+    //   const filteredProducts = await Producto.find({ nombre: { $regex: busqueda, $options: 'i' } });
+    //   res.json(filteredProducts);
+    // } else {
+    //   const allProducts = await Producto.find();
+    //   res.json(allProducts);
+    // }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Error al buscar los productos.' });
+  }
+});
   router.get('/productosb', async (req, res) => {
     const searchText = req.query.q;
     if (searchText) {
@@ -70,7 +114,7 @@ router.post('/mixto', isLoggedIn, async(req,res)=>{
            $or:[
              {nombre:{$regex: query}},
              {marca:{$regex: query}},
-	     {codigo:{$regex: query}}	   
+	            {codigo:{$regex: query}}	   
   
            ]
              });

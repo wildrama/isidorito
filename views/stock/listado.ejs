@@ -1,9 +1,49 @@
 <%- include('../partials/headerAdm.ejs'); %>
 
+
+
+
   
 <div class="container">
+  <div class="container">
+    <h1>Buscar productos</h1>
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <form>
+          <div class="form-group">
+            <input type="text" class="form-control" id="search-bar" placeholder="Buscar...">
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="search-type-switch">
+            <label class="form-check-label" for="search-type-switch">Buscar por código de barras</label>
+          </div>
+          <button type="submit" class="btn btn-primary mt-3" id="search-button">Buscar</button>
+        </form>
+        <p id="alerP" class="bg-warning border border-danger lead d-none">
+          Ingrese nuevamente el codigo
+        </p>
+      </div>
+    </div>
+    <div class="row mt-3" id="search-results"></div>
+  </div>
+  
+  <!-- Plantilla de tarjeta de Bootstrap -->
+  <template id="card-template">
+    <div class="col-12 col-md-4 mb-3">
+      <div class="card">
 
-  <h3 class="text-center" > Buscar productos dentro del sistema</h3>
+        <div class="card-body">
+          <h5 class="card-title"></h5>
+          <p class="card-text"></p>
+          <p class="card-precio"></p>
+
+          <a href="" class="btn btn-outline-success btnCambiarPrecio">Cambiar precio</a>
+        </div>
+      </div>
+    </div>
+  </template>
+  
+  <!-- <h3 class="text-center" > Buscar productos dentro del sistema</h3>
   <div class="buscar-producto row justify-content-around"> 
     <div class="col-12 col-lg-6 mb-3">
       <form class="" id="formSearch" >
@@ -15,7 +55,7 @@
     <p id="alerP" class="bg-warning border border-danger lead d-none">
       Ingrese nuevamente el codigo
     </p>
-  </div>  
+  </div>   -->
   
     <!-- <div class="col-12 col-lg-6 mb-3">
       <form class="" id="buscarPorCodigoForm" >
@@ -26,26 +66,24 @@
     </div>  -->
    
   </div> 
-   
- 
-   
+
       <!-- <form class="col-6" id="formSearchCodigo" >
         <label for="buscarcodigo">Introduzca el codigo de barra</label>
         <input  type="number" id="buscarcodigo" name="buscarcodigo"  required>
         <button class="btn btn-outline-success" type="submit">Buscar</button>
     </form>  -->
-
+<!-- 
     <div class="container">
       <h1>Buscar Productos</h1>
       <div class="form-group">
-        <label for="inputSearch">Buscar:</label>
+        <label for="inputSearch">Buscar:</label> -->
         <!-- <input type="text" id="inputSearch" class="form-control" placeholder="Ingrese nombre del producto"> -->
   
-      </div>
+      <!-- </div>
       <div id="divResultados" class="row"></div>
 
-<div class="divProductoElegida"></div>
-
+<div class="divProductoElegida"></div> -->
+<!-- 
 <p class="lead">BUSCADOR NUEVO</p>
 <div class="container">
   <div class="row">
@@ -102,15 +140,15 @@
               <div class="col-12"></div>
           </div>
      </div>
- </div>
+ </div> -->
 
   <!-- <form action="">
   
   
       <button type="submit"></button>
   </form> -->
-   
 
+<!-- 
 
   <div id="container-caja-cobro" class="container d-none d-print-none">
 
@@ -181,14 +219,14 @@
     </div>
 
       </div>
+-->
 
-
-</div>     
+<!-- </div>     
   
 
 
-   
-</div>
+
+</div> -->
 
 
 

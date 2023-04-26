@@ -183,7 +183,7 @@ router.post('/:id/egreso-efectivo', catchAsync(async (req, res) => {
 
   req.flash('success', `Se realizo un retiro de efectivo de $${cantidad}`);
 
-  res.redirect(`/administrador/estacionesdecobro/${estacionDeCobro._id}`)
+  res.redirect(`/caja/${estacionDeCobro._id}/inicio`)
 }))
 
 

@@ -1,98 +1,137 @@
-//Se oculta el subnav
-const subnav = document.getElementsByClassName("subnav");
-const body = document.getElementsByTagName("body");
-const form = document.getElementById("formEdit")
-const codigo = document.getElementById("codigoProducto")
-const nombre = document.getElementById("nombreProducto")
-const cantidad = document.getElementById("cantidadProducto");
-const marca = document.getElementById("marcaProducto")
-const precioMinorista = document.getElementById("precioMinorista")
-const precioMayorista = document.getElementById("precioMayorista")
-const precioCosto = document.getElementById("precioCosto")
-const categoriaInterna = document.getElementById("categoriaInterna")
-const mostrar = document.getElementById("mostrar")
-const id = document.getElementById("id")
-const peso = document.getElementById("peso")
-const fechaDeVencimiento = document.getElementById("fechaDeVencimiento")
-const impuesto = document.getElementById("impuesto")
-let disabled = true;
-const editGuar = document.getElementById("editGuar")
+/**
+ * EDIT PAGE (STOCK) MODULE - MINIMAL Y ROBUSTO
+ * Versión simplificada sin variables innecesarias
+ */
 
+console.log('✅ [editPage.js] Script iniciado');
 
+// ELEMENT GATHERING - Solo lo necesario
+const formEdit = document.getElementById("formEdit");
+const btnEditGuar = document.getElementById("editGuar");
 
-// default no obligatorias
-if (fechaDeVencimiento.value == "") {
- fechaDeVencimiento.value = " "
+// VALIDACIÓN CRÍTICA
+if (!formEdit) {
+	console.error('❌ [editPage.js] ERROR: formEdit no encontrado');
+	alert('ERROR: Formulario no encontrado. Actualiza la página.');
+	throw new Error('formEdit missing');
 }
 
-if (peso.value == "") {
-	peso.value = " "
+if (!btnEditGuar) {
+	console.error('❌ [editPage.js] ERROR: editGuar no encontrado');
+	alert('ERROR: Botón no encontrado. Actualiza la página.');
+	throw new Error('editGuar missing');
 }
 
+console.log('✅ [editPage.js] Elementos encontrados');
 
+// STATE
+let isEditMode = false;
 
-
-body[0].style.backgroundColor = "#fff"
-subnav[0].style.display = "none"
-console.log(id.textContent)
-
-
-
-//alert 
-
-const alertar = (mensaje, color, producto) => {
-	const pop = document.createElement("div")
-	pop.innerHTML = mensaje + ' "' + producto + '"'
-	pop.classList.add("alert")
-	pop.classList.add(color)
-	pop.style.position = "fixed"
-	pop.style.top = "0";
+// FORM SUBMISSION
+formEdit.addEventListener("submit", function(e) {
+	e.preventDefault();
+	console.log('📝 [editPage.js] Form submitted. isEditMode:', isEditMode);
 	
-	pop.style.width = "100%"
-	body[0].appendChild(pop)
-	setTimeout(() => {
-		body[0].removeChild(pop)	
-	}, 3000)
-}
-
-
-
-form.addEventListener("submit", async e => {
-
-	e.preventDefault()
-	if (disabled == true) {
-		codigo.disabled = false;
-		nombre.disabled = false;
-		cantidad.disabled = false;
-		marca.disabled = false;
-		categoriaInterna.disabled = false;
-		peso.disabled = false;
-		fechaDeVencimiento.disabled = false;
-		impuesto.disabled = false
-		disabled = false;
-		editGuar.innerHTML = "Guardar cambios"
-		return
-	}
-	try {
-		codigo.disabled = true;
-		nombre.disabled = true;
-		cantidad.disabled = true;
-		marca.disabled = true;
-		categoriaInterna.disabled = true;
-		fechaDeVencimiento.disabled = true;
-		peso.disabled = true;
-		impuesto.disabled = true
-		disabled = true;
-		editGuar.innerHTML = "Editar"
-		const send =  await axios.put(`/administrador/productos/${id.textContent}`, {codigo: codigo.value, nombre: nombre.value, cantidad: cantidad.value, marca: marca.value, precioMinorista: precioMinorista.value, precioMayorista: precioMayorista.value, precioCosto: precioCosto.value, categoria: categoriaInterna.value, peso: peso.value, fechaDeVencimiento: fechaDeVencimiento.value, impuestoAplicado: impuesto.value})
+	if (!isEditMode) {
+		// ENABLE EDIT MODE
+		console.log('📝 [editPage.js] Activando modo edición...');
 		
-
-
-		alertar("Se modificaron los valores en el producto", "alert-success", send.data.nombre)
-
-	} catch (error) {
-		alertar("Se producto un error:", "alert-danger", error)
-		console.log(impuesto.value)
-		console.log(error)
+		// Habilitar campos
+		const campos = formEdit.querySelectorAll('input[type="text"], input[type="date"], select');
+		campos.forEach(campo => {
+			if (campo.id !== 'nombreProducto' && campo.id !== 'precioMinorista' && campo.id !== 'precioMayorista' && campo.id !== 'precioCosto') {
+				campo.disabled = false;
+			}
+		});
+		
+		// Cambiar botón
+		btnEditGuar.innerHTML = '💾 Guardar Cambios';
+		isEditMode = true;
+		
+		console.log('✅ [editPage.js] Modo edición activado');
+		return;
 	}
-})
+	
+	// SAVE MODE
+	console.log('💾 [editPage.js] Intentando guardar...');
+	
+	// Obtener datos
+	const idProducto = document.getElementById("id").value;
+	const codigoVal = document.getElementById("codigoProducto").value;
+	const cantidadVal = document.getElementById("cantidadProducto").value;
+	const categoriaVal = document.getElementById("categoriaInterna").value;
+	const impuestoVal = document.getElementById("impuesto").value;
+	
+	console.log('📦 [editPage.js] Datos:', { idProducto, codigoVal, cantidadVal, categoriaVal, impuestoVal });
+	
+	// Validación básica
+	if (!codigoVal) {
+		alert('❌ El código es requerido');
+		return;
+	}
+	if (!cantidadVal || cantidadVal < 0) {
+		alert('❌ La cantidad debe ser >= 0');
+		return;
+	}
+	if (!categoriaVal) {
+		alert('❌ La categoría es requerida');
+		return;
+	}
+	if (!impuestoVal) {
+		alert('❌ El impuesto es requerido');
+		return;
+	}
+	
+	console.log('✅ [editPage.js] Validaciones pasadas');
+	
+	// Deshabilitar botón
+	btnEditGuar.disabled = true;
+	btnEditGuar.innerHTML = '⏳ Guardando...';
+	
+	// ENVIAR DATOS
+	const datos = {
+		codigo: codigoVal,
+		nombre: document.getElementById("nombreProducto").value,
+		cantidad: parseInt(cantidadVal),
+		marca: document.getElementById("marcaProducto").value,
+		precioMinorista: document.getElementById("precioMinorista").value,
+		precioMayorista: document.getElementById("precioMayorista").value,
+		precioCosto: document.getElementById("precioCosto").value,
+		categoria: categoriaVal,
+		peso: document.getElementById("peso").value || null,
+		fechaDeVencimiento: document.getElementById("fechaDeVencimiento").value || null,
+		impuestoAplicado: impuestoVal
+	};
+	
+	const urlPUT = '/administrador/productos/' + idProducto;
+	console.log('📤 [editPage.js] Enviando PUT a:', urlPUT);
+	console.log('📤 [editPage.js] Datos completos:', datos);
+	
+	// AXIOS REQUEST
+	axios.put(urlPUT, datos)
+		.then(response => {
+			console.log('✅ [editPage.js] Respuesta exitosa:', response.data);
+			alert('✅ Producto guardado correctamente');
+			
+			// Redirigir
+			setTimeout(() => {
+				window.location.href = '/administrador/productos/' + idProducto;
+			}, 1000);
+		})
+		.catch(error => {
+			console.error('❌ [editPage.js] Error:', error);
+			console.error('❌ [editPage.js] Error status:', error.response?.status);
+			console.error('❌ [editPage.js] Error data:', error.response?.data);
+			console.error('❌ [editPage.js] Error headers:', error.response?.headers);
+			
+			const msg = error.response?.data?.message || error.message || 'Error desconocido';
+			alert('❌ Error: ' + msg);
+			
+			// Revertir
+			btnEditGuar.disabled = false;
+			btnEditGuar.innerHTML = '💾 Guardar Cambios';
+			isEditMode = true;
+		});
+});
+
+console.log('✅ [editPage.js] Event listener agregado. Listo.');

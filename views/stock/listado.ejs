@@ -1,237 +1,164 @@
 <%- include('../partials/headerAdm.ejs'); %>
 
+<div class="admin-dashboard">
+    <div class="form-container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb-nav">
+            <a href="/administrador" class="breadcrumb-link">Dashboard</a>
+            <span class="breadcrumb-separator">/</span>
+            <a href="/administrador/stock" class="breadcrumb-link">Stock</a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">Buscar Productos</span>
+        </nav>
 
-
-
-  
-<div class="container">
-  <div class="container">
-    <h1>Buscar productos</h1>
-    <div class="row">
-      <div class="col-12 col-md-6">
-        <form>
-          <div class="form-group">
-            <input type="text" class="form-control" id="search-bar" placeholder="Buscar...">
-          </div>
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="search-type-switch">
-            <label class="form-check-label" for="search-type-switch">Buscar por código de barras</label>
-          </div>
-          <button type="submit" class="btn btn-primary mt-3" id="search-button">Buscar</button>
-        </form>
-        <p id="alerP" class="bg-warning border border-danger lead d-none">
-          Ingrese nuevamente el codigo
-        </p>
-      </div>
-    </div>
-    <div class="row mt-3" id="search-results"></div>
-  </div>
-  
-  <!-- Plantilla de tarjeta de Bootstrap -->
-  <template id="card-template">
-    <div class="col-12 col-md-4 mb-3">
-      <div class="card">
-
-        <div class="card-body">
-          <h5 class="card-title"></h5>
-          <p class="card-text"></p>
-          <p class="card-precio"></p>
-
-          <a href="" class="btn btn-outline-success btnCambiarPrecio">Cambiar precio</a>
+        <!-- Search Header -->
+        <div class="form-header">
+            <h1 class="form-title">🔍 Buscar Productos</h1>
+            <p class="form-subtitle">Encuentra productos por nombre, marca o código de barra</p>
         </div>
-      </div>
-    </div>
-  </template>
-  
-  <!-- <h3 class="text-center" > Buscar productos dentro del sistema</h3>
-  <div class="buscar-producto row justify-content-around"> 
-    <div class="col-12 col-lg-6 mb-3">
-      <form class="" id="formSearch" >
-        <label for="inputBuscar">ESCANEAR CODIGO</label>
-        <input  class="" type="number" id="inputBuscar" name="buscar" autofocus  required>
-        <button class="btn btn-outline-success" type="submit">Buscar</button>
-    </form> 
 
-    <p id="alerP" class="bg-warning border border-danger lead d-none">
-      Ingrese nuevamente el codigo
-    </p>
-  </div>   -->
-  
-    <!-- <div class="col-12 col-lg-6 mb-3">
-      <form class="" id="buscarPorCodigoForm" >
-        <label  class="" for="inputCodigo">Por Codigo</label>
-        <input class=""   type="text" id="inputCodigo" name="buscar"  autofocus required>
-        <button class="btn btn-outline-success" type="submit">Buscar</button>
-      </form> 
-    </div>  -->
-   
-  </div> 
+        <!-- Search Container -->
+        <div class="search-container">
+            <form id="searchForm" class="search-form-modern">
+                <!-- Search Input -->
+                <div class="search-input-wrapper">
+                    <div class="search-box-large">
+                        <span class="search-icon-large">🔍</span>
+                        <input type="text" 
+                               id="searchInput" 
+                               class="search-input-large" 
+                               placeholder="Busca por nombre, marca o código..."
+                               autocomplete="off">
+                    </div>
 
-      <!-- <form class="col-6" id="formSearchCodigo" >
-        <label for="buscarcodigo">Introduzca el codigo de barra</label>
-        <input  type="number" id="buscarcodigo" name="buscarcodigo"  required>
-        <button class="btn btn-outline-success" type="submit">Buscar</button>
-    </form>  -->
-<!-- 
-    <div class="container">
-      <h1>Buscar Productos</h1>
-      <div class="form-group">
-        <label for="inputSearch">Buscar:</label> -->
-        <!-- <input type="text" id="inputSearch" class="form-control" placeholder="Ingrese nombre del producto"> -->
-  
-      <!-- </div>
-      <div id="divResultados" class="row"></div>
+                    <!-- Search Type Toggle -->
+                    <div class="search-type-wrapper">
+                        <label class="toggle-switch-label">
+                            <span class="toggle-label-text">Buscar por:</span>
+                            <div class="toggle-switch-container">
+                                <input type="checkbox" id="searchByBarcode" class="toggle-input">
+                                <span class="toggle-track"></span>
+                                <span class="toggle-thumb"></span>
+                                <span class="toggle-label toggle-label-off">Texto</span>
+                                <span class="toggle-label toggle-label-on">Código</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
 
-<div class="divProductoElegida"></div> -->
-<!-- 
-<p class="lead">BUSCADOR NUEVO</p>
-<div class="container">
-  <div class="row">
-    <div class="col-md-8">
-      <input type="text" class="form-control" id="searchInput" placeholder="Search...">
-      <div class="list-group" id="searchResults"></div>
+                <!-- Filters Row -->
+                <div class="search-filters-row">
+                    <div class="filter-group" style="flex: 1; min-width: 150px;">
+                        <label for="sortFilter" class="filter-label">Ordenar por:</label>
+                        <select id="sortFilter" class="filter-select-modern">
+                            <option value="relevancia">⭐ Relevancia</option>
+                            <option value="nombre">🔤 Nombre A-Z</option>
+                            <option value="precio">💰 Menor precio</option>
+                            <option value="stock">📦 Mayor stock</option>
+                        </select>
+                    </div>
+
+                    <button type="reset" id="clearSearchBtn" class="btn-clear-search" style="align-self: flex-end;">
+                        🔄 Limpiar
+                    </button>
+                </div>
+
+                <!-- Alert Message -->
+                <div id="alertMessage" class="search-alert" style="display: none;">
+                    <span class="alert-icon">ℹ️</span>
+                    <span id="alertText">Ingresa un término de búsqueda válido</span>
+                </div>
+            </form>
+
+            <!-- Search Stats -->
+            <div id="searchStats" class="search-stats" style="display: none;">
+                <span class="stat-badge">
+                    📊 <strong id="resultCount">0</strong> productos encontrados
+                </span>
+            </div>
+        </div>
+
+        <!-- Search Results Grid -->
+        <div class="search-results-wrapper">
+            <div id="searchResults" class="search-results-grid"></div>
+
+            <!-- Empty State -->
+            <div id="noResults" class="empty-state-search" style="display: none;">
+                <div class="empty-icon-large">🔍</div>
+                <h3>No se encontraron productos</h3>
+                <p>Intenta con otros términos de búsqueda o utiliza diferentes palabras clave</p>
+            </div>
+
+            <!-- Initial State -->
+            <div id="initialState" class="empty-state-search">
+                <div class="empty-icon-large">📝</div>
+                <h3>Comienza tu búsqueda</h3>
+                <p>Escribe el nombre, marca o código del producto que buscas</p>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-      <div id="productCard"></div>
-    </div>
-  </div>
 </div>
 
-
-    </div>
-  <h2>Debajo se mostrara el producto si se encontro alguna coincidencia </h2>
- <div class="row">
-     <div class="col-10">
-      <table class="table">
-          <thead>
-            <tr>
-  
-    
-              <th scope="col">Nombre</th>
-              <th scope="col">Precio Minorista</th>
-
-              <th scope="col">Marca</th>
-              <th scope="col">Cantidad</th>
-              <th scope="col">Acciones</th>
-
-    
-    
-            </tr>
-          </thead>
-          <tbody class="tableBody">
-            
-           
-      
-            
-               
-    
-    
-    
-    
-    
-          </tbody>
-        </table>
-     </div>
-     <div class="col-4">
-          <div class="row">
-              <div class="col-12"></div>
-              <div class="col-12"></div>
-              <div class="col-12"></div>
-              <div class="col-12"></div>
-          </div>
-     </div>
- </div> -->
-
-  <!-- <form action="">
-  
-  
-      <button type="submit"></button>
-  </form> -->
-
-<!-- 
-
-  <div id="container-caja-cobro" class="container d-none d-print-none">
-
-  <div class="filaA row mt-4">
-    <div class="col-md-8 columI">
-
-      <div class="row">
-      <form id="cajaCobroForm" class="d-flex justify-content-around">
-
-        <input class="inputBuscar" id="textBuscar" type="text" placeholder="Buscar producto por código">
-        <input id="sbBuscar" type="submit" class="btnBuscar" value="Buscar">				</form>	
-      <div class="filaB row">
-
-
-        <table class="table table-striped mt-4 mb-4">
-          <tr>
-            <th class="thNombre">Nombre</th>
-            <th>Precio unitario</th>
-            <th>Marcas</th>
-            <th>Cantidad</th>
-            <th><b>Subtotal</b></th>
-          </tr>
-
-          <tbody id="tablaCajaCobro">
-
-
-          </tbody>
-
-        
-
-        </table>
-        <div class="boxPrecioContainer">
-        <div class="boxPrecio"><p id="total">Total: $</p></div>
+<!-- Product Card Template -->
+<template id="productCardTemplate">
+    <div class="search-result-card">
+        <div class="result-card-header">
+            <div class="result-card-icon">📦</div>
+            <div class="result-card-title-group">
+                <h3 class="result-card-title"></h3>
+                <p class="result-card-brand"></p>
+            </div>
         </div>
-      </div> 
-      </div>
-        <div class="btnContainer mt-4">
-          <div id="imprimirTicketC" class="btnFunc">Imprimir Ticket-C</div>
-          <div id="cancelarCompra" class="btnFunc">Cancelar Compra</div>
-          <div id="cambiarPrecio" class="btnFunc">Cambiar Precio</div>
-          <div id="imprimirTicketA" class="btnFunc">Imprimir Ticket-A</div>
-          <div id="eliminarProductos" class="btnFunc">Eliminar Producto</div>
-          <div id="agregarProducto" class="btnFunc">Agregar prod. a la lista</div>
-        </div>				
+        
+        <div class="result-card-body">
+            <div class="result-detail-row">
+                <span class="result-detail-label">Código:</span>
+                <span class="result-detail-value code"></span>
+            </div>
+            <div class="result-detail-row">
+                <span class="result-detail-label">Marca:</span>
+                <span class="result-detail-value brand"></span>
+            </div>
+            <div class="result-detail-row">
+                <span class="result-detail-label">Stock:</span>
+                <span class="result-detail-value stock"></span>
+            </div>
+            <div class="result-detail-row">
+                <span class="result-detail-label">Precio:</span>
+                <span class="result-detail-value price"></span>
+            </div>
+        </div>
+
+        <div class="result-card-footer">
+            <a href="" class="btn-result-edit">✏️ Ver Detalle</a>
+            <a href="" class="btn-result-stock">📦 Actualizar Stock</a>
+        </div>
     </div>
-    <div class="col-md-4 columD">
-    <div class="row d-none filaDSup">
-      <div class="emptyBtn"></div>
-      <div class="emptyBtn"></div>
-      <div class="emptyBtn"></div>
-      <div class="emptyBtn"></div>
-      <div class="emptyBtn"></div>
-      </div>
+</template>
 
-<div class="row filaDInf">
-      <p class="subt">Dinero ingresado</p>
-      <div class="boxDinero">
-        <label>$</label><input id="dineroIngresado" type="number">
-      </div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/js/productSearch.js"></script>
+<script>
+// Inicializar búsqueda de productos
+document.addEventListener('DOMContentLoaded', function() {
+    const search = new ProductSearch({
+        searchInput: document.getElementById('searchInput'),
+        searchByBarcode: document.getElementById('searchByBarcode'),
+        sortFilter: document.getElementById('sortFilter'),
+        searchResults: document.getElementById('searchResults'),
+        noResults: document.getElementById('noResults'),
+        initialState: document.getElementById('initialState'),
+        alertMessage: document.getElementById('alertMessage'),
+        searchStats: document.getElementById('searchStats'),
+        resultCount: document.getElementById('resultCount'),
+        template: document.getElementById('productCardTemplate'),
+        clearSearchBtn: document.getElementById('clearSearchBtn'),
+        apiEndpoint: '/api/search/smart',
+        useSmartSearch: true
+    });
+    
+    search.init();
+});
+</script>
 
-      <p class="subt">Vuelto</p>
-
-      <div class="boxDinero">
-        <p id="vuelto">0.00</p>
-      </div>
-    </div>
-
-    </div>
-
-      </div>
--->
-
-<!-- </div>     
-  
-
-
-
-</div> -->
-
-
-
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script  src="/app.js"></script>
-  <script src="/sbar.js"></script>
-
-  <%- include('../partials/footer.ejs'); %>
+<%- include('../partials/footer.ejs'); %>

@@ -12,7 +12,7 @@ const CierreCaja = require('../cierrecaja');
 const roleADM = 'ADMINISTRADOR';
 const roleCaja = 'CAJA';
 
-// isLoggedIn,isAdmin(roleADM),
+router.use(isLoggedIn, isAdmin(roleADM));
 
 // mostrar las estaciones y ultimas ventas
 router.get('/', async (req, res) => {
@@ -35,7 +35,6 @@ router.get('/', async (req, res) => {
 // render formulario
 router.get('/nuevaestacion', (req, res) => {
   console.log(req.user, 'req.user....');
-
   res.render('panelEstacionCobro/crearEstacion');
 });
 
@@ -43,7 +42,11 @@ router.get('/nuevaestacion', (req, res) => {
 router.post('/nuevaestacion', catchAsync(async (req, res) => {
   const dineroDeInicio = req.body.dineroEnEstacion;
   const ubicacionDeEstacion = req.body.ubicacionDeEstacion
-  const nuevaEstacion = new EstacionDeCobro({ dineroDeInicio: dineroDeInicio, dineroEnEstacion: dineroDeInicio, ubicacionDeEstacion: ubicacionDeEstacion });
+  const nuevaEstacion = new EstacionDeCobro({ 
+    dineroDeInicio: dineroDeInicio, 
+    dineroEnEstacion: dineroDeInicio, 
+    ubicacionDeEstacion: ubicacionDeEstacion 
+  });
   await nuevaEstacion.save();
 
   req.flash('success', 'Estación de cobro creada');

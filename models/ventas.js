@@ -17,11 +17,11 @@ const ventasEfectuadasSchema = new Schema({
             {
                 type: String
             },
-            identificadorDeProducto:
-            {
-                type: Schema.Types.ObjectId,
-                ref: Producto
-            }
+            identificadorDeProducto: {
+  type: Schema.Types.ObjectId,
+  ref: 'Producto'  // ← Nombre del modelo, no un objeto vacío
+},
+
         }
     ]
     ,

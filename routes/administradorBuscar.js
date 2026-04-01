@@ -3,131 +3,103 @@ const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const {isLoggedIn,isAdmin} = require('../middleware');
 const Producto = require('../models/productos');
-const User = require('../models/usuario');
-
-
-const passport = require('passport');
-
 
 const roleADM = 'ADMINISTRADOR';
 
+// Página principal de búsqueda
+router.get('/', isLoggedIn, isAdmin(roleADM), (req,res) => {
+  res.render('stock/listado');
+});
 
-
-router.get('/', isLoggedIn, isAdmin(roleADM),(req,res)=>{
-  res.render('stock/listado')
-})
-
-
-router.post('/',  async(req,res)=>{
-    try {
-      const codigo = req.body.codigo;
-      
-     
-      const producto = await Producto.findOne({codigo: codigo });
-      res.json(producto);    
-    } catch (error) {
-        res.send('error')
-    } 
-    
-  })
+// API: Búsqueda mixta (por texto - nombre, marca, código)
+router.post('/api/buscar-texto', isLoggedIn, isAdmin(roleADM), catchAsync(async (req, res) => {
+  const { query, sort = 'relevancia' } = req.body;
   
-  router.post('/buscar-codigo', isLoggedIn,catchAsync( async (req, res) => {
-    try {
-        
-      const codigo = req.body.codigo;
-      console.log(codigo);
-      const producto = await Producto.findOne({codigo: codigo });
-      res.json(producto);   
-    } catch (error) {
-      console.log(error) ;
-        res.send('error')
-      
-
-    } 
-    
-
-  }))
-  // Ruta para buscar por código de barras
-router.get('/buscar-por-codigo-de-barras/:codigoDeBarras', async (req, res) => {
-  const { codigoDeBarras } = req.params;
-  try {
-    const producto = await Producto.findOne({codigo: codigoDeBarras });
-    if (!producto) {
-      return res.status(404).json({ message: 'No se encontró ningún producto con ese código de barras.' });
-    }
-    return res.json(producto);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Error al buscar el producto.' });
+  if (!query || query.trim().length < 2) {
+    return res.status(400).json({ 
+      success: false, 
+      message: 'Ingresa al menos 2 caracteres' 
+    });
   }
-});
 
-
-// Ruta para buscar por texto
-router.get('/buscar-por-texto/:busqueda', async (req, res) => {
-  const { busqueda } = req.params;
-
-  try {
-
-   
-        const productos = await Producto.find({
-          $or: [
-            { nombre: { $regex: busqueda, $options: 'i' } },
-            { marca: { $regex: busqueda, $options: 'i'} },
-          ],
-        });
-        res.json(productos);
-
-
-    // const searchText = req.query.q;
-    // if (searchText) {
-    //   const filteredProducts = await Producto.find({ nombre: { $regex: busqueda, $options: 'i' } });
-    //   res.json(filteredProducts);
-    // } else {
-    //   const allProducts = await Producto.find();
-    //   res.json(allProducts);
-    // }
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Error al buscar los productos.' });
-  }
-});
-  router.get('/productosb', async (req, res) => {
-    const searchText = req.query.q;
-    if (searchText) {
-      const filteredProducts = await Producto.find({ nombre: { $regex: searchText, $options: 'i' } });
-      res.json(filteredProducts);
-    } else {
-      const allProducts = await Producto.find();
-      res.json(allProducts);
-    }
+  // Buscar solo en nombre y marca usando regex (campos String)
+  const searchRegex = { $regex: query.trim(), $options: 'i' };
+  
+  let productos = await Producto.find({
+    $or: [
+      { nombre: searchRegex },
+      { marca: searchRegex }
+    ]
   });
 
+  // Filtrar resultados en JavaScript para evitar CastError en campo 'codigo' (Number)
+  const searchTerm = query.trim().toLowerCase();
+  productos = productos.filter(p => {
+    const matchNombre = p.nombre && p.nombre.toLowerCase().includes(searchTerm);
+    const matchMarca = p.marca && p.marca.toLowerCase().includes(searchTerm);
+    const matchCodigo = String(p.codigo).toLowerCase().includes(searchTerm);
+    return matchNombre || matchMarca || matchCodigo;
+  });
 
+  // Aplicar ordenamiento
+  switch(sort) {
+    case 'nombre':
+      productos.sort((a, b) => a.nombre.localeCompare(b.nombre));
+      break;
+    case 'precio':
+      productos.sort((a, b) => (a.precioMinorista || a.valor || 0) - (b.precioMinorista || b.valor || 0));
+      break;
+    case 'stock':
+      productos.sort((a, b) => (b.cantidad || 0) - (a.cantidad || 0));
+      break;
+    case 'relevancia':
+    default:
+      // Relevancia: coincidencias exactas primero
+      productos.sort((a, b) => {
+        const aMatch = a.nombre.toLowerCase() === query.toLowerCase() ? 1 : 0;
+        const bMatch = b.nombre.toLowerCase() === query.toLowerCase() ? 1 : 0;
+        return bMatch - aMatch;
+      });
+  }
 
-router.post('/mixto', isLoggedIn, async(req,res)=>{
-    const query = req.body.buscar;
-    console.log(query);
-    try {
-  
-        const productos = await Producto.find({
-           $or:[
-             {nombre:{$regex: query}},
-             {marca:{$regex: query}},
-	            {codigo:{$regex: query}}	   
-  
-           ]
-             });
-  
-  
-             console.log(productos);
-             res.json(productos)
-  
-    } catch (error) {
-        res.send('error')
-    }
-  })
+  res.json({
+    success: true,
+    count: productos.length,
+    data: productos
+  });
+}));
 
+// API: Búsqueda por código de barra
+router.post('/api/buscar-codigo', isLoggedIn, isAdmin(roleADM), catchAsync(async (req, res) => {
+  const { codigo } = req.body;
+  
+  if (!codigo || codigo.trim().length < 2) {
+    return res.status(400).json({ 
+      success: false, 
+      message: 'Ingresa un código válido' 
+    });
+  }
 
+  // Fetch todos los productos y filtrar por string match en JavaScript
+  const productos = await Producto.find({});
+  const searchTerm = codigo.trim().toLowerCase();
+  
+  const producto = productos.find(p => 
+    String(p.codigo).toLowerCase() === searchTerm
+  );
+
+  if (!producto) {
+    return res.status(404).json({ 
+      success: false, 
+      message: 'Producto no encontrado' 
+    });
+  }
+
+  res.json({
+    success: true,
+    count: 1,
+    data: [producto]
+  });
+}));
 
 module.exports = router;

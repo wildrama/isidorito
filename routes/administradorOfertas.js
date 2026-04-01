@@ -13,6 +13,7 @@ const EstacionDeCobro = require('../models/estaciondecobro');
 
 const roleADM = 'ADMINISTRADOR';
 
+router.use(isLoggedIn, isAdmin(roleADM));
 
 
 

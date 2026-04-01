@@ -1,105 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de GESTIÓN ISIDORITO</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="/sass/style.css">
-    <link rel="stylesheet" href="/sass/specific/cajacobro.css">
-  
+    <title>Panel Administrador - Isidorito</title>
+    <link rel="stylesheet" href="/styles/app-unified.css">
 </head>
-<body>
-    <nav id="admNavbar" class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-          <a class="navbar-brand" href="/administrador">ISIDORITO</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-             
-              <li class="nav-item">
-                <a class="nav-link" href="/administrador/productos">Ver STOCK completo</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/administrador/productos/nuevo">Agregar Productos</a>
-              </li>
-                
-              <li class="nav-item">
-                <a class="nav-link" href="/administrador/buscar">Buscar producto</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/administrador/ofertas">Ofertas</a>
-              </li>
-           
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Pedidos/Remitos
+<body class="admin-page">
+    <!-- Navbar Principal -->
+    <nav class="navbar-admin">
+        <div class="navbar-content">
+            <a href="/administrador" class="navbar-brand">
+                <span class="brand-icon">🏪</span>
+                <span class="brand-text">Isidorito</span>
+            </a>
+            <button class="navbar-toggle" onclick="toggleMenu()">☰</button>
+            <div class="navbar-menu" id="navbarMenu">
+                <a href="/administrador" class="nav-link">
+                    <span class="nav-icon">📊</span>
+                    <span>Inicio</span>
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="/pedidos/pedidos-repartidor">PEDIDOS</a></li>
+                <a href="/administrador/productos" class="nav-link">
+                    <span class="nav-icon">📦</span>
+                    <span>Productos</span>
+                </a>
+                <a href="/administrador/buscar" class="nav-link">
+                    <span class="nav-icon">🔍</span>
+                    <span>Buscar</span>
+                </a>
+                <a href="/administrador/userpanel" class="nav-link">
+                    <span class="nav-icon">👥</span>
+                    <span>Usuarios</span>
+                </a>
+                <a href="/administrador/estacionesdecobro" class="nav-link">
+                    <span class="nav-icon">💰</span>
+                    <span>Estaciones</span>
+                </a>
+                <a href="/administrador/ofertas" class="nav-link">
+                    <span class="nav-icon">🎁</span>
+                    <span>Ofertas</span>
+                </a>
+                <a href="/administrador/cierres-caja" class="nav-link">
+                    <span class="nav-icon">📊</span>
+                    <span>Cierres</span>
+                </a>
+                <a href="/clientes" class="nav-link">
+                    <span class="nav-icon">👤</span>
+                    <span>Clientes</span>
+                </a>
+                <a href="/cerrar-sesion" class="nav-link nav-link-logout">
+                    <span class="nav-icon">🚪</span>
+                    <span>Salir</span>
+                </a>
+            </div>
+        </div>
+    </nav>
 
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="/pedidos/crear-pedido">Crear Pedido</a></li>
-
-                  <li><a class="dropdown-item" href="/pedidos/pedidos-todos">Ver pedidos</a></li>
-
-
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/clientes/clientes-index">Clientes</a>
-              </li>
+    <!-- Submenú de Acceso Rápido -->
+    <div class="submenu-container">
+        <div class="submenu-quick-access">
+            <h3 class="submenu-title">⚡ Acceso Rápido</h3>
+            <ul class="submenu-links">
+                <li>
+                    <a href="/administrador/buscar" class="submenu-link">
+                        <span class="submenu-link-icon">🔍</span>
+                        Buscar producto
+                    </a>
+                </li>
+                <li>
+                    <a href="/administrador/productos/nuevo" class="submenu-link">
+                        <span class="submenu-link-icon">➕</span>
+                        Agregar producto
+                    </a>
+                </li>
+                <li>
+                    <a href="/administrador/estacionesdecobro" class="submenu-link">
+                        <span class="submenu-link-icon">🏪</span>
+                        Todas las estaciones
+                    </a>
+                </li>
+                <li>
+                    <a href="/administrador/estacionesdecobro/nuevaestacion" class="submenu-link">
+                        <span class="submenu-link-icon">🆕</span>
+                        Crear nueva caja
+                    </a>
+                </li>
             </ul>
-           
-
-              <div class="dropdown">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                  Administrador
-                </a>
-              
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <li><a class="dropdown-item" href="/administrador/estacionesdecobro">Estaciones de cobro</a></li>
-                  <li><a class="dropdown-item" href="#">Cierres realizados</a></li>
-
-
-                  <li><a class="dropdown-item" href="/administrador/userpanel">Panel de Usuarios</a></li>
-
-                  <li><a class="dropdown-item text-danger" href="/cerrar-sesion">Cerrar sesión</a></li>
-                </ul>
-              </div>            
-          </div>
         </div>
-      </nav> 
-      
-      
-      <div class="subnav">
+    </div>
 
-        <div class="container mb-3 py-3">
-          <ul class="nav justify-content-around align-items-center">
-            <li class="nav-item px-2">
-              <a class="nav-link" href="/administrador/buscar">Buscar producto</a>
+    <!-- Flash Messages -->
+    <%- include('../partials/flash.ejs'); %>
 
-            </li>
-	
-	    <li class="nav-item">
-              <a class="nav-link" href="/administrador/productos/nuevo">Agregar producto</a>
-            </li>
-           
-            <li class="nav-item">
-              <a class="nav-link" href="/administrador/estacionesdecobro">Todas las estaciones</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="/administrador/estacionesdecobro/nuevaestacion">Crear nueva caja</a>
-            </li>
-          </ul>
-        </div>
-
-      </div>
-      <%- include('../partials/flash.ejs'); %>
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('navbarMenu');
+            if (menu) menu.classList.toggle('active');
+        }
+        
+        document.addEventListener('click', function(e) {
+            const menu = document.getElementById('navbarMenu');
+            const toggle = document.querySelector('.navbar-toggle');
+            if (menu && menu.classList.contains('active') && 
+                !menu.contains(e.target) && 
+                toggle && !toggle.contains(e.target)) {
+                menu.classList.remove('active');
+            }
+        });
+    </script>
 
 

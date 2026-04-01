@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
-const {isLoggedIn,logAdmin,logCaja} = require('../middleware');
+const { isLoggedIn, isAdmin } = require('../middleware');
 const User = require('../models/usuario');
 
 
 const passport = require('passport');
+const roleADM = 'ADMINISTRADOR';
+
+router.use(isLoggedIn, isAdmin(roleADM));
 
 // mostrar todos los usuarios
 router.get('/', catchAsync(async(req,res)=>{

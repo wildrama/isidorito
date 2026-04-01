@@ -1,35 +1,45 @@
-<%- include('./partials/header.ejs'); %>
+<%- include('./partials/headerCaja.ejs'); %>
 <%- include('./partials/flash.ejs'); %>
 
-<div class="todi contenedor-estaciones-inicio">
-  <div class="container">
-    <a class="btn btn-outline-success px-3" href="/">Ir al inicio</a>
-      <div class="row text-center p-3 ">
-        <h2 class="px-md-3 ">Hacer click en la estación de cobro que se quiera ingresar</h2>
-        <% if(estacionesDeCobro){ %> 
-        <% for(let estacion of estacionesDeCobro){ %> 
-  
-          <div class="col-12 col-lg-6 p-md-3">
-              <a class="link-none" href="/ingreso-caja/<%= estacion._id %>/login">
-                  
-                      <div class="p-5 border border-dark text-center d-flex justify-content-center">
+<div class="cajas-page">
+    <div class="cajas-container">
+        <!-- Header -->
+        <div class="cajas-header">
+            <div class="cajas-header-content">
+                <div>
+                    <h1 class="cajas-title">💰 Selecciona una Estación de Cobro</h1>
+                    <p class="cajas-subtitle">Elige la caja desde la cual deseas operar</p>
+                </div>
+            </div>
+        </div>
 
-
-                        <h5 class="">
-                         <%= estacion.ubicacionDeEstacion %>
-                        </h5>
-                             
-                      </div>
-                                                                                 
-              </a>
-            </a>       
-          </div>
-          <% } %>
-          <% } %>
-  
-      </div>
-  </div>
+        <!-- Estaciones Grid -->
+        <div class="estaciones-grid">
+            <% if(estacionesDeCobro && estacionesDeCobro.length > 0){ %>
+                <% estacionesDeCobro.forEach(estacion => { %>
+                <a href="/ingreso-caja/<%= estacion._id %>/login" class="estacion-card">
+                    <div class="estacion-card-icon">🏪</div>
+                    <div class="estacion-card-content">
+                        <h3 class="estacion-card-title"><%= estacion.ubicacionDeEstacion %></h3>
+                        <% if (estacion.numero) { %>
+                            <p class="estacion-card-meta">Caja #<%= estacion.numero %></p>
+                        <% } %>
+                        <% if (estacion.responsable) { %>
+                            <p class="estacion-card-meta">Responsable: <%= estacion.responsable %></p>
+                        <% } %>
+                    </div>
+                    <div class="estacion-card-arrow">→</div>
+                </a>
+                <% }); %>
+            <% } else { %>
+                <div class="empty-state-cajas">
+                    <div class="empty-icon">📦</div>
+                    <h3>No hay estaciones disponibles</h3>
+                    <p>Contacta al administrador para crear una estación de cobro</p>
+                </div>
+            <% } %>
+        </div>
+    </div>
 </div>
-
 
 <%- include('./partials/footer.ejs'); %>

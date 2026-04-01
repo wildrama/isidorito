@@ -4,6 +4,7 @@ const port = 3037;
 const path = require('path');
 
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 
 const methodOverride = require('method-override');
@@ -38,17 +39,27 @@ const pedidosRoutes = require('./routes/pedidosRutas');
 
 const busquedaNombre = require('./routes/buscarProd');
 const codigoBarra = require('./routes/codigoBarra');
+const searchApiRoutes = require('./routes/searchApi');
+const stockRoutes = require('./routes/stock');
+const ofertasSearchRoutes = require('./routes/ofertas-search');
  
 const saveVentasRoutes = require('./routes/savesDeCaja')
 
 
 
-const dbUrl = 'mongodb://localhost:27017/dbIsidorito';
-main().catch(err => console.log(err));
+const dbUrl = process.env.MONGO_URI || 'mongodb://localhost:27017/dbIsidorito';
+main().catch(err => {
+  console.error('[DB] Error al conectar MongoDB:', err.message);
+  process.exit(1);
+});
 
 async function main() {
-  await mongoose.connect(dbUrl);
-  console.log("everything abot db is OK" + dbUrl)
+  console.log('[DB] Intentando conectar a MongoDB...');
+  await mongoose.connect(dbUrl, {
+    serverSelectionTimeoutMS: 10000
+  });
+  console.log('[DB] MongoDB conectada OK:', dbUrl);
+  app.listen(port, () => console.log(`Isidorito v.0.1 ${port}!`));
 }
 
 const store = new MongoStore({
@@ -63,11 +74,13 @@ store.on("error", function(e){
 const sessionConfig = {
   store,
   name:'session',
-  secret: 'this!',
+  secret: process.env.SESSION_SECRET || 'sk-isidorito-2024-prod-abc123def456ghi789jkl012mno345pqr', // 60+ caracteres
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
       httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // HTTPS only en producción
+      sameSite: 'strict', // CSRF protection
       expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
       maxAge: 1000 * 60 * 60 * 24 * 7
   }
@@ -127,8 +140,11 @@ app.use('/caja',cajaRoutes);
 app.use('/administrador/caja', admCaja)
 app.use('/administrador/buscar',administradorBuscarRoutes);
 app.use('/administrador/ofertas',administradorOfertasRoutes)
+app.use('/administrador/stock', stockRoutes);
+app.use('/administrador/ofertas-search', ofertasSearchRoutes);
 app.use('/buscanombre', busquedaNombre)
 app.use('/codigobarra', codigoBarra)
+app.use('/api/search', searchApiRoutes);
 app.use('/', ingresos)
 
 app.use('/save', saveVentasRoutes);
@@ -156,5 +172,5 @@ app.use(function (err, req, res, next) {
 }); 
 
 // endapp
-app.listen(port, () => console.log(`Isidorito v.0.1 ${port}!`))
+
 

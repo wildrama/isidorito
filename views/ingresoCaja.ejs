@@ -1,37 +1,70 @@
-<%- include('./partials/header.ejs'); %>
-
+<%- include('./partials/headerCaja.ejs'); %>
 <%- include('./partials/flash.ejs'); %>
 
-      <div class="container my-3">
-          <h1 class="">
-              Ingresar a estación: <strong><%= nombreEstacion %></strong>  
-          </h1>
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-icon">💳</div>
+            <h1 class="login-title">Acceso a Caja</h1>
+            <p class="login-subtitle">Estación: <strong><%= nombreEstacion %></strong></p>
+        </div>
 
+        <form action="/ingreso-caja/<%= estacionDeCobroId %>/login" method="POST" class="login-form">
+            <div class="form-group-modern">
+                <label for="username" class="form-label-modern">Usuario</label>
+                <input type="text" 
+                       id="username" 
+                       name="username" 
+                       class="form-control-modern" 
+                       placeholder="Ingresa tu usuario"
+                       required>
+            </div>
 
-
-          <div class="row">
-              <div class="col-12 col-md-2"></div>
-              <div class="col-12 col-md-8">
-
-
-                  <form action="/ingreso-caja/<%= estacionDeCobroId %>/login" method="POST" >
-                  
-                <div class="mb-3">
-                  <label for="usuarioInput" class="form-label">Usuario</label>
-                  <input name="username" type="text" class="form-control" id="usuarioInput" aria-describedby="emailHelp">
-                  <div id="emailHelp" class="form-text">Ingresa el nombre de usuario sin mayusculas</div>
+            <div class="form-group-modern">
+                <label for="password" class="form-label-modern">Contraseña</label>
+                <div class="password-wrapper">
+                    <input type="password" 
+                           id="password" 
+                           name="password" 
+                           class="form-control-modern" 
+                           placeholder="Ingresa tu contraseña"
+                           required>
+                    <button type="button" class="password-toggle" onclick="togglePasswordCaja()">
+                        <span id="eye-icon-caja">👁️</span>
+                    </button>
                 </div>
-                <div class="mb-3">
-                  <label for="contraseñaInput" class="form-label">Contraseña</label>
-                  <input name="password" type="password" class="form-control" id="contraseñaInput">
-                </div>
-                <!-- <div class="mb-3 form-check">
-                  <input type="checkbox" name="sesionAbierta" class="form-check-input" id="sesionAbierta">
-                  <label class="form-check-label" for="sesionAbierta">Mantener Sesión abierta</label>
-                </div> -->
-                <button type="submit" class="btn btn-primary">Ingresar</button>
-              </form></div>
-              <div class="col-12 col-md-2"></div>
-          </div>
-      </div>
-      <%- include('./partials/footer.ejs'); %>
+            </div>
+
+            <div class="form-check-modern">
+                <input type="checkbox" id="remember" class="checkbox-modern">
+                <label for="remember" class="checkbox-label">Recordar sesión</label>
+            </div>
+
+            <button type="submit" class="btn-login-modern">
+                <span>Ingresar a Caja</span>
+                <span class="btn-arrow">→</span>
+            </button>
+        </form>
+
+        <div class="login-footer">
+            <p class="security-text">🔒 Conexión segura y encriptada</p>
+        </div>
+    </div>
+</div>
+
+<script>
+function togglePasswordCaja() {
+    const passwordField = document.getElementById('password');
+    const eyeIcon = document.getElementById('eye-icon-caja');
+    
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        eyeIcon.textContent = '🙈';
+    } else {
+        passwordField.type = 'password';
+        eyeIcon.textContent = '👁️';
+    }
+}
+</script>
+
+<%- include('./partials/footer.ejs'); %>

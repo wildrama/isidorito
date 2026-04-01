@@ -8,7 +8,7 @@ const User = require('../models/usuario');
 const passport = require('passport');
 
 
-router.get('/administrador', async (req, res) => {
+router.get('/administrador', isLoggedIn, async (req, res) => {
     
     res.render('adminicio');
     

@@ -133,7 +133,7 @@ router.post('/ingresar', async (req, res, next) => {
               console.log('[LOGIN REDIRECT] REPARTIDOR → ' + redirectUrl);
               break;
             case 'CAJA':
-              redirectUrl = req.session.returnTo || '/caja/cajaCobro';
+              redirectUrl = req.session.returnTo || '/ingreso-caja';
               console.log('[LOGIN REDIRECT] CAJA → ' + redirectUrl);
               break;
             default:

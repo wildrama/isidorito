@@ -66,6 +66,7 @@ router.post('/api/buscar-texto', isLoggedIn, isAdmin(roleADM), catchAsync(async 
     success: true,
     count: productos.length,
     data: productos
+    
   });
 }));
 

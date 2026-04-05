@@ -62,6 +62,8 @@
                     <div class="cash-toolbar-actions">
                         <button type="button" id="openFinderBtn" class="btn btn-outline-primary">🔎 Buscar producto</button>
                         <button type="button" id="newSaleBtn" class="btn btn-outline-secondary">🧹 Nueva compra</button>
+                        <button type="button" id="lastTicketBtn" class="btn btn-outline-dark">🖨️ Reimprimir último ticket</button>
+                        <button type="button" id="salesHistoryBtn" class="btn btn-outline-info">📋 Ventas últimas 24h</button>
                     </div>
                 </div>
 
@@ -119,12 +121,16 @@
                             <span>Efectivo</span>
                         </label>
                         <label class="payment-option">
-                            <input type="radio" name="metodoPago" value="TRANSFERENCIA">
-                            <span>Transferencia</span>
+                            <input type="radio" name="metodoPago" value="DEBITO">
+                            <span>Débito</span>
                         </label>
                         <label class="payment-option">
-                            <input type="radio" name="metodoPago" value="TARJETA">
-                            <span>Tarjeta débito/crédito</span>
+                            <input type="radio" name="metodoPago" value="CREDITO">
+                            <span>Crédito</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="metodoPago" value="TRANSFERENCIA">
+                            <span>Transferencia</span>
                         </label>
                     </div>
 
@@ -146,6 +152,9 @@
                     <button type="button" id="checkoutBtn" class="btn btn-lg btn-success w-100">
                         ✅ Registrar venta
                     </button>
+                    <p class="ticket-help-note">
+                        Si la impresora falla, podés usar <strong>Reimprimir último ticket</strong> incluso con una compra nueva ya iniciada.
+                    </p>
                 </section>
 
                 <section class="offers-card">
@@ -206,6 +215,39 @@
 
             <div id="finderResults" class="finder-results">
                 <p class="finder-empty">Todavía no hiciste una búsqueda.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="finder-modal" id="salesHistoryModal" hidden>
+        <div class="finder-dialog finder-dialog-wide">
+            <div class="finder-header">
+                <div>
+                    <h2>Ventas de las últimas 24 horas</h2>
+                    <p>Podés reimprimir cualquier venta del listado</p>
+                </div>
+                <button type="button" id="closeSalesHistoryBtn" class="btn btn-outline-secondary btn-sm">Cerrar</button>
+            </div>
+
+            <div class="sales-history-table-wrapper">
+                <table class="table sales-history-table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Hora</th>
+                            <th>Cajero</th>
+                            <th>Detalle</th>
+                            <th>Total</th>
+                            <th>Pago</th>
+                            <th>Ticket</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="salesHistoryBody">
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">Todavía no cargaste el listado.</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

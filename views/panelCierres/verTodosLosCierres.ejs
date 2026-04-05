@@ -67,14 +67,18 @@
                             <div class="stat-row">
                                 <span class="stat-label">Total Ventas:</span>
                                 <span class="stat-value">
-                                    $<%= (parseFloat(cierreDeCajaRealizado.dineroTotalDeVentasEnEfectivo) + parseFloat(cierreDeCajaRealizado.dineroTotalDeVentasEnOtro)).toFixed(2) %>
+                                    $<%= Number((cierreDeCajaRealizado.ventasEnEfectivo?.montoTotal || 0) + (cierreDeCajaRealizado.ventasEnOtro?.montoTotal || 0)).toFixed(2) %>
                                 </span>
                             </div>
                             <div class="stat-row">
                                 <span class="stat-label">Transacciones:</span>
                                 <span class="stat-value">
-                                    <%= cierreDeCajaRealizado.cantidadTotalDeVentasEnEfectivo + cierreDeCajaRealizado.cantidadTotalDeVentasEnOtro %>
+                                    <%= (cierreDeCajaRealizado.ventasEnEfectivo?.cantidad || 0) + (cierreDeCajaRealizado.ventasEnOtro?.cantidad || 0) %>
                                 </span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Período:</span>
+                                <span class="stat-value"><%= cierreDeCajaRealizado.periodo || 'DIARIO' %></span>
                             </div>
                         </div>
 

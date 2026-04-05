@@ -26,6 +26,14 @@
             </div>
         </div>
 
+        <div class="reset-info-box mb-4">
+            <span class="info-icon">ℹ️</span>
+            <p class="info-text">
+                <strong>Tipos de cierre recomendados:</strong>
+                <strong>Diario</strong> para fin de jornada, <strong>Semanal</strong> para control gerencial y <strong>Mensual</strong> para auditoría administrativa.
+            </p>
+        </div>
+
         <!-- Summary Cards -->
         <div class="cierre-summary-grid">
             <div class="summary-card">
@@ -48,7 +56,7 @@
                 <div class="card-icon">💸</div>
                 <div class="card-content">
                     <p class="card-label">Ventas Efectivo</p>
-                    <p class="card-value"><%= estacionDeCobro.comprasRealizadasEnEfectivo %></p>
+                    <p class="card-value"><%= cierrePreview ? cierrePreview.ventasEnEfectivo.cantidad : (estacionDeCobro.comprasRealizadasEnEfectivo || 0) %></p>
                 </div>
             </div>
 
@@ -56,7 +64,7 @@
                 <div class="card-icon">💳</div>
                 <div class="card-content">
                     <p class="card-label">Ventas Tarjeta/Otro</p>
-                    <p class="card-value"><%= estacionDeCobro.comprasRealizadasEnOtro %></p>
+                    <p class="card-value"><%= cierrePreview ? cierrePreview.ventasEnOtro.cantidad : (estacionDeCobro.comprasRealizadasEnOtro || 0) %></p>
                 </div>
             </div>
         </div>
@@ -151,44 +159,74 @@
 
         <!-- Ventas Summary -->
         <div class="cierre-section">
-            <h3 class="section-title">📊 Resumen de Ventas</h3>
+            <h3 class="section-title">📊 Resumen del período <%= periodo || 'DIARIO' %></h3>
+            <p class="form-help mb-3">Rango evaluado: <strong><%= cierrePreview ? cierrePreview.rangoTexto : 'Actual' %></strong></p>
             <div class="ventas-summary-grid">
                 <div class="summary-box">
                     <span class="summary-label">Ventas en Efectivo</span>
-                    <span class="summary-amount">$<%= estacionDeCobro.dineroDeVentasEnEfectivo.toFixed(2) %></span>
-                    <span class="summary-qty">(<%= estacionDeCobro.comprasRealizadasEnEfectivo %> transacciones)</span>
+                    <span class="summary-amount">$<%= cierrePreview ? cierrePreview.ventasEnEfectivo.montoTotal.toFixed(2) : (estacionDeCobro.dineroDeVentasEnEfectivo || 0).toFixed(2) %></span>
+                    <span class="summary-qty">(<%= cierrePreview ? cierrePreview.ventasEnEfectivo.cantidad : (estacionDeCobro.comprasRealizadasEnEfectivo || 0) %> transacciones)</span>
                 </div>
                 <div class="summary-box">
-                    <span class="summary-label">Ventas Tarjeta/Otro</span>
-                    <span class="summary-amount">$<%= estacionDeCobro.dineroDeVentasEnOtro.toFixed(2) %></span>
-                    <span class="summary-qty">(<%= estacionDeCobro.comprasRealizadasEnOtro %> transacciones)</span>
+                    <span class="summary-label">Ventas Tarjeta / Transferencia</span>
+                    <span class="summary-amount">$<%= cierrePreview ? cierrePreview.ventasEnOtro.montoTotal.toFixed(2) : (estacionDeCobro.dineroDeVentasEnOtro || 0).toFixed(2) %></span>
+                    <span class="summary-qty">(<%= cierrePreview ? cierrePreview.ventasEnOtro.cantidad : (estacionDeCobro.comprasRealizadasEnOtro || 0) %> transacciones)</span>
+                </div>
+                <div class="summary-box">
+                    <span class="summary-label">Dinero esperado en caja</span>
+                    <span class="summary-amount">$<%= cierrePreview ? cierrePreview.dineroEsperado.toFixed(2) : (estacionDeCobro.dineroEnEstacion || 0).toFixed(2) %></span>
+                    <span class="summary-qty">Incluye ingresos/egresos manuales del período</span>
                 </div>
             </div>
         </div>
 
         <!-- Comentarios -->
         <form action="/administrador/estacionesdecobro/<%= estacionDeCobro._id %>/cierre-caja/guardar" method="POST" class="modern-form">
-            <!-- Hidden Fields -->
-            <input type="hidden" name="dineroEnCaja" value="<%= estacionDeCobro.dineroEnEstacion %>">
-            <input type="hidden" name="dineroDeInicio" value="<%= estacionDeCobro.dineroDeInicio %>">
-            <input type="hidden" name="cantidadTotalDeVentasEnEfectivo" value="<%= estacionDeCobro.comprasRealizadasEnEfectivo %>">
-            <input type="hidden" name="cantidadTotalDeVentasEnOtro" value="<%= estacionDeCobro.comprasRealizadasEnOtro %>">
-            <input type="hidden" name="dineroTotalDeVentasEnEfectivo" value="<%= estacionDeCobro.dineroDeVentasEnEfectivo %>">
-            <input type="hidden" name="dineroTotalDeVentasEnOtro" value="<%= estacionDeCobro.dineroDeVentasEnOtro %>">
-            <input type="hidden" name="estacionDeCobro" value="<%= estacionDeCobro._id %>">
-
             <div class="form-grid">
                 <div class="form-section">
-                    <h3 class="section-title-form">💬 Comentarios del Cierre</h3>
-                    
-                    <div class="form-group-modern">
+                    <h3 class="section-title-form">🧾 Configuración del cierre</h3>
+
+                    <div class="form-row">
+                        <div class="form-group-modern">
+                            <label for="periodo" class="form-label-modern">Tipo de cierre</label>
+                            <select id="periodo" name="periodo" class="form-control-modern">
+                                <option value="DIARIO" <%= (periodo || 'DIARIO') === 'DIARIO' ? 'selected' : '' %>>Diario</option>
+                                <option value="SEMANAL" <%= periodo === 'SEMANAL' ? 'selected' : '' %>>Semanal</option>
+                                <option value="MENSUAL" <%= periodo === 'MENSUAL' ? 'selected' : '' %>>Mensual</option>
+                            </select>
+                            <small class="form-help">Selecciona el tipo de corte que necesita revisar el administrador.</small>
+                        </div>
+
+                        <div class="form-group-modern">
+                            <label for="dineroReal" class="form-label-modern">Dinero contado en caja</label>
+                            <input id="dineroReal" 
+                                   name="dineroReal" 
+                                   type="number" 
+                                   step="0.01" 
+                                   min="0" 
+                                   required
+                                   class="form-control-modern" 
+                                   value="<%= cierrePreview ? cierrePreview.dineroReal.toFixed(2) : (estacionDeCobro.dineroEnEstacion || 0).toFixed(2) %>">
+                            <small class="form-help">Este valor se usa para comparar contra el dinero esperado del período.</small>
+                        </div>
+                    </div>
+
+                    <div class="reset-info-box mt-3">
+                        <span class="info-icon">📌</span>
+                        <p class="info-text">
+                            <strong>Dinero esperado:</strong> $<%= cierrePreview ? cierrePreview.dineroEsperado.toFixed(2) : (estacionDeCobro.dineroEnEstacion || 0).toFixed(2) %>
+                            · <strong>Transacciones:</strong> <%= cierrePreview ? cierrePreview.totalTransacciones : ((estacionDeCobro.comprasRealizadasEnEfectivo || 0) + (estacionDeCobro.comprasRealizadasEnOtro || 0)) %>
+                        </p>
+                    </div>
+
+                    <div class="form-group-modern mt-3">
                         <label for="comentarioDeCierre" class="form-label-modern">Notas de Cierre (Opcional)</label>
                         <textarea id="comentarioDeCierre" 
                                   name="comentarioDeCierre" 
                                   class="form-control-modern textarea-modern" 
                                   placeholder="Añade cualquier observación sobre el cierre de caja..."
                                   rows="4"></textarea>
-                        <small class="form-help">Usa este espacio para documentar novedades o problemas</small>
+                        <small class="form-help">Usa este espacio para documentar novedades, diferencias o incidencias.</small>
                     </div>
                 </div>
             </div>
@@ -198,13 +236,13 @@
                 <a href="/administrador/estacionesdecobro/<%= estacionDeCobro._id %>" class="btn-secondary-modern">
                     ← Cancelar
                 </a>
-                <a href="/administrador/estacionesdecobro/<%= estacionDeCobro._id %>/cierre-caja/imprimir" class="btn-info-modern" target="_blank">
+                <button type="submit" class="btn-info-modern" formaction="/administrador/estacionesdecobro/<%= estacionDeCobro._id %>/cierre-caja/imprimir" formmethod="GET" formtarget="_blank">
                     <span class="btn-icon">🖨️</span>
-                    Imprimir Comprobante
-                </a>
+                    Imprimir Resumen
+                </button>
                 <button type="submit" class="btn-primary-modern">
                     <span class="btn-icon">🔒</span>
-                    Auditar y Guardar Cierre
+                    Guardar Cierre
                 </button>
             </div>
         </form>
@@ -225,6 +263,15 @@ function updateTime() {
 
 setInterval(updateTime, 1000);
 updateTime();
+
+const periodoSelect = document.getElementById('periodo');
+if (periodoSelect) {
+    periodoSelect.addEventListener('change', function () {
+        const params = new URLSearchParams(window.location.search);
+        params.set('periodo', this.value);
+        window.location.search = params.toString();
+    });
+}
 </script>
 
 <%- include('../partials/footer.ejs'); %>

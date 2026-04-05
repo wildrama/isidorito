@@ -1,11 +1,14 @@
-// mostrar la hora actual
+// Mostrar fecha/hora actual solo si el elemento existe
+(() => {
+    const output = document.querySelector('#actualTime');
+    if (!output) return;
 
-    let output = document.querySelector('#actualTime');
-  
-        let today = new Date();
-        
-        let month = today.getMonth() + 1;
-        let year = today.getFullYear();
-        let date = today.getDate();
-        let current_date = `${date}/${month}/${year}`;
-        output.innerText = current_date;
+    const now = new Date();
+    const date = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+
+    if (!output.textContent || output.textContent.includes('--')) {
+        output.innerText = `${date}/${month}/${year}`;
+    }
+})();

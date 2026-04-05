@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
-const { isLoggedIn, isAdmin, isCaja } = require('../middleware');
+const { isLoggedIn, isAdmin, isCaja, hasAnyRole } = require('../middleware');
 const CierreDeCaja = require('../models/cierreDeCaja');
 const EstacionDeCobro = require('../models/estaciondecobro');
 const Venta = require('../models/ventas');
@@ -98,6 +98,18 @@ router.get('/:id', isLoggedIn, isAdmin(roleADM), catchAsync(async (req, res) => 
     res.render('panelCierres/verCierreIndividual', { cierre });
 }));
 
+router.get('/:id/imprimir', isLoggedIn, isAdmin(roleADM), catchAsync(async (req, res) => {
+    const cierre = await CierreDeCaja.findById(req.params.id)
+        .populate('estacionDeCobro')
+        .populate('usuarioQueCierra');
+
+    if (!cierre) {
+        throw new ExpressError('Cierre no encontrado', 404);
+    }
+
+    res.render('panelCierres/imprimir-cierre', { cierre, isPreview: false });
+}));
+
 // ============================================
 // RUTAS - DATOS PARA INICIAR CIERRE
 // ============================================
@@ -141,7 +153,7 @@ router.post('/inicio-cierre/datos', isLoggedIn, catchAsync(async (req, res) => {
 // ============================================
 
 // Crear nuevo cierre
-router.post('/crear', isLoggedIn, isCaja(roleCaja), catchAsync(async (req, res) => {
+router.post('/crear', isLoggedIn, hasAnyRole(['ADMINISTRADOR', 'CAJA']), catchAsync(async (req, res) => {
     const {
         estacionId,
         dineroEnCaja,

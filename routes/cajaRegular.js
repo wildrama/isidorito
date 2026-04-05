@@ -129,6 +129,86 @@ function calculateProductLine(producto, quantity, ofertasIndividuales = []) {
   };
 }
 
+function prettyPaymentMethod(method) {
+  switch (method) {
+    case 'EFECTIVO':
+      return 'Efectivo';
+    case 'DEBITO':
+      return 'Débito';
+    case 'CREDITO':
+      return 'Crédito';
+    case 'TRANSFERENCIA':
+      return 'Transferencia';
+    case 'TARJETA':
+      return 'Tarjeta';
+    case 'OTRO':
+      return 'Tarjeta / Transferencia';
+    default:
+      return method || 'Sin definir';
+  }
+}
+
+function getVentaTotal(venta) {
+  const ingreso = toNumber(venta.dineroIngresado);
+  const salida = toNumber(venta.dineroDeSalida);
+  return Number(((venta.tipoDePago === 'EFECTIVO' ? ingreso - salida : ingreso)).toFixed(2));
+}
+
+function buildVentaProductSummary(venta) {
+  const grouped = new Map();
+
+  (venta.productosDeStock || []).forEach((item) => {
+    const producto = item.identificadorDeProducto;
+    const productId = producto && producto._id
+      ? String(producto._id)
+      : String(item.identificadorDeProducto || `item-${grouped.size}`);
+    const productName = producto && producto.nombre ? producto.nombre : 'Producto';
+    const current = grouped.get(productId) || {
+      name: productName,
+      quantity: 0,
+      subtotal: 0,
+      unitPrice: 0,
+      note: ''
+    };
+
+    current.quantity += 1;
+    current.subtotal += toNumber(item.valorDelProductoEnLaCompra);
+    current.unitPrice = current.quantity ? current.subtotal / current.quantity : current.subtotal;
+    grouped.set(productId, current);
+  });
+
+  return Array.from(grouped.values()).map((item) => ({
+    ...item,
+    unitPrice: Number(item.unitPrice.toFixed(2)),
+    subtotal: Number(item.subtotal.toFixed(2))
+  }));
+}
+
+function buildTicketDataFromVenta(venta, overrides = {}) {
+  const rawItems = Array.isArray(overrides.items) && overrides.items.length
+    ? overrides.items
+    : buildVentaProductSummary(venta);
+
+  return {
+    ventaId: String(venta._id || ''),
+    estacionNombre: overrides.estacionNombre || (venta.estacionDeCobro && venta.estacionDeCobro.ubicacionDeEstacion) || '',
+    fecha: new Date(venta.createdAt || Date.now()).toLocaleString('es-AR'),
+    cajero: overrides.cajero || venta.nombreDelUsuario || '',
+    metodoPago: prettyPaymentMethod(overrides.metodoPago || venta.tipoDePago),
+    ticketEntregado: venta.ticketEntregado || 'SI',
+    efectivoRecibido: toNumber(venta.dineroIngresado),
+    cambio: toNumber(venta.dineroDeSalida),
+    total: getVentaTotal(venta),
+    items: rawItems.map((item) => ({
+      name: item.name || item.nombre || 'Producto',
+      quantity: Math.max(1, Math.floor(toNumber(item.quantity, 1))),
+      unitPrice: toNumber(item.unitPrice ?? item.precio ?? item.subtotal),
+      subtotal: toNumber(item.subtotal),
+      note: item.note || ''
+    }))
+  };
+}
+
 router.get('/:id/inicio', isLoggedIn, allowCashAccess, catchAsync(async (req, res) => {
   const estacionDeCobroId = req.params.id;
   const usuario = req.user;
@@ -154,6 +234,7 @@ router.get('/:id/cajaActiva', isLoggedIn, allowCashAccess, catchAsync(async (req
     const cajaData = {
       estacionId: String(estacionDeCobro._id),
       estacionNombre: estacionDeCobro.ubicacionDeEstacion || 'Caja',
+      negocioNombre: 'Isidorito',
       dineroBase: toNumber(estacionDeCobro.dineroDeInicio),
       dineroActual: toNumber(estacionDeCobro.dineroEnEstacion),
       usuarioId: usuarioID,
@@ -223,6 +304,7 @@ router.post('/:id/registrar-venta', isLoggedIn, allowCashAccess, catchAsync(asyn
   const productosDeStock = [];
   const productosSinStock = [];
   const stockChanges = new Map();
+  const ticketItems = [];
 
   const addStockChange = (productId, quantity) => {
     const key = String(productId);
@@ -246,9 +328,17 @@ router.post('/:id/registrar-venta', isLoggedIn, allowCashAccess, catchAsync(asyn
 
       const totalOferta = toNumber(oferta.precioOferta) * quantity;
       const productsInOffer = oferta.productosEnOfertaConCodigo || [];
-      const valorPorProducto = productsInOffer.length
-        ? totalOferta / productsInOffer.length
+      const valorUnitarioProrrateado = (productsInOffer.length && quantity)
+        ? totalOferta / (productsInOffer.length * quantity)
         : totalOferta;
+
+      ticketItems.push({
+        name: oferta.nombreOferta,
+        quantity,
+        unitPrice: toNumber(oferta.precioOferta),
+        subtotal: Number(totalOferta.toFixed(2)),
+        note: productsInOffer.map((producto) => producto.nombre).filter(Boolean).join(' + ')
+      });
 
       totalVenta += totalOferta;
       cantidadTotal += quantity * Math.max(productsInOffer.length, 1);
@@ -262,10 +352,13 @@ router.post('/:id/registrar-venta', isLoggedIn, allowCashAccess, catchAsync(asyn
 
       productsInOffer.forEach((producto) => {
         addStockChange(producto._id, quantity);
-        productosDeStock.push({
-          valorDelProductoEnLaCompra: valorPorProducto.toFixed(2),
-          identificadorDeProducto: producto._id
-        });
+
+        for (let index = 0; index < quantity; index += 1) {
+          productosDeStock.push({
+            valorDelProductoEnLaCompra: valorUnitarioProrrateado.toFixed(2),
+            identificadorDeProducto: producto._id
+          });
+        }
       });
 
       continue;
@@ -278,14 +371,26 @@ router.post('/:id/registrar-venta', isLoggedIn, allowCashAccess, catchAsync(asyn
     }
 
     const calculation = calculateProductLine(producto, quantity, ofertasIndividualesParaEstacion);
+    const valorUnitarioVenta = quantity ? calculation.subtotal / quantity : calculation.subtotal;
+
+    ticketItems.push({
+      name: producto.nombre,
+      quantity,
+      unitPrice: toNumber(producto.precioMinorista),
+      subtotal: Number(calculation.subtotal.toFixed(2)),
+      note: calculation.offerNote || ''
+    });
+
     totalVenta += calculation.subtotal;
     cantidadTotal += quantity;
     addStockChange(producto._id, quantity);
 
-    productosDeStock.push({
-      valorDelProductoEnLaCompra: calculation.subtotal.toFixed(2),
-      identificadorDeProducto: producto._id
-    });
+    for (let index = 0; index < quantity; index += 1) {
+      productosDeStock.push({
+        valorDelProductoEnLaCompra: valorUnitarioVenta.toFixed(2),
+        identificadorDeProducto: producto._id
+      });
+    }
   }
 
   for (const { productId, quantity } of stockChanges.values()) {
@@ -312,7 +417,8 @@ router.post('/:id/registrar-venta', isLoggedIn, allowCashAccess, catchAsync(asyn
   }
 
   const vuelto = esEfectivo ? Number((montoRecibido - totalRedondeado).toFixed(2)) : 0;
-  const tipoDePagoPersistido = esEfectivo ? 'EFECTIVO' : 'OTRO';
+  const allowedPaymentMethods = ['EFECTIVO', 'DEBITO', 'CREDITO', 'TRANSFERENCIA', 'TARJETA'];
+  const tipoDePagoPersistido = allowedPaymentMethods.includes(metodoPago) ? metodoPago : 'OTRO';
 
   const ventaEfectuada = new Venta({
     dineroIngresado: montoRecibido,
@@ -353,6 +459,13 @@ router.post('/:id/registrar-venta', isLoggedIn, allowCashAccess, catchAsync(asyn
     $push: { ventasRealizadasEnLaEstacion: ventaEfectuada._id }
   }).exec();
 
+  const ticketData = buildTicketDataFromVenta(ventaEfectuada, {
+    estacionNombre: estacionDeCobro.ubicacionDeEstacion,
+    metodoPago,
+    cajero: req.user.username,
+    items: ticketItems
+  });
+
   res.json({
     success: true,
     message: 'Venta registrada correctamente',
@@ -360,8 +473,66 @@ router.post('/:id/registrar-venta', isLoggedIn, allowCashAccess, catchAsync(asyn
     total: totalRedondeado,
     cambio: vuelto,
     metodoSeleccionado: metodoPago,
-    metodoRegistrado: tipoDePagoPersistido
+    metodoRegistrado: tipoDePagoPersistido,
+    ticketData
   });
+}));
+
+router.get('/:id/ventas-ultimas-24h', isLoggedIn, allowCashAccess, catchAsync(async (req, res) => {
+  const estacionId = req.params.id;
+  const desde = new Date(Date.now() - (24 * 60 * 60 * 1000));
+  const estacion = await EstacionDeCobro.findById(estacionId).lean();
+
+  if (!estacion) {
+    return res.status(404).json({ success: false, message: 'No se encontró la estación de cobro.' });
+  }
+
+  const ventas = await Venta.find({
+    estacionDeCobro: estacionId,
+    createdAt: { $gte: desde }
+  })
+    .populate('productosDeStock.identificadorDeProducto')
+    .sort({ createdAt: -1 })
+    .lean();
+
+  const data = ventas.map((venta) => {
+    const ticketData = buildTicketDataFromVenta(venta, { estacionNombre: estacion.ubicacionDeEstacion });
+
+    return {
+      _id: String(venta._id),
+      fecha: ticketData.fecha,
+      cajero: ticketData.cajero,
+      metodoPago: ticketData.metodoPago,
+      total: ticketData.total,
+      ticketEntregado: ticketData.ticketEntregado,
+      detalleTexto: ticketData.items.map((item) => `${item.quantity}x ${item.name}`).join(' · ')
+    };
+  });
+
+  res.json({ success: true, data });
+}));
+
+router.get('/:id/ventas/:ventaId/ticket-data', isLoggedIn, allowCashAccess, catchAsync(async (req, res) => {
+  const { id: estacionId, ventaId } = req.params;
+
+  const venta = await Venta.findOne({
+    _id: ventaId,
+    estacionDeCobro: estacionId
+  })
+    .populate('productosDeStock.identificadorDeProducto')
+    .populate('estacionDeCobro')
+    .lean();
+
+  if (!venta) {
+    return res.status(404).json({ success: false, message: 'La venta solicitada no existe.' });
+  }
+
+  const ticketData = buildTicketDataFromVenta(venta, {
+    estacionNombre: venta.estacionDeCobro && venta.estacionDeCobro.ubicacionDeEstacion,
+    cajero: venta.nombreDelUsuario
+  });
+
+  res.json({ success: true, ticketData });
 }));
 
 module.exports = router;

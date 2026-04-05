@@ -45,8 +45,9 @@ const ventasEfectuadasSchema = new Schema({
     },
     tipoDePago:{
         type: String,
-        enum:['EFECTIVO', 'OTRO'],
+        enum:['EFECTIVO', 'DEBITO', 'CREDITO', 'TRANSFERENCIA', 'TARJETA', 'OTRO'],
         required:true,
+        default: 'EFECTIVO'
     },
     cantidadDeProductosTotales: {
         type: Number

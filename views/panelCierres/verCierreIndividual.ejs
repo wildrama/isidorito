@@ -27,9 +27,14 @@
                 <%= cierre.ubicacionDeEstacion %>
             </p>
         </div>
-        <a href="/administrador/cierres-caja" class="btn-volver">
-            <i class="fas fa-arrow-left"></i> Volver
-        </a>
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+            <a href="/administrador/cierres-caja/<%= cierre._id %>/imprimir" class="btn-volver" target="_blank">
+                <i class="fas fa-print"></i> Imprimir resumen
+            </a>
+            <a href="/administrador/cierres-caja" class="btn-volver">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
+        </div>
     </div>
 
     <!-- Status & Basic Info -->
@@ -767,6 +772,6 @@
     </div>
 </div>
 
-<script src="/ux.js"></script>
+<script src="/ux.js?v=20260402-1"></script>
 
 <%- include('../partials/footer.ejs'); %>

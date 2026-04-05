@@ -5,9 +5,12 @@ const currency = new Intl.NumberFormat('es-AR', {
   minimumFractionDigits: 2
 });
 
+const lastTicketStorageKey = `isidorito-last-ticket:${cajaData.estacionId || 'default'}`;
+
 const state = {
   items: [],
-  lastFinderResults: []
+  lastFinderResults: [],
+  salesHistory: []
 };
 
 const elements = {
@@ -20,12 +23,17 @@ const elements = {
   changeAmount: document.getElementById('changeAmount'),
   checkoutBtn: document.getElementById('checkoutBtn'),
   newSaleBtn: document.getElementById('newSaleBtn'),
+  lastTicketBtn: document.getElementById('lastTicketBtn'),
+  salesHistoryBtn: document.getElementById('salesHistoryBtn'),
   openFinderBtn: document.getElementById('openFinderBtn'),
   closeFinderBtn: document.getElementById('closeFinderBtn'),
   finderModal: document.getElementById('finderModal'),
   finderSearchForm: document.getElementById('finderSearchForm'),
   finderQuery: document.getElementById('finderQuery'),
   finderResults: document.getElementById('finderResults'),
+  salesHistoryModal: document.getElementById('salesHistoryModal'),
+  closeSalesHistoryBtn: document.getElementById('closeSalesHistoryBtn'),
+  salesHistoryBody: document.getElementById('salesHistoryBody'),
   statusMessage: document.getElementById('statusMessage'),
   cashReceivedInput: document.getElementById('cashReceivedInput'),
   cashReceivedGroup: document.getElementById('cashReceivedGroup'),
@@ -47,6 +55,12 @@ const toNumber = (value, fallback = 0) => {
   return Number.isFinite(parsed) ? parsed : fallback;
 };
 const toQuantity = (value) => Math.max(1, Math.floor(toNumber(value, 1)));
+const escapeHtml = (value) => String(value ?? '')
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
 
 let statusTimer;
 function showStatus(message, type = 'info') {
@@ -59,12 +73,40 @@ function showStatus(message, type = 'info') {
   if (statusTimer) clearTimeout(statusTimer);
   statusTimer = window.setTimeout(() => {
     elements.statusMessage.hidden = true;
-  }, 3500);
+  }, 4000);
 }
 
 function getMetodoPago() {
   const selected = elements.paymentInputs.find((input) => input.checked);
   return selected ? selected.value : 'EFECTIVO';
+}
+
+function getLastTicket() {
+  try {
+    const raw = window.localStorage.getItem(lastTicketStorageKey);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveLastTicket(ticketData) {
+  try {
+    window.localStorage.setItem(lastTicketStorageKey, JSON.stringify(ticketData));
+    updateLastTicketButton();
+  } catch {
+    showStatus('No se pudo guardar la referencia del último ticket.', 'info');
+  }
+}
+
+function updateLastTicketButton() {
+  if (!elements.lastTicketBtn) return;
+
+  const hasTicket = Boolean(getLastTicket());
+  elements.lastTicketBtn.disabled = !hasTicket;
+  elements.lastTicketBtn.title = hasTicket
+    ? 'Reimprimir el último ticket guardado'
+    : 'Todavía no hay ticket guardado';
 }
 
 function syncPaymentLabels() {
@@ -153,20 +195,20 @@ function renderCart() {
       return `
         <tr>
           <td>
-            <div class="item-name">${item.name}</div>
-            <div class="item-meta">${item.code || ''} ${calc.note ? `· ${calc.note}` : ''}</div>
+            <div class="item-name">${escapeHtml(item.name)}</div>
+            <div class="item-meta">${escapeHtml(item.code || '')} ${calc.note ? `· ${escapeHtml(calc.note)}` : ''}</div>
           </td>
           <td class="text-center">
             <div class="qty-controls">
-              <button type="button" data-action="decrease" data-key="${item.key}">−</button>
+              <button type="button" data-action="decrease" data-key="${escapeHtml(item.key)}">−</button>
               <span>${toQuantity(item.quantity)}</span>
-              <button type="button" data-action="increase" data-key="${item.key}">+</button>
+              <button type="button" data-action="increase" data-key="${escapeHtml(item.key)}">+</button>
             </div>
           </td>
           <td class="text-end">${formatMoney(item.unitPrice)}</td>
           <td class="text-end">${formatMoney(calc.finalSubtotal)}</td>
           <td class="text-center">
-            <button type="button" class="remove-line-btn" data-action="remove" data-key="${item.key}">Quitar</button>
+            <button type="button" class="remove-line-btn" data-action="remove" data-key="${escapeHtml(item.key)}">Quitar</button>
           </td>
         </tr>
       `;
@@ -267,6 +309,8 @@ function changeQuantity(key, delta) {
 }
 
 function openFinder(results = [], query = '') {
+  if (!elements.finderModal) return;
+
   elements.finderModal.hidden = false;
   if (query) {
     elements.finderQuery.value = query;
@@ -278,7 +322,22 @@ function openFinder(results = [], query = '') {
 }
 
 function closeFinder() {
-  elements.finderModal.hidden = true;
+  if (elements.finderModal) {
+    elements.finderModal.hidden = true;
+  }
+  elements.barcodeInput.focus();
+}
+
+function openSalesHistoryModal() {
+  if (elements.salesHistoryModal) {
+    elements.salesHistoryModal.hidden = false;
+  }
+}
+
+function closeSalesHistoryModal() {
+  if (elements.salesHistoryModal) {
+    elements.salesHistoryModal.hidden = true;
+  }
   elements.barcodeInput.focus();
 }
 
@@ -291,11 +350,11 @@ function renderFinderResults(results) {
   elements.finderResults.innerHTML = results.map((producto) => `
     <article class="finder-result-card">
       <div>
-        <h3>${producto.nombre}</h3>
-        <p>Cod. ${producto.codigo} · ${producto.marca || 'Sin marca'}</p>
+        <h3>${escapeHtml(producto.nombre)}</h3>
+        <p>Cod. ${escapeHtml(producto.codigo)} · ${escapeHtml(producto.marca || 'Sin marca')}</p>
         <small>Stock: ${toNumber(producto.cantidad)} · Precio: ${formatMoney(producto.precioMinorista)}</small>
       </div>
-      <button type="button" class="btn btn-sm btn-success" data-add-product="${producto._id}">Agregar</button>
+      <button type="button" class="btn btn-sm btn-success" data-add-product="${escapeHtml(producto._id)}">Agregar</button>
     </article>
   `).join('');
 }
@@ -329,6 +388,287 @@ async function searchProducts(query, { autoAdd = false, keepOpen = false } = {})
   renderFinderResults(results);
   openFinder(results, trimmed);
   return results;
+}
+
+function buildTicketHtml(ticketData) {
+  const negocioNombre = escapeHtml(ticketData.negocioNombre || cajaData.negocioNombre || 'Nombre del negocio');
+  const estacionNombre = escapeHtml(ticketData.estacionNombre || cajaData.estacionNombre || 'Caja de Cobro');
+  const fechaHora = escapeHtml(ticketData.fecha || new Date().toLocaleString('es-AR'));
+
+  const itemsMarkup = (ticketData.items || []).map((item) => `
+    <tr>
+      <td>
+        <strong>${escapeHtml(item.name)}</strong>
+        ${item.note ? `<div class="line-note">${escapeHtml(item.note)}</div>` : ''}
+      </td>
+      <td>${toQuantity(item.quantity)}</td>
+      <td>${formatMoney(item.subtotal)}</td>
+    </tr>
+  `).join('');
+
+  return `
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Ticket ${escapeHtml(ticketData.ventaId || '')}</title>
+      <style>
+        @page {
+          size: 80mm auto;
+          margin: 3mm;
+        }
+        html, body {
+          width: 80mm;
+          margin: 0;
+          padding: 0;
+          background: #ffffff;
+          color: #111827;
+          font-family: 'Courier New', Courier, monospace;
+          font-size: 11px;
+          line-height: 1.25;
+        }
+        body {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .ticket {
+          width: 72mm;
+          margin: 0 auto;
+          padding: 1mm 0;
+        }
+        .ticket h1, .ticket h2, .ticket p { margin: 0; }
+        .ticket-header {
+          text-align: center;
+          margin-bottom: 8px;
+        }
+        .ticket-header h1 {
+          font-size: 16px;
+          font-weight: 700;
+          margin-bottom: 2px;
+        }
+        .ticket-header .business-sub,
+        .ticket-header .date-line {
+          font-size: 11px;
+          margin-top: 2px;
+        }
+        .divider {
+          border-top: 1px dashed #475569;
+          margin: 8px 0;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 11px;
+        }
+        th, td {
+          padding: 3px 0;
+          text-align: left;
+          vertical-align: top;
+        }
+        th:nth-child(2), td:nth-child(2) {
+          text-align: center;
+          width: 12mm;
+        }
+        th:last-child, td:last-child {
+          text-align: right;
+          width: 18mm;
+        }
+        .line-note {
+          font-size: 10px;
+          color: #475569;
+          margin-top: 1px;
+        }
+        .meta p {
+          font-size: 11px;
+          margin-bottom: 3px;
+        }
+        .total-row {
+          font-size: 13px;
+          font-weight: 700;
+        }
+        .footer {
+          text-align: center;
+          font-size: 10.5px;
+          margin-top: 8px;
+        }
+        .footer strong {
+          display: block;
+          margin-top: 6px;
+          font-size: 10px;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="ticket">
+        <div class="ticket-header">
+          <h1>${negocioNombre}</h1>
+          <p class="business-sub">${estacionNombre}</p>
+          <p class="date-line">Fecha y hora: ${fechaHora}</p>
+        </div>
+
+        <div class="meta">
+          <p><strong>Venta:</strong> ${escapeHtml(ticketData.ventaId || '-')}</p>
+          <p><strong>Cajero:</strong> ${escapeHtml(ticketData.cajero || '-')}</p>
+          <p><strong>Pago:</strong> ${escapeHtml(ticketData.metodoPago || '-')}</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Detalle</th>
+              <th>Cant.</th>
+              <th>Importe</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${itemsMarkup}
+          </tbody>
+          <tfoot>
+            <tr class="total-row">
+              <td colspan="2">TOTAL</td>
+              <td>${formatMoney(ticketData.total)}</td>
+            </tr>
+            <tr>
+              <td colspan="2">Recibido</td>
+              <td>${formatMoney(ticketData.efectivoRecibido)}</td>
+            </tr>
+            <tr>
+              <td colspan="2">Vuelto</td>
+              <td>${formatMoney(ticketData.cambio)}</td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <div class="divider"></div>
+        <div class="footer">
+          <p>Ticket ${ticketData.ticketEntregado === 'SI' ? 'entregado' : 'no entregado'}</p>
+          <p>Gracias por su compra</p>
+          <strong>TICKET NO VÁLIDO COMO DOCUMENTO FISCAL</strong>
+        </div>
+      </div>
+      <script>
+        window.onload = function() {
+          setTimeout(function() {
+            window.print();
+          }, 180);
+        };
+
+        window.onafterprint = function() {
+          setTimeout(function() {
+            window.close();
+          }, 250);
+        };
+
+        window.onfocus = function() {
+          setTimeout(function() {
+            try {
+              window.close();
+            } catch (e) {
+              // no-op
+            }
+          }, 500);
+        };
+      <\/script>
+    </body>
+    </html>
+  `;
+}
+
+function printTicket(ticketData, { silent = false } = {}) {
+  if (!ticketData) {
+    if (!silent) showStatus('No hay datos de ticket para imprimir.', 'error');
+    return false;
+  }
+
+  const printWindow = window.open('', '_blank', 'width=420,height=760');
+  if (!printWindow) {
+    if (!silent) {
+      showStatus('El navegador bloqueó la impresión. Usá "Reimprimir último ticket" cuando habilites la ventana.', 'error');
+    }
+    return false;
+  }
+
+  printWindow.document.open();
+  printWindow.document.write(buildTicketHtml(ticketData));
+  printWindow.document.close();
+  printWindow.focus();
+  return true;
+}
+
+async function openSalesHistory() {
+  if (!elements.salesHistoryBody) return;
+
+  openSalesHistoryModal();
+  elements.salesHistoryBody.innerHTML = `
+    <tr>
+      <td colspan="7" class="text-center text-muted">Cargando ventas...</td>
+    </tr>
+  `;
+
+  try {
+    const response = await fetch(`/caja/${cajaData.estacionId}/ventas-ultimas-24h`);
+    const payload = await response.json();
+
+    if (!response.ok || !payload.success) {
+      throw new Error(payload.message || 'No se pudo cargar el listado de ventas.');
+    }
+
+    state.salesHistory = Array.isArray(payload.data) ? payload.data : [];
+    renderSalesHistory(state.salesHistory);
+  } catch (error) {
+    elements.salesHistoryBody.innerHTML = `
+      <tr>
+        <td colspan="7" class="text-center text-danger">${escapeHtml(error.message || 'Error al cargar ventas.')}</td>
+      </tr>
+    `;
+  }
+}
+
+function renderSalesHistory(sales) {
+  if (!elements.salesHistoryBody) return;
+
+  if (!sales.length) {
+    elements.salesHistoryBody.innerHTML = `
+      <tr>
+        <td colspan="7" class="text-center text-muted">No hay ventas registradas en las últimas 24 horas.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  elements.salesHistoryBody.innerHTML = sales.map((sale) => `
+    <tr>
+      <td>${escapeHtml(sale.fecha || '-')}</td>
+      <td>${escapeHtml(sale.cajero || '-')}</td>
+      <td class="sales-detail-text">${escapeHtml(sale.detalleTexto || 'Sin detalle')}</td>
+      <td>${formatMoney(sale.total)}</td>
+      <td>${escapeHtml(sale.metodoPago || '-')}</td>
+      <td>${escapeHtml(sale.ticketEntregado || '-')}</td>
+      <td>
+        <button type="button" class="btn btn-sm btn-outline-dark sales-print-btn" data-print-sale="${escapeHtml(sale._id)}">
+          🖨️ Imprimir
+        </button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+async function printSaleFromHistory(ventaId) {
+  try {
+    const response = await fetch(`/caja/${cajaData.estacionId}/ventas/${ventaId}/ticket-data`);
+    const payload = await response.json();
+
+    if (!response.ok || !payload.success) {
+      throw new Error(payload.message || 'No se pudo recuperar el ticket de esa venta.');
+    }
+
+    saveLastTicket(payload.ticketData);
+    printTicket(payload.ticketData);
+  } catch (error) {
+    showStatus(error.message || 'No se pudo imprimir la venta seleccionada.', 'error');
+  }
 }
 
 async function handleCheckout() {
@@ -374,6 +714,15 @@ async function handleCheckout() {
 
     if (!response.ok || !payload.success) {
       throw new Error(payload.message || 'No se pudo registrar la venta.');
+    }
+
+    if (payload.ticketData) {
+      saveLastTicket(payload.ticketData);
+      const printed = printTicket(payload.ticketData, { silent: true });
+
+      if (!printed) {
+        showStatus('Venta registrada. Si falló la impresión, usá “Reimprimir último ticket”.', 'info');
+      }
     }
 
     resetSale(`Venta registrada por ${formatMoney(payload.total)}${payload.cambio ? ` · Vuelto: ${formatMoney(payload.cambio)}` : ''}`);
@@ -422,6 +771,13 @@ elements.finderResults?.addEventListener('click', (event) => {
   }
 });
 
+elements.salesHistoryBody?.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-print-sale]');
+  if (!button) return;
+
+  printSaleFromHistory(button.getAttribute('data-print-sale'));
+});
+
 elements.cartTableBody?.addEventListener('click', (event) => {
   const button = event.target.closest('button[data-action]');
   if (!button) return;
@@ -452,8 +808,29 @@ elements.checkoutBtn?.addEventListener('click', handleCheckout);
 elements.newSaleBtn?.addEventListener('click', () => resetSale('Compra limpia para iniciar una nueva venta.'));
 elements.openFinderBtn?.addEventListener('click', () => openFinder());
 elements.closeFinderBtn?.addEventListener('click', closeFinder);
+elements.lastTicketBtn?.addEventListener('click', () => {
+  const ticketData = getLastTicket();
+  if (!ticketData) {
+    showStatus('Todavía no hay un ticket guardado para reimprimir.', 'info');
+    return;
+  }
+
+  printTicket(ticketData);
+});
+elements.salesHistoryBtn?.addEventListener('click', openSalesHistory);
+elements.closeSalesHistoryBtn?.addEventListener('click', closeSalesHistoryModal);
 elements.offerButtons.forEach((button) => {
   button.addEventListener('click', () => addOffer(button.dataset.offerId));
+});
+
+window.addEventListener('click', (event) => {
+  if (event.target === elements.finderModal) {
+    closeFinder();
+  }
+
+  if (event.target === elements.salesHistoryModal) {
+    closeSalesHistoryModal();
+  }
 });
 
 document.addEventListener('keydown', (event) => {
@@ -467,11 +844,18 @@ document.addEventListener('keydown', (event) => {
     handleCheckout();
   }
 
-  if (event.key === 'Escape' && !elements.finderModal.hidden) {
-    closeFinder();
+  if (event.key === 'Escape') {
+    if (elements.finderModal && !elements.finderModal.hidden) {
+      closeFinder();
+    }
+
+    if (elements.salesHistoryModal && !elements.salesHistoryModal.hidden) {
+      closeSalesHistoryModal();
+    }
   }
 });
 
 renderCart();
 syncPaymentLabels();
+updateLastTicketButton();
 elements.barcodeInput?.focus();

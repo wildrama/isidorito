@@ -114,35 +114,63 @@
                             <th style="text-align: center;">Ingreso</th>
                             <th style="text-align: center;">Salida</th>
                             <th style="text-align: center;">Productos</th>
+                            <th style="text-align: center;">Monto Venta</th>
                             <th style="text-align: center;">Ticket</th>
                             <th>Tipo de Pago</th>
                             <th>Fecha</th>
+                            <th style="text-align: center;">Detalle</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% estacionDeCobro.ventasRealizadasEnLaEstacion.forEach(venta => { %>
                         <tr>
                             <td style="text-align: center;">
-                                <span class="amount-badge income">$<%= venta.dineroIngresado.toFixed(2) %></span>
+                                <% if (venta.dineroIngresado !== null) { %>
+                                    <span class="amount-badge income">$<%= Number(venta.dineroIngresado || 0).toFixed(2) %></span>
+                                <% } else { %>
+                                    <span class="text-muted">-</span>
+                                <% } %>
                             </td>
                             <td style="text-align: center;">
-                                <span class="amount-badge output">$<%= venta.dineroDeSalida.toFixed(2) %></span>
+                                <% if (venta.dineroDeSalida !== null) { %>
+                                    <span class="amount-badge output">$<%= Number(venta.dineroDeSalida || 0).toFixed(2) %></span>
+                                <% } else { %>
+                                    <span class="text-muted">-</span>
+                                <% } %>
                             </td>
                             <td style="text-align: center;">
-                                <span class="quantity-badge"><%= venta.cantidadDeProductosTotales %></span>
+                                <span class="quantity-badge"><%= Number(venta.cantidadDeProductosTotales || 0) %></span>
+                                <% if (venta.observacionDatos) { %>
+                                    <div class="small text-warning mt-2"><%= venta.observacionDatos %></div>
+                                <% } %>
                             </td>
                             <td style="text-align: center;">
-                                <span class="ticket-badge <%= venta.ticketEntregado === 'SI' ? 'yes' : 'no' %>">
-                                    <%= venta.ticketEntregado === 'SI' ? '✓' : '✕' %>
+                                <span class="amount-badge income">$<%= Number(venta.totalVenta || 0).toFixed(2) %></span>
+                            </td>
+                            <td style="text-align: center;">
+                                <span class="ticket-badge <%= venta.ticketClass || 'no' %>">
+                                    <%= venta.ticketEntregado === 'SI' ? '✓' : venta.ticketEntregado === 'NO' ? '✕' : '•' %>
+                                </span>
+                                <div class="small text-muted mt-1"><%= venta.ticketLabel || '-' %></div>
+                            </td>
+                            <td>
+                                <span class="payment-type <%= venta.paymentClass || 'other' %>">
+                                    <%= venta.paymentLabel || venta.tipoDePago || 'Sin definir' %>
                                 </span>
                             </td>
                             <td>
-                                <span class="payment-type <%= venta.tipoDePago === 'Efectivo' ? 'cash' : 'other' %>">
-                                    <%= venta.tipoDePago %>
-                                </span>
+                                <%= venta.fechaTexto || '-' %>
+                                <div class="small text-muted"><%= venta.horaTexto || '' %></div>
                             </td>
-                            <td>
-                                <%= new Date(venta.createdAt).toLocaleDateString('es-ES') %>
+                            <td style="text-align: center;">
+                                <div class="sale-actions-stack">
+                                    <a href="/administrador/estacionesdecobro/<%= estacionDeCobro._id %>/ventas/<%= venta._id %>" class="btn btn-sm btn-outline-primary">
+                                        Ver venta
+                                    </a>
+                                    <a href="/administrador/estacionesdecobro/<%= estacionDeCobro._id %>/ventas/<%= venta._id %>/imprimir" class="btn btn-sm btn-outline-secondary" target="_blank" rel="noopener">
+                                        Imprimir remito
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                         <% }); %>
@@ -225,7 +253,7 @@
     </div>
 </div>
 
-<script src="/ux.js"></script>
+<script src="/ux.js?v=20260402-1"></script>
 <script>
 // Actualizar hora en tiempo real
 function updateTime() {
